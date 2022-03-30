@@ -1,4 +1,4 @@
 ﻿public interface ITimed
 {
-    void TimeChanged(float currentTimeSpeed);
+    void TimeChanged(bool useModifiedTime);
 }

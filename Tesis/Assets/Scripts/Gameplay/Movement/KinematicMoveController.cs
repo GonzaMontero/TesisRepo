@@ -47,7 +47,7 @@ namespace TimeDistortion.Gameplay
                 return;
             }
 
-            moveInput *= currentSpeedMod * Time.deltaTime;
+            moveInput *= currentSpeedMod * Time.unscaledDeltaTime;
             transform.Translate(moveInput, moveRelativeTo);
             moveInput *= 0;
         }

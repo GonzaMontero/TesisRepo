@@ -17,7 +17,7 @@ namespace TimeDistortion.Gameplay
         //Unity Events
         private void Awake()
         {
-            TimeChanged(1);
+            TimeChanged(false);
         }
         internal void Update()
         {
@@ -30,12 +30,9 @@ namespace TimeDistortion.Gameplay
         internal abstract void Move(Space moveRelativeTo);
 
         //Interface Implementations
-        public void TimeChanged(float currentTimeSpeed)
+        public void TimeChanged(bool useModifiedTime)
         {
-            if(!affectedByTime)
-            {
-                currentTimeSpeed = 1;
-            }
+            float currentTimeSpeed = affectedByTime ? Time.timeScale : 1; //1=unscaled timeScale
 
             currentSpeedMod = speedMod * currentTimeSpeed;
         }

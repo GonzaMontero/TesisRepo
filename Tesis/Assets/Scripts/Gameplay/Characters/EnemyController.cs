@@ -41,7 +41,7 @@ namespace TimeDistortion.Gameplay.Characters
                 target = GameObject.FindGameObjectWithTag("Player").transform; 
             }
             
-            TimeChanged(1);
+            TimeChanged(false);
 
             //Set target position as position to avoid walking sound while
             //targetPos = transform.position;
@@ -115,13 +115,10 @@ namespace TimeDistortion.Gameplay.Characters
                 Destroy(gameObject);
             }
         }
-        public void TimeChanged(float currentTimeSpeed)
+        public void TimeChanged(bool useModifiedTime)
         {
-            if (!affectedByTime)
-            {
-                currentTimeSpeed = 1;
-            }
-
+            float currentTimeSpeed = affectedByTime ? Time.timeScale : 1; //1=unscaled timeScale
+            
             //Set Movement Speed
             data.currentStats.speed = data.baseStats.speed * currentTimeSpeed;
             navMesh.speed = data.currentStats.speed;

@@ -829,6 +829,7 @@ GameObject:
   m_Component:
   - component: {fileID: 912491362}
   - component: {fileID: 912491363}
+  - component: {fileID: 912491364}
   m_Layer: 0
   m_Name: Physics Manager
   m_TagString: Untagged
@@ -863,12 +864,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityValue: 2.5
-  currentTime: 1
-  targetTime: 1
-  timeCountdown: 0
+--- !u!114 &912491364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912491361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661530cfe55702a499162c0c758a372b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   timeFadeSpeed: 10
   slowdownFactor: 0.02
-  slowdownLength: 3
+  slowdownLength: 4
+  currentTime: 1
+  targetTime: 1
+  timeCountdown: 1
 --- !u!1 &943305521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,7 +1358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65b3d1b9e37fd74784dcb675f5fb544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMod: 5
+  speedMod: 3
   affectedByTime: 0
   moveInput: {x: 0, y: 0, z: 0}
   currentSpeedMod: 0
@@ -1424,7 +1437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1441354318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.376731, y: 8.09, z: 10.17}
+  m_LocalPosition: {x: 2.376731, y: 11.48, z: 10.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 963194228}
