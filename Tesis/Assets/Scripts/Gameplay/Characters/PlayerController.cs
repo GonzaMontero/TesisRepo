@@ -1,12 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TimeDistortion.Gameplay.Characters
 {
     public class PlayerController : MonoBehaviour, IHittable
     {
-        [Header("Cheat Values")]
-        [SerializeField] int damageToReceive;
-        [SerializeField] bool receiveDamageNow;
         [Header("Set Values")]
         [SerializeField] KinematicMoveController moveController;
         [SerializeField] CharacterData data;
@@ -15,7 +13,16 @@ namespace TimeDistortion.Gameplay.Characters
         //[Header("Runtime Values")]
         //[SerializeField] Stats currentStats;
 
+        public Action Hitted;
+        public Action Died;
+
+        public CharacterData publicData { get { return data; } }
+
         //Unity Events
+        private void Awake()
+        {
+            data.currentStats = data.baseStats;
+        }
         private void Start()
         {
             if (!moveController)
@@ -23,17 +30,11 @@ namespace TimeDistortion.Gameplay.Characters
                 moveController = GetComponent<KinematicMoveController>();
             }
 
-            data.currentStats = data.baseStats;
         }
         private void Update()
         {
             Rotate();
             Move();
-            if (receiveDamageNow)
-            {
-                receiveDamageNow = false;
-                GetHitted(damageToReceive);
-            }
         }
 
         //Methods
@@ -61,10 +62,11 @@ namespace TimeDistortion.Gameplay.Characters
         public void GetHitted(int damage)
         {
             data.currentStats.health -= damage;
+            Hitted?.Invoke();
 
             if (data.currentStats.health > 0) return;
             data.currentStats.health = 0;
-            Destroy(gameObject); //replace for EVENT
+            Died?.Invoke();
         }
     }
 }
