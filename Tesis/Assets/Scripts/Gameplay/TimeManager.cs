@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Universal.Singletons;
 
 namespace TimeDistortion.Gameplay.Physic
@@ -6,10 +7,13 @@ namespace TimeDistortion.Gameplay.Physic
     public class TimeManager : MonoBehaviourSingletonInScene<TimeManager>
     {
         [Header("Set Values")]
+        [SerializeField] Transform player;
         [SerializeField] float timeFadeSpeed = 10;
+        [SerializeField] float slowdownRange;
         [SerializeField] float slowdownFactor;
         [SerializeField] float slowdownLength;
         [Header("Runtime Values")]
+        [SerializeField] List<ITimed> targets;
         [SerializeField] float currentTime = 1;
         [SerializeField] float targetTime = 1;
         [SerializeField] float timeCountdown = 1;
@@ -42,6 +46,24 @@ namespace TimeDistortion.Gameplay.Physic
         }
 
         //Methods
+        void SlowTarget()
+        {
+            //Get target
+            RaycastHit hit;
+            Physics.Raycast(player.position, player.forward, out hit, slowdownRange);
+            if (hit.transform == null) return;
+            
+            //Check if target is valid
+            ITimed objectToSlow = hit.transform.GetComponent<ITimed>();
+            if (objectToSlow == null) return;
+
+            //Add target to list
+            targets.Add(objectToSlow);
+            SlowMotionTime();
+
+            //Start Length
+            timeCountdown = 1;
+        }
         void UpdateTime(bool applyModifiedTime)
         {
             GameObject[] rootGOs;
