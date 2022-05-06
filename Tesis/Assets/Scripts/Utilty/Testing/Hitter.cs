@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NAMESPACENAME
+namespace Universal.Testing
 {
     public class Hitter : MonoBehaviour
     {

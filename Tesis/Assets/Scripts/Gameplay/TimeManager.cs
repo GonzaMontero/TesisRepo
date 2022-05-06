@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Universal.Singletons;
 
@@ -6,96 +8,143 @@ namespace TimeDistortion.Gameplay.Physic
 {
     public class TimeManager : MonoBehaviourSingletonInScene<TimeManager>
     {
+        [Serializable]
+        class SlowMoTarget
+        {
+            public ITimed time;
+            public float timer;
+
+            public SlowMoTarget(ITimed newTarget, float newTimer)
+            {
+                time = newTarget;
+                timer = newTimer;
+            }
+        }
+
         [Header("Set Values")]
         [SerializeField] Transform player;
-        [SerializeField] float timeFadeSpeed = 10;
         [SerializeField] float slowdownRange;
+        [Tooltip("Speed of SlowMo")]
         [SerializeField] float slowdownFactor;
         [SerializeField] float slowdownLength;
+        [Tooltip("Seconds before true deactivation")]
+        [SerializeField] float slowdownExtraLength;
+        [SerializeField] float cooldownLength;
+        [SerializeField] int maxTargets;
         [Header("Runtime Values")]
-        [SerializeField] List<ITimed> targets;
-        [SerializeField] float currentTime = 1;
-        [SerializeField] float targetTime = 1;
-        [SerializeField] float timeCountdown = 1;
-
+        [SerializeField] List<SlowMoTarget> targets;
+        [SerializeField] float cooldownTimer;
 
         //Unity Events
+        private void Start()
+        {
+            if (!player)
+            {
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+            }
+
+            Time.timeScale = slowdownFactor;
+        }
         void Update()
         {
-            if (timeCountdown < 1)
-            {
-                timeCountdown += Time.unscaledDeltaTime / slowdownLength;
-                currentTime = targetTime + (1 - targetTime) * Mathf.Pow(timeCountdown, timeFadeSpeed);
-                Time.timeScale = currentTime;
-                UpdateTime(true);
-            }
-            else if (timeCountdown != 2)
-            {
-                timeCountdown = 2;
-                UpdateTime(false);
-            }
+#if UNITY_EDITOR
+            Debug.DrawRay(player.position, player.forward * slowdownRange, Color.blue);
+#endif
 
-            //Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
-            //Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+            UpdateTimers();
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (cooldownTimer < 1) return; //Only slow if cooldown over
+            if (Input.GetKeyDown(KeyCode.LeftControl) && PlayerIsOnFloor())
             {
-                SlowMotionTime();
-                UpdateTime(true);
+                SlowTarget();
+
+                if (targets.Count >= maxTargets)
+                {
+                    DeSlowTarget(targets[0]);
+                }
             }
         }
 
         //Methods
         void SlowTarget()
         {
-            //Get target
+            //Get target (if not, deactivate oldest target)
             RaycastHit hit;
             Physics.Raycast(player.position, player.forward, out hit, slowdownRange);
-            if (hit.transform == null) return;
-            
-            //Check if target is valid
-            ITimed objectToSlow = hit.transform.GetComponent<ITimed>();
-            if (objectToSlow == null) return;
-
-            //Add target to list
-            targets.Add(objectToSlow);
-            SlowMotionTime();
-
-            //Start Length
-            timeCountdown = 1;
-        }
-        void UpdateTime(bool applyModifiedTime)
-        {
-            GameObject[] rootGOs;
-            ITimed[] timedObjects;
-
-            rootGOs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-
-            foreach (var rootGO in rootGOs)
+            if (hit.transform == null)
             {
-                timedObjects = rootGO.GetComponentsInChildren<ITimed>();
-                if (timedObjects == null)
+                if (targets.Count > 0)
                 {
-                    Debug.Log("No ITimed in " + rootGO);
+                    StartCoroutine(DeSlowTarget(targets[0]));
+                }
+                return;
+            }
+
+            //Check if target is valid (if not, deactivate oldest target)
+            ITimed objectToSlow = hit.transform.GetComponent<ITimed>();
+            if (objectToSlow == null)
+            {
+                if (targets.Count > 0)
+                {
+                    StartCoroutine(DeSlowTarget(targets[0]));
+                }
+                return;
+            }
+
+            //Add target to list and slow it
+            targets.Add(new SlowMoTarget(objectToSlow, 0));
+            objectToSlow.TimeChanged(true);
+
+            //Start Cooldown
+            cooldownTimer = 0;
+        }
+        IEnumerator DeSlowTarget(SlowMoTarget target)
+        {
+            //Update List
+            targets.Remove(target);
+            Debug.Log("Target Removed at " + Time.realtimeSinceStartup + "!");
+
+            yield return new WaitForSecondsRealtime(slowdownExtraLength);
+
+            //Update Target Time
+            Debug.Log("Target UnSlowed at " + Time.realtimeSinceStartup + "!");
+            target.time.TimeChanged(false);
+        }
+        void UpdateTimers()
+        {
+            //Run Cooldown Timer
+            if (cooldownTimer < 1)
+            {
+                cooldownTimer += Time.unscaledDeltaTime / cooldownLength;
+            }
+
+            //Run SlowMo Timers from targets
+            if (targets.Count <= int.MinValue) return;
+            int i = 0;
+            while (i < targets.Count)
+            {
+                if (targets[i].timer > 1)
+                {
+                    StartCoroutine(DeSlowTarget(targets[i]));                    
                     continue;
                 }
 
-                foreach (ITimed timedObject in timedObjects)
-                {
-                    Debug.Log(timedObject);
-                    timedObject.TimeChanged(applyModifiedTime);
-                }
-
-                timedObjects = null;
+                targets[i].timer += Time.unscaledDeltaTime / slowdownLength;
+                i++;
             }
         }
-        void SlowMotionTime()
+        bool PlayerIsOnFloor()
         {
-            targetTime = slowdownFactor;
-            timeCountdown = 0;
+            bool playerOnFloor = Physics.Raycast(player.position, -player.up, 2);
 
-            //Time.timeScale = slowdownFactor;
-            //Time.fixedDeltaTime = Time.timeScale * .02f;
+#if UNITY_EDITOR
+            if (!playerOnFloor)
+            {
+                Debug.Log("Player Not On Floor!");
+            }
+#endif
+
+            return player;
         }
     }
 }
