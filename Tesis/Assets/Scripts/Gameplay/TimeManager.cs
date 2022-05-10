@@ -11,11 +11,13 @@ namespace TimeDistortion.Gameplay.Physic
         [Serializable]
         class SlowMoTarget
         {
+            public Transform transform;
             public ITimed time;
             public float timer;
 
-            public SlowMoTarget(ITimed newTarget, float newTimer)
+            public SlowMoTarget(Transform newtransform, ITimed newTarget, float newTimer)
             {
+                transform = newtransform;
                 time = newTarget;
                 timer = newTimer;
             }
@@ -35,6 +37,9 @@ namespace TimeDistortion.Gameplay.Physic
         [SerializeField] List<SlowMoTarget> targets;
         [SerializeField] float cooldownTimer;
 
+        public Action<Transform> ObjectSlowed;
+        public Action<Transform> ObjectUnSlowed;
+
         //Unity Events
         private void Start()
         {
@@ -47,11 +52,11 @@ namespace TimeDistortion.Gameplay.Physic
         }
         void Update()
         {
-#if UNITY_EDITOR
-            Debug.DrawRay(player.position, player.forward * slowdownRange, Color.blue);
-#endif
-
             UpdateTimers();
+
+#if UNITY_EDITOR
+            DEBUGDrawRays();
+#endif
 
             if (cooldownTimer < 1) return; //Only slow if cooldown over
             if (Input.GetKeyDown(KeyCode.LeftControl) && PlayerIsOnFloor())
@@ -66,6 +71,30 @@ namespace TimeDistortion.Gameplay.Physic
         }
 
         //Methods
+        void DEBUGDrawRays()
+        {
+            //Get target (if not, deactivate oldest target)
+            RaycastHit hit;
+            if (!Physics.Raycast(player.position, player.forward, out hit, slowdownRange))
+            {
+                Debug.DrawRay(player.position, player.forward * slowdownRange, Color.blue);
+                //Debug.Log("Hitted Nothing");
+                return;
+            }
+
+            //Check if target is valid (if not, deactivate oldest target)
+            ITimed target = hit.transform.GetComponent<ITimed>();
+            if (target == null)
+            {
+                Debug.DrawRay(player.position, player.forward * slowdownRange, Color.red);
+                //Debug.Log("Hitted Not Valid");
+            }
+            else
+            {
+                Debug.DrawRay(player.position, player.forward * slowdownRange, Color.green);
+                //Debug.Log("Hitted Valid");
+            }
+        }
         void SlowTarget()
         {
             //Get target (if not, deactivate oldest target)
@@ -92,8 +121,9 @@ namespace TimeDistortion.Gameplay.Physic
             }
 
             //Add target to list and slow it
-            targets.Add(new SlowMoTarget(objectToSlow, 0));
+            targets.Add(new SlowMoTarget(hit.transform, objectToSlow, 0));
             objectToSlow.TimeChanged(true);
+            ObjectSlowed?.Invoke(hit.transform);
 
             //Start Cooldown
             cooldownTimer = 0;
@@ -109,6 +139,7 @@ namespace TimeDistortion.Gameplay.Physic
             //Update Target Time
             Debug.Log("Target UnSlowed at " + Time.realtimeSinceStartup + "!");
             target.time.TimeChanged(false);
+            ObjectUnSlowed?.Invoke(target.transform);
         }
         void UpdateTimers()
         {
