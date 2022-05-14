@@ -9,6 +9,8 @@ namespace Handler
         InputHandler inputHandler;
         Vector3 moveDirection;
 
+        bool grounded = true;
+
         [HideInInspector] public Transform myTransform;
         [HideInInspector] public AnimatorHandler animatorHandler;
         [HideInInspector] public new Rigidbody rigidbody;
@@ -25,6 +27,8 @@ namespace Handler
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             cameraObject = Camera.main.transform;
             myTransform = transform;
+
+            grounded = true;
 
             animatorHandler.Initialize();
         }
@@ -43,6 +47,12 @@ namespace Handler
             moveDirection *= speed;
             
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+
+            if (projectedVelocity.y != 0 && grounded)
+            {
+                projectedVelocity = new Vector3(projectedVelocity.x, 0, projectedVelocity.z);
+            }
+
             rigidbody.velocity = projectedVelocity;
 
             if (animatorHandler.canRotate)
@@ -50,9 +60,7 @@ namespace Handler
                 HandleRotation(delta);
             }
 
-            HandleJumping();
-
-            myTransform.position = new Vector3(myTransform.position.x, 1, myTransform.position.z);
+            HandleJumping();                       
         }
 
         #region Movement
@@ -85,19 +93,29 @@ namespace Handler
 
         public void HandleJumping()
         {
-            if (inputHandler.jumpInput)
+            if (inputHandler.jumpInput && grounded)
             {
-                if (inputHandler.moveAmount > 0)
-                {
-                    moveDirection = cameraObject.forward * inputHandler.vertical;
-                    moveDirection += cameraObject.right * inputHandler.horizontal;
-                    moveDirection.y = 0;
-                    Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
-                    myTransform.rotation = jumpRotation;
-                }
+                //if (inputHandler.moveAmount > 0)
+                //{
+                //    moveDirection = cameraObject.forward * inputHandler.vertical;
+                //    moveDirection += cameraObject.right * inputHandler.horizontal;
+                //    moveDirection.y = 0;
+                //    Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
+                //    myTransform.rotation = jumpRotation;
+                //}
+                rigidbody.AddForce(new Vector3(0, 50, 0), ForceMode.Impulse);
+                grounded = false;
             }
         }
 
         #endregion
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.transform.tag == "Ground")
+            {
+                grounded = true;
+            }
+        }
     }
 }

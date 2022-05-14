@@ -12,18 +12,22 @@ namespace Handler
 
         public bool jumpInput;
         public bool lockOnInput;
+        private bool attackInput;
 
         public bool lockOnFlag;
 
         PlayerControls inputActions;
         CameraHandler cameraHandler;
+        PlayerAttacker attacker;
 
         Vector2 movementInput;
         Vector2 cameraInput;
+        
 
         private void Start()
         {
             cameraHandler = CameraHandler.singleton;
+            attacker = GetComponent<PlayerAttacker>();
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -42,7 +46,12 @@ namespace Handler
 
         private void LateUpdate()
         {
+            if (jumpInput == true)
+            {
+                Debug.Log("Jump!");
+            }
             jumpInput = false;
+            attackInput = false;
         }
 
         public void OnEnable()
@@ -69,6 +78,8 @@ namespace Handler
             MoveInput(delta);
 
             HandleLockOnInput();
+            HandleJumpInput();
+            HandleAttackInput(delta);
         }
 
         private void MoveInput(float delta)
@@ -82,7 +93,6 @@ namespace Handler
 
         private void HandleJumpInput()
         {
-
             inputActions.PlayerActions.Jump.performed += i => jumpInput = true;
         }
 
@@ -107,6 +117,17 @@ namespace Handler
             }
                 
             
+        }
+
+        private void HandleAttackInput(float delta)
+        {
+            inputActions.PlayerActions.Attack.performed += i => attackInput = true;
+
+            if (attackInput)
+            {
+                attacker.HandleLightAttack();
+                Debug.Log("Ataque");
+            }
         }
     }
 }
