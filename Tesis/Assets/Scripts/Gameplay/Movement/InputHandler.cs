@@ -24,6 +24,9 @@ namespace Handler
         private void Start()
         {
             cameraHandler = CameraHandler.singleton;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         private void FixedUpdate()

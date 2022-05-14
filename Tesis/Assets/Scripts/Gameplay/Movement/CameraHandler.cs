@@ -80,9 +80,7 @@ namespace Handler
             }
             else
             {
-                float velocity = 0;
-
-                cameraTransform.position = new Vector3(cameraTransform.position.x, 2.5f, cameraTransform.position.z);
+                cameraTransform.position = new Vector3(cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z);
 
                 Vector3 dir = currentLockOnTarget.position - transform.position;
                 dir.Normalize();
@@ -120,8 +118,10 @@ namespace Handler
                 targetPosition = -minimumCollisionOffset;
             }
 
+            float Yvalue = cameraTransform.localPosition.y; //perdon
+
             cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
-            cameraTransform.localPosition = cameraTransformPosition;
+            cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue,cameraTransformPosition.z);
         }
 
         public void HandleLockOn()
