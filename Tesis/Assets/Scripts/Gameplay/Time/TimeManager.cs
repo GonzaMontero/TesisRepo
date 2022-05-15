@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Universal.Singletons;
 
 namespace TimeDistortion.Gameplay.Physic
@@ -36,8 +37,11 @@ namespace TimeDistortion.Gameplay.Physic
         [Header("Runtime Values")]
         [SerializeField] List<SlowMoTarget> targets;
         [SerializeField] float cooldownTimer;
+        [SerializeField] bool slowMoIsReady;
+        [SerializeField] bool playerOnFloor;
 
-        public Action<Transform> ObjectSlowed;
+        public Action<bool> SlowMoReady;
+        public Action<Transform, float> ObjectSlowed;
         public Action<Transform> ObjectUnSlowed;
 
         //Unity Events
@@ -54,25 +58,42 @@ namespace TimeDistortion.Gameplay.Physic
         {
             UpdateTimers();
 
+            if (!slowMoIsReady) return;
+            if (!PlayerIsOnFloor())
+            {
+                slowMoIsReady = false;
+                return;
+            }
+
 #if UNITY_EDITOR
             DEBUGDrawRays();
 #endif
+        }
+        public void OnReadySlowMo(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
 
+            ReadySlowMo();
+        }
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return; //only do action on press frame
+            if (!slowMoIsReady) return; //Only slow if slow mo mode is active
             if (cooldownTimer < 1) return; //Only slow if cooldown over
-            if (Input.GetKeyDown(KeyCode.LeftControl) && PlayerIsOnFloor())
-            {
-                SlowTarget();
 
-                if (targets.Count >= maxTargets)
-                {
-                    DeSlowTarget(targets[0]);
-                }
+            SlowTarget();
+
+            if (targets.Count >= maxTargets)
+            {
+                DeSlowTarget(targets[0]);
             }
         }
 
         //Methods
         void DEBUGDrawRays()
         {
+            if (!slowMoIsReady) return;
+
             //Get target (if not, deactivate oldest target)
             RaycastHit hit;
             if (!Physics.Raycast(player.position, player.forward, out hit, slowdownRange))
@@ -94,6 +115,13 @@ namespace TimeDistortion.Gameplay.Physic
                 Debug.DrawRay(player.position, player.forward * slowdownRange, Color.green);
                 //Debug.Log("Hitted Valid");
             }
+        }
+        void ReadySlowMo()
+        {
+            slowMoIsReady = !slowMoIsReady;
+            SlowMoReady?.Invoke(slowMoIsReady);
+
+            Debug.Log("SlowMo Ready: " + slowMoIsReady);
         }
         void SlowTarget()
         {
@@ -123,7 +151,7 @@ namespace TimeDistortion.Gameplay.Physic
             //Add target to list and slow it
             targets.Add(new SlowMoTarget(hit.transform, objectToSlow, 0));
             objectToSlow.TimeChanged(true);
-            ObjectSlowed?.Invoke(hit.transform);
+            ObjectSlowed?.Invoke(hit.transform, slowdownLength + slowdownExtraLength);
 
             //Start Cooldown
             cooldownTimer = 0;
@@ -166,7 +194,7 @@ namespace TimeDistortion.Gameplay.Physic
         }
         bool PlayerIsOnFloor()
         {
-            bool playerOnFloor = Physics.Raycast(player.position, -player.up, 2);
+            /*bool*/ playerOnFloor = Physics.Raycast(player.position, -player.up, 2);
 
 #if UNITY_EDITOR
             if (!playerOnFloor)
