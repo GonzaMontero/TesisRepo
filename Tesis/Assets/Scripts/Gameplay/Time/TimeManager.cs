@@ -36,6 +36,9 @@ namespace TimeDistortion.Gameplay.Physic
         [SerializeField] int maxTargets;
         [Header("Runtime Values")]
         [SerializeField] List<SlowMoTarget> targets;
+        [SerializeField] Camera mainCam;
+        [SerializeField] Vector3 slowMoRayEnd;
+        [SerializeField] Vector2 centerOfScreen;
         [SerializeField] float cooldownTimer;
         [SerializeField] bool slowMoIsReady;
         [SerializeField] bool playerOnFloor;
@@ -53,6 +56,8 @@ namespace TimeDistortion.Gameplay.Physic
             }
 
             Time.timeScale = slowdownFactor;
+            mainCam = Camera.main;
+            centerOfScreen = new Vector2(mainCam.pixelWidth / 2, mainCam.pixelHeight / 2);
         }
         void Update()
         {
@@ -64,6 +69,11 @@ namespace TimeDistortion.Gameplay.Physic
                 slowMoIsReady = false;
                 return;
             }
+
+            RaycastHit hit;
+            if (!Physics.Raycast(mainCam.ScreenPointToRay(centerOfScreen), out hit)) return;
+            slowMoRayEnd = hit.point;
+
 
 #if UNITY_EDITOR
             DEBUGDrawRays();
@@ -94,11 +104,14 @@ namespace TimeDistortion.Gameplay.Physic
         {
             if (!slowMoIsReady) return;
 
+            //Debug.DrawRay(mainCam.ScreenPointToRay(centerOfScreen).origin, mainCam.ScreenPointToRay(centerOfScreen).direction, Color.gray);
+
             //Get target (if not, deactivate oldest target)
             RaycastHit hit;
-            if (!Physics.Raycast(player.position, player.forward, out hit, slowdownRange))
+            Vector3 direction = (slowMoRayEnd - player.position).normalized;
+            if (!Physics.Raycast(player.position, direction, out hit, slowdownRange))
             {
-                Debug.DrawRay(player.position, player.forward * slowdownRange, Color.blue);
+                Debug.DrawRay(player.position, direction * slowdownRange, Color.blue);
                 //Debug.Log("Hitted Nothing");
                 return;
             }
@@ -107,12 +120,12 @@ namespace TimeDistortion.Gameplay.Physic
             ITimed target = hit.transform.GetComponent<ITimed>();
             if (target == null)
             {
-                Debug.DrawRay(player.position, player.forward * slowdownRange, Color.red);
+                Debug.DrawRay(player.position, direction * slowdownRange, Color.red);
                 //Debug.Log("Hitted Not Valid");
             }
             else
             {
-                Debug.DrawRay(player.position, player.forward * slowdownRange, Color.green);
+                Debug.DrawRay(player.position, direction * slowdownRange, Color.green);
                 //Debug.Log("Hitted Valid");
             }
         }

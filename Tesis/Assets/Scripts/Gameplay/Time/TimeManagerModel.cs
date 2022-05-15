@@ -28,7 +28,6 @@ namespace TimeDistortion.Gameplay.Physic
         [SerializeField] Material slowAuraMaterial;
         [SerializeField] List<SlowMoTarget> slowedObjects;
         [SerializeField] float auraFadeMod;
-
         [Header("Runtime Values")]
         [SerializeField] Dictionary<int, SlowMoTarget> slowedObjectsByID;
 
