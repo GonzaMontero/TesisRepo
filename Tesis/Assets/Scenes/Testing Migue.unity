@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.5449003, g: 0.6023265, b: 0.745283, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.035
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -1042,9 +1042,8 @@ Transform:
   m_LocalPosition: {x: 3.27, y: 7.5008693, z: 14.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 522935191}
-  - {fileID: 1223653863}
   - {fileID: 477612998}
+  - {fileID: 522935191}
   - {fileID: 859706655}
   - {fileID: 124731154}
   - {fileID: 1862308071}
@@ -1052,6 +1051,7 @@ Transform:
   - {fileID: 1009102347}
   - {fileID: 1243875781}
   - {fileID: 1388442770}
+  - {fileID: 1223653863}
   - {fileID: 76183501}
   - {fileID: 1805356682}
   m_Father: {fileID: 1321523232}
@@ -2384,10 +2384,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 834742806}
-  - {fileID: 1408131006}
   - {fileID: 267999597}
   - {fileID: 1815773161}
   - {fileID: 558020740}
+  - {fileID: 1408131006}
   - {fileID: 869205495}
   - {fileID: 944556717}
   - {fileID: 877453234}
@@ -10128,16 +10128,16 @@ Transform:
   m_LocalPosition: {x: 7.27, y: 7.5008693, z: 14.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 485705309}
-  - {fileID: 124374657}
   - {fileID: 355298896}
   - {fileID: 1544643382}
   - {fileID: 1043726294}
+  - {fileID: 485705309}
   - {fileID: 654415185}
   - {fileID: 1821991525}
   - {fileID: 1805371027}
   - {fileID: 890796137}
   - {fileID: 1237162664}
+  - {fileID: 124374657}
   - {fileID: 566888617}
   - {fileID: 376639744}
   m_Father: {fileID: 1321523232}
@@ -10833,16 +10833,16 @@ Transform:
   m_LocalPosition: {x: 5.27, y: 7.5008693, z: 14.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 260870288}
-  - {fileID: 829600691}
+  - {fileID: 1238406456}
   - {fileID: 665289099}
   - {fileID: 1458466992}
-  - {fileID: 1238406456}
+  - {fileID: 260870288}
   - {fileID: 1924483560}
   - {fileID: 1650038673}
   - {fileID: 1066725761}
   - {fileID: 1331897625}
   - {fileID: 1617456547}
+  - {fileID: 829600691}
   - {fileID: 435191981}
   - {fileID: 362161921}
   m_Father: {fileID: 1321523232}
@@ -13381,10 +13381,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 200876599}
-  - {fileID: 1565957318}
   - {fileID: 431358203}
   - {fileID: 554344734}
   - {fileID: 788800306}
+  - {fileID: 1565957318}
   - {fileID: 548816387}
   - {fileID: 1864779007}
   - {fileID: 1312907689}
@@ -16509,10 +16509,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1010704918}
-  - {fileID: 444890686}
   - {fileID: 850747108}
   - {fileID: 1066638928}
   - {fileID: 1574273906}
+  - {fileID: 444890686}
   - {fileID: 383579894}
   - {fileID: 1067414091}
   - {fileID: 1776956712}
@@ -24206,11 +24206,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1917636449}
-  - {fileID: 2091260820}
   - {fileID: 189886518}
   - {fileID: 296115886}
   - {fileID: 296152396}
   - {fileID: 1035777331}
+  - {fileID: 2091260820}
   - {fileID: 490462821}
   - {fileID: 1500069752}
   - {fileID: 703430827}
@@ -30599,16 +30599,16 @@ Transform:
   m_LocalPosition: {x: 1.27, y: 7.5008693, z: 14.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 204975715}
-  - {fileID: 1251631748}
+  - {fileID: 907131283}
   - {fileID: 302492448}
   - {fileID: 1300939172}
-  - {fileID: 907131283}
+  - {fileID: 204975715}
   - {fileID: 872195596}
   - {fileID: 1003098876}
   - {fileID: 961849483}
   - {fileID: 773343528}
   - {fileID: 1404443912}
+  - {fileID: 1251631748}
   - {fileID: 1003714284}
   - {fileID: 508441566}
   m_Father: {fileID: 1321523232}
