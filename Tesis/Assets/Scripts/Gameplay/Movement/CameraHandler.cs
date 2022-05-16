@@ -118,7 +118,7 @@ namespace Handler
                 targetPosition = -minimumCollisionOffset;
             }
 
-            float Yvalue = cameraTransform.localPosition.y; //perdon
+            float Yvalue = cameraTransform.localPosition.y;
 
             cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
             cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue,cameraTransformPosition.z);
