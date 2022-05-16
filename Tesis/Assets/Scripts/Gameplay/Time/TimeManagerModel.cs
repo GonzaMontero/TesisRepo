@@ -81,12 +81,14 @@ namespace TimeDistortion.Gameplay.Physic
                 if (!slowedObjectsByID.TryGetValue(model.GetInstanceID(), out target))
                 {
                     Debug.Log(model + " ERROR WITH AURA");
-                    Debug.Break();
+                    //Debug.Break();
+                    //bool errorDebugHelper = false;
                 }
 
                 //Remove SlowMoFX
                 //modelMaterials.RemoveAt(modelMaterials.Count - 1);
                 modelMaterials.Remove(modelMaterials[modelMaterials.Count-1]);
+                slowedObjectsByID.Remove(target.modelID);
 
                 //Update SlowedObjectsFX list
                 slowedObjects.Remove(target);
