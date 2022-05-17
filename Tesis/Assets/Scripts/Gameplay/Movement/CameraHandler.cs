@@ -37,11 +37,15 @@ namespace TimeDistortion.Gameplay.Handler
 
         public Transform currentLockOnTarget;
 
+        public Quaternion[] rot = new Quaternion[3];
+
         public float maximumLockOnDistance = 30;
         List<CharacterManager> availableTargets = new List<CharacterManager>();
         public Transform nearestLockOnTarget;
 
         float Yvalue;
+
+        Vector3 preLockOnTransform;
 
         private void Awake()
         {
@@ -49,8 +53,7 @@ namespace TimeDistortion.Gameplay.Handler
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
-            Yvalue = cameraTransform.localPosition.y;
-
+            Yvalue = 1.6f;
 
             inputHandler = FindObjectOfType<InputHandler>();
         }
@@ -66,7 +69,7 @@ namespace TimeDistortion.Gameplay.Handler
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
             if (!inputHandler.lockOnFlag && currentLockOnTarget==null)
-            {
+            {                        
                 lookAngle += (mouseXInput * lookSpeed) / delta;
                 pivotAngle -= (mouseYInput * pivotSpeed) / delta;
                 pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
@@ -79,13 +82,15 @@ namespace TimeDistortion.Gameplay.Handler
                 rotation = Vector3.zero;
                 rotation.x = pivotAngle;
 
-                targetRotation = Quaternion.Euler(rotation);
+                targetRotation = Quaternion.Euler(rotation);                              
                 cameraPivotTransform.localRotation = targetRotation;
+                rot[0] = transform.localRotation;
+                rot[1] = targetRotation;
+                rot[2] = cameraTransform.localRotation;
+                preLockOnTransform = cameraTransform.localPosition;
             }
             else
             {
-                cameraTransform.position = new Vector3(cameraTransform.position.x, Yvalue, cameraTransform.position.z);
-
                 Vector3 dir = currentLockOnTarget.position - transform.position;
                 dir.Normalize();
                 dir.y = 0;
@@ -125,7 +130,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
 
             cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
-            cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue, cameraTransformPosition.z);
+            cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, Yvalue, cameraTransform.localPosition.z);
         }
 
         public void HandleLockOn()
@@ -170,6 +175,10 @@ namespace TimeDistortion.Gameplay.Handler
             currentLockOnTarget = null;
 
             cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue, cameraTransformPosition.z);
+            //cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, preLockOnTransform, Time.unscaledDeltaTime);
+            transform.localRotation = rot[0];
+            cameraPivotTransform.localRotation = rot[1];
+            cameraTransform.localRotation = rot[2];
         }
     }
 }
