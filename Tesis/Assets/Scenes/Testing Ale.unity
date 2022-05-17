@@ -1162,7 +1162,7 @@ MonoBehaviour:
   lockOnInput: 0
   lockOnFlag: 0
   playerSpeed: 5
-  rotationSmoothing: 1
+  rotationSmoothing: 75
 --- !u!114 &724520510
 MonoBehaviour:
   m_ObjectHideFlags: 0
