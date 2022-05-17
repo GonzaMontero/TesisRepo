@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Universal.Animations
+namespace Universal.Testing
 {
         public class AnimViewer : MonoBehaviour
         {
