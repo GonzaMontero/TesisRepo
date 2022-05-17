@@ -96,6 +96,8 @@ namespace TimeDistortion.Gameplay.Handler
                 Vector3 eulerAngles = targetRotation.eulerAngles;
                 eulerAngles.y = 0f;
                 cameraPivotTransform.localEulerAngles = eulerAngles;
+
+                cameraTransform.LookAt(currentLockOnTarget);
             }
             
         }
