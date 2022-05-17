@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Handler
+namespace TimeDistortion.Gameplay.Handler
 {
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerLocomotion : MonoBehaviour
@@ -37,7 +37,7 @@ namespace Handler
         {
             float delta = Time.unscaledDeltaTime;
 
-            inputHandler.TickInput(delta);
+            //inputHandler.TickInput(delta);
 
             moveDirection = cameraObject.forward * inputHandler.vertical;
             moveDirection += cameraObject.right * inputHandler.horizontal;

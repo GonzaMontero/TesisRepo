@@ -15,12 +15,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Player Movement"",
+            ""name"": ""Player"",
             ""id"": ""434014b9-d598-4bf3-968d-eb19540d3e3d"",
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""024070aa-9a07-4f7d-98e9-58a7cc2cc253"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -31,6 +31,46 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""c97fd9a5-ca62-49e1-962d-cfd1476441d1"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""36b66832-ab15-4fa0-b0a0-47ab27d78fc2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Lock On"",
+                    ""type"": ""Button"",
+                    ""id"": ""78e02fe1-d03b-4cd0-8114-59d7aed3a321"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Ready SlowMo"",
+                    ""type"": ""Button"",
+                    ""id"": ""e92dffae-5174-4e8a-9882-02eca75de9a4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""10b0cf13-cc00-4558-a861-0e5a9342ea13"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""05c193ae-fece-4e20-b375-46f41e4a0b76"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -93,6 +133,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4165a6e9-e38f-44cd-a20a-87bd07f8390b"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5865aea3-d4fc-4eff-a410-2cd635cbfd29"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
@@ -112,58 +163,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Player Actions"",
-            ""id"": ""01dddbb8-7bb7-497f-9de1-fbf7963e956d"",
-            ""actions"": [
-                {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""11111254-00fb-4f80-8dc1-acdeb8ae3232"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 },
-                {
-                    ""name"": ""Lock On"",
-                    ""type"": ""Button"",
-                    ""id"": ""1ff4deca-a155-4f2b-b9bb-856d5fef62eb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Ready SlowMo"",
-                    ""type"": ""Button"",
-                    ""id"": ""270d8e6d-3aff-4c15-a19f-78b7cce9d462"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Interact"",
-                    ""type"": ""Button"",
-                    ""id"": ""543169e8-da41-41cd-8f39-65048a9ea8e5"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Attack"",
-                    ""type"": ""Button"",
-                    ""id"": ""7eff0da7-06cc-48d1-bb20-2cc91cce094e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                }
-            ],
-            ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""cdd44d52-d34f-4eb2-8ae0-f9a353eeb01d"",
+                    ""id"": ""7c8abb45-72bf-4779-af6d-1ab3b6fd9986"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -174,7 +177,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ee949b0d-4361-4e73-a16a-d02c7e536e6c"",
+                    ""id"": ""9ddb7a66-b1ee-4069-8d3c-0013b73bd03d"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -185,7 +188,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4520b5e7-c54e-44af-aa9d-d807d00fd2ba"",
+                    ""id"": ""9ec48f0c-d945-482f-9e3f-044330d85532"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -196,7 +199,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cf121aed-fd8a-4a22-975d-d2dca130eb54"",
+                    ""id"": ""e957adb4-6f12-4c71-afe7-210bfd7d48bc"",
                     ""path"": ""<Gamepad>/rightStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -207,7 +210,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5745f933-3f73-406a-aae1-c2d128335b6b"",
+                    ""id"": ""adb2340d-a71b-41b1-aa76-4d2ade5cfdad"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -218,7 +221,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9c26b429-6bc0-45e8-a0b1-833fa189db8a"",
+                    ""id"": ""708ed4b3-1df0-4060-9e93-e0e04b17aa8c"",
                     ""path"": ""<XInputController>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -229,7 +232,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0562f018-c3b1-4887-90ed-7f82e8031c02"",
+                    ""id"": ""dc44ac5d-b1e1-4831-bffa-c73353d1c207"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -240,7 +243,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6298a36f-40ef-4e60-94b9-92fcce783299"",
+                    ""id"": ""e381bf8a-f86b-41cf-87b7-255b1e2896a6"",
                     ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -254,17 +257,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Player Movement
-        m_PlayerMovement = asset.FindActionMap("Player Movement", throwIfNotFound: true);
-        m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
-        m_PlayerMovement_Camera = m_PlayerMovement.FindAction("Camera", throwIfNotFound: true);
-        // Player Actions
-        m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
-        m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
-        m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
-        m_PlayerActions_ReadySlowMo = m_PlayerActions.FindAction("Ready SlowMo", throwIfNotFound: true);
-        m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
-        m_PlayerActions_Attack = m_PlayerActions.FindAction("Attack", throwIfNotFound: true);
+        // Player
+        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_LockOn = m_Player.FindAction("Lock On", throwIfNotFound: true);
+        m_Player_ReadySlowMo = m_Player.FindAction("Ready SlowMo", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -311,34 +312,59 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player Movement
-    private readonly InputActionMap m_PlayerMovement;
-    private IPlayerMovementActions m_PlayerMovementActionsCallbackInterface;
-    private readonly InputAction m_PlayerMovement_Movement;
-    private readonly InputAction m_PlayerMovement_Camera;
-    public struct PlayerMovementActions
+    // Player
+    private readonly InputActionMap m_Player;
+    private IPlayerActions m_PlayerActionsCallbackInterface;
+    private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_Camera;
+    private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_LockOn;
+    private readonly InputAction m_Player_ReadySlowMo;
+    private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Attack;
+    public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
-        public PlayerMovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_PlayerMovement_Movement;
-        public InputAction @Camera => m_Wrapper.m_PlayerMovement_Camera;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
+        public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @Camera => m_Wrapper.m_Player_Camera;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
+        public InputAction @ReadySlowMo => m_Wrapper.m_Player_ReadySlowMo;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerMovementActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerMovementActions instance)
+        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerActions instance)
         {
-            if (m_Wrapper.m_PlayerMovementActionsCallbackInterface != null)
+            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Movement.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMovement;
-                @Camera.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnCamera;
-                @Camera.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnCamera;
-                @Camera.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnCamera;
+                @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Camera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                @Camera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                @Camera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @LockOn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @LockOn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @LockOn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @ReadySlowMo.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadySlowMo;
+                @ReadySlowMo.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadySlowMo;
+                @ReadySlowMo.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadySlowMo;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
             }
-            m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
+            m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Movement.started += instance.OnMovement;
@@ -347,56 +373,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Camera.started += instance.OnCamera;
                 @Camera.performed += instance.OnCamera;
                 @Camera.canceled += instance.OnCamera;
-            }
-        }
-    }
-    public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
-
-    // Player Actions
-    private readonly InputActionMap m_PlayerActions;
-    private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
-    private readonly InputAction m_PlayerActions_Jump;
-    private readonly InputAction m_PlayerActions_LockOn;
-    private readonly InputAction m_PlayerActions_ReadySlowMo;
-    private readonly InputAction m_PlayerActions_Interact;
-    private readonly InputAction m_PlayerActions_Attack;
-    public struct PlayerActionsActions
-    {
-        private @PlayerControls m_Wrapper;
-        public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
-        public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
-        public InputAction @ReadySlowMo => m_Wrapper.m_PlayerActions_ReadySlowMo;
-        public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
-        public InputAction @Attack => m_Wrapper.m_PlayerActions_Attack;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActionsActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerActionsActions instance)
-        {
-            if (m_Wrapper.m_PlayerActionsActionsCallbackInterface != null)
-            {
-                @Jump.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
-                @LockOn.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
-                @LockOn.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
-                @LockOn.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
-                @ReadySlowMo.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnReadySlowMo;
-                @ReadySlowMo.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnReadySlowMo;
-                @ReadySlowMo.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnReadySlowMo;
-                @Interact.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
-                @Attack.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnAttack;
-            }
-            m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
-            if (instance != null)
-            {
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -415,14 +391,11 @@ public class @PlayerControls : IInputActionCollection, IDisposable
             }
         }
     }
-    public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
-    public interface IPlayerMovementActions
+    public PlayerActions @Player => new PlayerActions(this);
+    public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
-    }
-    public interface IPlayerActionsActions
-    {
         void OnJump(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
         void OnReadySlowMo(InputAction.CallbackContext context);

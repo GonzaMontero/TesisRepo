@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
-namespace Handler
+namespace TimeDistortion.Gameplay.Handler
 {
     public class InputHandler : MonoBehaviour
     {
@@ -21,11 +22,10 @@ namespace Handler
         CharacterController characterController;
 
         Vector2 movementInput;
-        Vector2 cameraInput;
 
         private Vector3 playerVelocity;
         private bool groundedPlayer;
-        private float playerSpeed = 15;
+        [SerializeField] float playerSpeed = 15;
         private float jumpHeight = 1.0f;
         private float gravityValue = -9.81f;
 
@@ -39,54 +39,71 @@ namespace Handler
             Cursor.visible = false;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             float delta = Time.unscaledDeltaTime;
 
-            TickInput(delta);
-
+            //Calculate Y Movement
             groundedPlayer = characterController.isGrounded;
             if (groundedPlayer && playerVelocity.y < 0)
             {
                 playerVelocity.y = 0f;
             }
 
-            Vector3 move;
-
-            Vector3 moveY = Camera.main.transform.forward * Input.GetAxis("Vertical");
-            Vector3 moveX = Camera.main.transform.right * Input.GetAxis("Horizontal");
-
-            move = moveY + moveX;
-
-            characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
-
-            if (move != Vector3.zero)
-            {
-                gameObject.transform.forward = move;
-            }
-
-            if (Input.GetButtonDown("Jump") && groundedPlayer)
-            {
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            }
-
             playerVelocity.y += gravityValue * Time.unscaledDeltaTime;
-            characterController.Move(playerVelocity * Time.unscaledDeltaTime);            
+            characterController.Move(playerVelocity * Time.unscaledDeltaTime);
 
+            //Calculate XZ Movement
+            if (movementInput.magnitude > 0)
+            {
+                Vector3 moveX = Camera.main.transform.right * movementInput.x;
+                Vector3 moveZ = Camera.main.transform.forward * movementInput.y;
+
+                Vector3 move = moveZ + moveX;
+
+                characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
+
+                if (move.magnitude > 0)
+                {
+                    move.y = 0;
+                    gameObject.transform.forward = move;
+                }
+            }
+            
+            //Calculate Camera Movement
             if (cameraHandler != null)
             {
-                mouseX = Input.GetAxisRaw("Mouse X");
-                mouseY = Input.GetAxisRaw("Mouse Y");
-
                 cameraHandler.FollowTarget(delta);
                 cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
             }
         }
 
-        public void TickInput(float delta)
+        public void OnMoveCameraInput(InputAction.CallbackContext context)
+        {
+            if (cameraHandler == null) return;
+
+            mouseX = context.ReadValue<Vector2>().x;
+            mouseY = context.ReadValue<Vector2>().y;
+        }
+        public void OnLockCameraInput(InputAction.CallbackContext context)
         {
             HandleLockOnInput();
-            HandleAttackInput(delta);
+        }
+        public void OnMovementInput(InputAction.CallbackContext context)
+        {
+            //if (!context.performed) return;
+            movementInput = context.ReadValue<Vector2>();
+                        
+        }
+        public void OnJumpInput(InputAction.CallbackContext context)
+        {
+            if (!groundedPlayer) return;
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            characterController.Move(playerVelocity * Time.unscaledDeltaTime);
+        }
+        public void OnAttackInput(InputAction.CallbackContext context)
+        {
+            HandleAttackInput();
         }
 
         //private void MoveInput(float delta)
@@ -98,42 +115,31 @@ namespace Handler
         //    mouseY = cameraInput.y;
         //}
 
-        private void HandleJumpInput()
-        {
-            inputActions.PlayerActions.Jump.performed += i => jumpInput = true;
-        }
-
         private void HandleLockOnInput()
         {
-            if (Input.GetKey(KeyCode.F))
+            if (!lockOnFlag)
             {
-                if (!lockOnFlag)
+                cameraHandler.ClearLockOnTargets();
+                lockOnInput = false;
+                cameraHandler.HandleLockOn();
+                if (cameraHandler.nearestLockOnTarget != null)
                 {
-                    cameraHandler.ClearLockOnTargets();
-                    lockOnInput = false;
-                    cameraHandler.HandleLockOn();
-                    if (cameraHandler.nearestLockOnTarget != null)
-                    {
-                        cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
-                        lockOnFlag = true;
-                    }
+                    cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+                    lockOnFlag = true;
                 }
-                else if (lockOnFlag)
-                {
-                    lockOnInput = false;
-                    lockOnFlag = false;
-                    cameraHandler.ClearLockOnTargets();
-                }
-            }                         
+            }
+            else if (lockOnFlag)
+            {
+                lockOnInput = false;
+                lockOnFlag = false;
+                cameraHandler.ClearLockOnTargets();
+            }
         }
 
-        private void HandleAttackInput(float delta)
+        private void HandleAttackInput()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                attacker.HandleLightAttack();
-                Debug.Log("Ataque");
-            }
+            attacker.HandleLightAttack();
+            Debug.Log("Ataque");
         }
     }
 }

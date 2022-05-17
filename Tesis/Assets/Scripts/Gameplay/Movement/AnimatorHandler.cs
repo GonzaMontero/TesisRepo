@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Handler
+namespace TimeDistortion.Gameplay.Handler
 {
     public class AnimatorHandler : MonoBehaviour
     {

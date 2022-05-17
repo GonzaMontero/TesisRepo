@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace Handler
+namespace TimeDistortion.Gameplay.Handler
 {
     public class CameraHandler : MonoBehaviour
     {
