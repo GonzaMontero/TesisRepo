@@ -41,12 +41,16 @@ namespace TimeDistortion.Gameplay.Handler
         List<CharacterManager> availableTargets = new List<CharacterManager>();
         public Transform nearestLockOnTarget;
 
+        float Yvalue;
+
         private void Awake()
         {
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            Yvalue = cameraTransform.localPosition.y;
+
 
             inputHandler = FindObjectOfType<InputHandler>();
         }
@@ -80,7 +84,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else
             {
-                cameraTransform.position = new Vector3(cameraTransform.position.x, cameraTransform.position.y, cameraTransform.position.z);
+                cameraTransform.position = new Vector3(cameraTransform.position.x, Yvalue, cameraTransform.position.z);
 
                 Vector3 dir = currentLockOnTarget.position - transform.position;
                 dir.Normalize();
@@ -120,16 +124,13 @@ namespace TimeDistortion.Gameplay.Handler
                 targetPosition = -minimumCollisionOffset;
             }
 
-            float Yvalue = cameraTransform.localPosition.y;
-
             cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
-            cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue,cameraTransformPosition.z);
+            cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue, cameraTransformPosition.z);
         }
 
         public void HandleLockOn()
         {
             float shortestDistance = Mathf.Infinity;
-
 
             Collider[] colliders = Physics.OverlapSphere(targetTransform.position, 26);
 
@@ -167,6 +168,8 @@ namespace TimeDistortion.Gameplay.Handler
             availableTargets.Clear();
             nearestLockOnTarget = null;
             currentLockOnTarget = null;
+
+            cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue, cameraTransformPosition.z);
         }
     }
 }

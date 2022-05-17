@@ -27,6 +27,7 @@ namespace TimeDistortion.Gameplay.Handler
         private bool groundedPlayer;
         [SerializeField] float playerSpeed = 15;
         [SerializeField] float rotationSmoothing = 1;
+        [SerializeField] float weight;
         private float jumpHeight = 1.0f;
         private float gravityValue = -9.81f;
 
@@ -51,7 +52,7 @@ namespace TimeDistortion.Gameplay.Handler
                 playerVelocity.y = 0f;
             }
 
-            playerVelocity.y += gravityValue * Time.unscaledDeltaTime;
+            playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
             characterController.Move(playerVelocity * Time.unscaledDeltaTime);
 
             //Calculate XZ Movement
