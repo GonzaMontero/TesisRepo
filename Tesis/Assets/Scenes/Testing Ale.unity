@@ -825,6 +825,36 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &556136231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 556136232}
+  m_Layer: 0
+  m_Name: Follow Trans
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &556136232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556136231}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1362055956}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &566529362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2395,6 +2425,7 @@ GameObject:
   - component: {fileID: 1362055953}
   - component: {fileID: 1362055957}
   - component: {fileID: 1362055958}
+  - component: {fileID: 1362055959}
   m_Layer: 0
   m_Name: Something That Moves
   m_TagString: Untagged
@@ -2472,7 +2503,8 @@ Transform:
   m_LocalRotation: {x: -0, y: 0.6076165, z: -0, w: 0.79423064}
   m_LocalPosition: {x: -16.94, y: 0, z: 10.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 556136232}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 74.83501, z: 0}
@@ -2508,6 +2540,19 @@ MonoBehaviour:
   speed: 1
   rb: {fileID: 0}
   usingModifiedTime: 0
+--- !u!114 &1362055959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362055952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02eb039341c839c4c81da6f2a56c52ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockOnTransform: {fileID: 556136232}
 --- !u!114 &1368918634 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2989161804245124846, guid: af4c4175ba05c494e9210ca74c8b3185,
@@ -3031,7 +3076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1748076492
 BoxCollider:
   m_ObjectHideFlags: 0
