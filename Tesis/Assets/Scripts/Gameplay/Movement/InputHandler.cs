@@ -26,6 +26,7 @@ namespace TimeDistortion.Gameplay.Handler
         private Vector3 playerVelocity;
         private bool groundedPlayer;
         [SerializeField] float playerSpeed = 15;
+        [SerializeField] float rotationSmoothing = 1;
         private float jumpHeight = 1.0f;
         private float gravityValue = -9.81f;
 
@@ -66,7 +67,8 @@ namespace TimeDistortion.Gameplay.Handler
                 if (move.magnitude > 0)
                 {
                     move.y = 0;
-                    gameObject.transform.forward = move;
+                    RotateCharacter(move);
+                    //gameObject.transform.forward = move;
                 }
             }
             
@@ -114,6 +116,12 @@ namespace TimeDistortion.Gameplay.Handler
         //    mouseX = cameraInput.x;
         //    mouseY = cameraInput.y;
         //}
+
+        void RotateCharacter(Vector3 direction)
+        {
+            var newRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * rotationSmoothing);
+        }
 
         private void HandleLockOnInput()
         {
