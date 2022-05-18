@@ -101,13 +101,35 @@ namespace TimeDistortion.Gameplay.Physic
         //Event Receivers
         void OnObjectSlowed(Transform objectSlowed, float timer)
         {
+            //Apply SlowFX to Transform
             MeshRenderer model = objectSlowed.GetComponent<MeshRenderer>();
-            SetSlowAura(model, true, timer);
+            if (model != null)
+            {
+                SetSlowAura(model, true, timer);
+            }
+
+            //Apply SlowFX to Children
+            if (objectSlowed.childCount < 1) return;
+            foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
+            {
+                SetSlowAura(renderer, true, timer);
+            }
         }
         void OnObjectUnSlowed(Transform objectSlowed)
         {
+            //UnApply SlowFX to Transform
             MeshRenderer model = objectSlowed.GetComponent<MeshRenderer>();
-            SetSlowAura(model, false);
+            if (model != null)
+            {
+                SetSlowAura(model, false);
+            }
+
+            //UnApply SlowFX to Children
+            if (objectSlowed.childCount < 1) return;
+            foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
+            {
+                SetSlowAura(renderer, false);
+            }
         }
     }
 }
