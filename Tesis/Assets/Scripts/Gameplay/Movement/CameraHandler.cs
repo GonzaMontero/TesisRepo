@@ -130,7 +130,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
 
             cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
-            cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, Yvalue, cameraTransform.localPosition.z);
+            cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, Yvalue, cameraTransformPosition.z);
         }
 
         public void HandleLockOn()

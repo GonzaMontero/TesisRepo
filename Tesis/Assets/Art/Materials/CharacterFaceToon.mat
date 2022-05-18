@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Chaacter Toon
+  m_Name: CharacterFaceToon
   m_Shader: {fileID: -6465566751694194690, guid: 24e8c63853f62d848a745113dafc93a4,
     type: 3}
   m_ShaderKeywords: 
@@ -55,7 +55,7 @@ Material:
     m_Floats:
     - Vector1_127E1F0F: 0.043
     - Vector1_1879E422: 0
-    - Vector1_28B32B4B: -0.117
+    - Vector1_28B32B4B: 0.279
     - Vector1_6141C131: 1
     - _AlphaClip: 0
     - _Blend: 0
