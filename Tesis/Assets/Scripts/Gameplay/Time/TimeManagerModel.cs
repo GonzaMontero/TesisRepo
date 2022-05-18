@@ -112,6 +112,9 @@ namespace TimeDistortion.Gameplay.Physic
             if (objectSlowed.childCount < 1) return;
             foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
             {
+                //If Model has FX already, skip
+                if (slowedObjectsByID.ContainsKey(renderer.GetInstanceID())) continue;
+                
                 SetSlowAura(renderer, true, timer);
             }
         }
@@ -128,6 +131,8 @@ namespace TimeDistortion.Gameplay.Physic
             if (objectSlowed.childCount < 1) return;
             foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
             {
+                //If Model doesn't have FX, skip
+                if (!slowedObjectsByID.ContainsKey(renderer.GetInstanceID())) continue;
                 SetSlowAura(renderer, false);
             }
         }
