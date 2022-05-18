@@ -28,6 +28,7 @@ namespace TimeDistortion.Gameplay.Physic
 
         [Header("Set Values")]
         [SerializeField] Transform player;
+        [SerializeField] LayerMask slowableLayers;
         [SerializeField] float slowdownRange;
         [Tooltip("Speed of SlowMo")]
         [SerializeField] float slowdownFactor;
@@ -168,7 +169,7 @@ namespace TimeDistortion.Gameplay.Physic
            
             //Get target (if not, exit)
             RaycastHit hit;
-            Physics.Raycast(mainCam.ScreenPointToRay(centerOfScreen), out hit, slowdownRange);
+            Physics.Raycast(mainCam.ScreenPointToRay(centerOfScreen), out hit, slowdownRange, slowableLayers);
             if (hit.transform == null)
             {
                 currentTarget = null;
