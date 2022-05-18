@@ -99,6 +99,7 @@ namespace TimeDistortion.Gameplay.Physic
             if (!context.performed) return; //only do action on press frame
             //Debug.Log("Key Pressed!");
             if (currentTarget == null) return;
+            if (currentTarget.transform == null) return; //double check
             //Debug.Log("Target Is Valid!");
             if (!slowMoIsReady) return; //Only slow if slow mo mode is active
             //Debug.Log("SlowMo Ready!");
@@ -110,7 +111,7 @@ namespace TimeDistortion.Gameplay.Physic
             {
                 if (currentTarget.timer < 0) return; // return if already DeSlowing Target
 
-                //Debug.Log("DeSlowing " + currentTarget.transform + " by command!");
+                Debug.Log("DeSlowing " + currentTarget.transform + " by command!");
                 DeSlowTarget(currentTarget);
                 return;
             }
@@ -119,7 +120,7 @@ namespace TimeDistortion.Gameplay.Physic
 
             if (targets.Count > maxTargets)
             {
-                //Debug.Log("DeSlowing " + targets[0].transform + " by max reached!");
+                Debug.Log("DeSlowing " + targets[0].transform + " by max reached!");
                 DeSlowTarget(targets[0]);
             }
         }
@@ -188,9 +189,14 @@ namespace TimeDistortion.Gameplay.Physic
 
             //If already targetting a valid object, exit
             if (currentTarget != null) return;
-            
+
+            //If target is already in list, select old one else, create new
+            if (!targetIDs.TryGetValue(hit.transform.GetInstanceID(), out currentTarget))
+            {
+                currentTarget = new SlowMoTarget(hit.transform, objectToSlow);
+            }
+
             //Debug.Log("Target Found!");
-            currentTarget = new SlowMoTarget(hit.transform, objectToSlow);
             TargetInScope?.Invoke(true);
         }
         void SlowTarget()
@@ -206,6 +212,13 @@ namespace TimeDistortion.Gameplay.Physic
         }
         void DeSlowTarget(SlowMoTarget target)
         {
+            //Debug.Log("Trying to DeSlow " + target.transform + " with timer " + target.timer);
+            if (target.timer < 0) return; //Check if already deSlowing the object
+            //Debug.Log("DeSlowing " + target.transform + " with timer " + target.timer);
+
+            //Get Target from List
+            //targetIDs.TryGetValue(target.ID, out target);
+
             //Update List
             targets.Remove(target);
 
@@ -230,7 +243,7 @@ namespace TimeDistortion.Gameplay.Physic
                 if (targets[i].timer > 1)
                 {
                     //Debug.Break();
-                    //Debug.Log("DeSlowing " + targets[i].transform + " by time reached!");
+                    Debug.Log("DeSlowing " + targets[i].transform + " by time reached!");
                     DeSlowTarget(targets[i]);
                     continue;
                 }
