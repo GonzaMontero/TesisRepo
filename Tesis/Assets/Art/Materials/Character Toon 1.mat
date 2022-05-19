@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Character Toon
+  m_Name: Character Toon 1
   m_Shader: {fileID: -6465566751694194690, guid: 24e8c63853f62d848a745113dafc93a4,
     type: 3}
   m_ShaderKeywords: 
@@ -80,7 +80,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_21BAEBDE: {r: 0.20754719, g: 0.20599626, b: 0.2026522, a: 0}
-    - Color_301C520A: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 0}
+    - Color_301C520A: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
