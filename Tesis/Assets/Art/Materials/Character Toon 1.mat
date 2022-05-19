@@ -80,7 +80,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_21BAEBDE: {r: 0.20754719, g: 0.20599626, b: 0.2026522, a: 0}
-    - Color_301C520A: {r: 0, g: 0, b: 0, a: 0}
+    - Color_301C520A: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
