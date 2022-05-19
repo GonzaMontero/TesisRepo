@@ -36,6 +36,10 @@ namespace TimeDistortion.Gameplay.Props
             //Initialize List and Create First Platform
             platforms = new List<Platform>();
             //CreatePlatform();
+            if (platformsEmpty == null)
+            {
+                platformsEmpty = transform;
+            }
         }
         private void Update()
         {
