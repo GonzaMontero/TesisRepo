@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace NAMESPACENAME
+namespace TimeDistortion.Gameplay.Props
 {
     public class ProjectileController : MonoBehaviour, IHittable, ITimed
     {
@@ -31,7 +31,7 @@ namespace NAMESPACENAME
                 hittable.GetHitted(damage);
             }
 
-            if (!PlayerIsClose())
+            if (!PlayerIsClose() || other.transform.root.tag != "Player")
             {
                 GetDestroyed();
             }
@@ -59,7 +59,7 @@ namespace NAMESPACENAME
         //Interface Implementations
         public void GetHitted(int damage)
         {
-            if (!PlayerIsClose())
+            if (!PlayerIsClose() && damage > 0)
             {
                 GetDestroyed();
             }
