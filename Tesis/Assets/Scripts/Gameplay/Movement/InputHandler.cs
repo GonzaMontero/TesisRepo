@@ -106,9 +106,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else if (lastPos == transform.position && groundedPlayer == true)
             {
-                groundedPlayer = characterController.isGrounded;
-
-                if (groundedPlayer)
+                if (!PlayerIsFlying())
                 {
                     playerVelocity.y = 0f;
                 }
@@ -222,21 +220,20 @@ namespace TimeDistortion.Gameplay.Handler
             Debug.Log("Ataque");
         }
 
-        [SerializeField] float floorheight;
-        [SerializeField] LayerMask floorLayer;
-        bool PlayerIsOnFloor()
+        bool PlayerIsFlying()
         {
-            /*bool*/
-            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, floorheight, floorLayer);
+            RaycastHit raycastHit;
+            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, out raycastHit, Mathf.Infinity);
 
-#if UNITY_EDITOR
-            if (!playerOnFloor)
+            if(raycastHit.point.y != transform.position.y)
             {
-                Debug.Log("Player Not On Floor!");
+                return true;
             }
-#endif
+            else
+            {
+                return false;
+            }
 
-            return playerOnFloor;
         }
 
         public void SetGrounded(bool gr)
