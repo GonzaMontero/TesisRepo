@@ -53,9 +53,10 @@ namespace TimeDistortion.Gameplay.Handler
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
-            Yvalue = 1.6f;
+            Yvalue = cameraTransform.localPosition.y;
 
             inputHandler = FindObjectOfType<InputHandler>();
+            rot[0] = transform.localRotation;
         }
 
         public void FollowTarget(float delta)

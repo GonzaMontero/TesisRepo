@@ -28,7 +28,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float playerSpeed = 15;
         [SerializeField] float rotationSmoothing = 1;
         [SerializeField] float weight;
-        private float jumpHeight = 1.0f;
+        [SerializeField] float jumpHeight = 1.0f;
         private float gravityValue = -9.81f;
 
         private void Start()
@@ -44,10 +44,10 @@ namespace TimeDistortion.Gameplay.Handler
         private void Update()
         {
             float delta = Time.unscaledDeltaTime;
-
+            // && playerVelocity.y < 0
             //Calculate Y Movement
-            groundedPlayer = characterController.isGrounded;
-            if (groundedPlayer && playerVelocity.y < 0)
+            groundedPlayer = PlayerIsOnFloor();
+            if (groundedPlayer)
             {
                 playerVelocity.y = 0f;
             }
@@ -65,14 +65,14 @@ namespace TimeDistortion.Gameplay.Handler
 
                 characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
 
-                if (move.magnitude > 0)
-                {
-                    move.y = 0;
-                    RotateCharacter(move);
-                    //gameObject.transform.forward = move;
-                }
+                //if (move.magnitude > 0)
+                //{
+                move.y = 0;
+                RotateCharacter(move);
+                //gameObject.transform.forward = move;
+                //}
             }
-            
+
             //Calculate Camera Movement
             if (cameraHandler != null)
             {
@@ -96,11 +96,14 @@ namespace TimeDistortion.Gameplay.Handler
         {
             //if (!context.performed) return;
             movementInput = context.ReadValue<Vector2>();
-                        
+
         }
         public void OnJumpInput(InputAction.CallbackContext context)
         {
+            Debug.Log("TryJump");
+            if (!context.started) return;
             if (!groundedPlayer) return;
+            Debug.Log("Jumped");
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             characterController.Move(playerVelocity * Time.unscaledDeltaTime);
         }
@@ -149,6 +152,22 @@ namespace TimeDistortion.Gameplay.Handler
         {
             attacker.HandleLightAttack();
             Debug.Log("Ataque");
+        }
+        [SerializeField] float floorheight;
+        [SerializeField] LayerMask floorLayer;
+        bool PlayerIsOnFloor()
+        {
+            /*bool*/
+            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, floorheight, floorLayer);
+
+        #if UNITY_EDITOR
+            if (!playerOnFloor)
+            {
+                Debug.Log("Player Not On Floor!");
+            }
+        #endif
+
+            return playerOnFloor;
         }
     }
 }
