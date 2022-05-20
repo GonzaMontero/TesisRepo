@@ -225,7 +225,7 @@ namespace TimeDistortion.Gameplay.Handler
             RaycastHit raycastHit;
             bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, out raycastHit, Mathf.Infinity);
 
-            if(raycastHit.point.y != transform.position.y)
+            if(raycastHit.point.y + transform.GetComponent<CharacterController>().bounds.size.y < transform.position.y)
             {
                 return true;
             }
