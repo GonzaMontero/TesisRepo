@@ -51,7 +51,7 @@ MonoBehaviour:
   slowdownDelay: 0.5
   slowdownRange: 50
   slowdownFactor: 0.05
-  slowdownLength: 10
+  slowdownLength: 20
   slowdownExtraLength: 5
   cooldownLength: 2
   maxTargets: 1

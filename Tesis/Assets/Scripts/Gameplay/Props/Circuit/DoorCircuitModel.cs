@@ -7,6 +7,7 @@ namespace TimeDistortion.Gameplay.Props
         [Header("Set Values")]
         [SerializeField] CircuitManager manager;
         [SerializeField] Animator animator;
+        [SerializeField] bool active;
 
         //Unity Events
         private void Start()
@@ -26,6 +27,7 @@ namespace TimeDistortion.Gameplay.Props
         void OnCircuitCompleted()
         {
             animator.SetTrigger("Open");
+            active = true;
         }
     }
 }

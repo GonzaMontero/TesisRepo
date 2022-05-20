@@ -12,6 +12,8 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] LayerMask layers;
         [SerializeField] TriggerModes mode;
         [SerializeField] List<String> tags;
+        [Header("Runtime Values")]
+        [SerializeField] bool activated;
 
         public Action<CircuitPartController> Activated;
 
@@ -29,6 +31,7 @@ namespace TimeDistortion.Gameplay.Props
                 case TriggerModes.hitLayers:
                     if (!(layers == (layers | (1 << triggerObject.layer)))) return;
                     Activated?.Invoke(this);
+                    activated = true;
                     break;
                 case TriggerModes.notHitLayers:
                     break;
