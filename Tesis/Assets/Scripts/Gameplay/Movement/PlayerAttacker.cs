@@ -5,15 +5,23 @@ using TimeDistortion.Gameplay.Handler;
 
 public class PlayerAttacker : MonoBehaviour
 {
-    AnimatorHandler handler;
-
-    public void Awake()
-    {
-        handler = GetComponent<AnimatorHandler>();
-    }
+    [SerializeField] GameObject attackCollider;
+    [SerializeField] float attackDuration;
 
     public void HandleLightAttack()
     {
-        //animatorhandler play animation
+        if (attackCollider.activeSelf == false)
+        {
+            attackCollider.SetActive(true);
+            Invoke("StopLightAttack", attackDuration * Time.timeScale);
+        }    
+    }
+
+    public void StopLightAttack()
+    {
+        if (attackCollider.activeSelf == true)
+        {
+            attackCollider.SetActive(false);
+        }
     }
 }
