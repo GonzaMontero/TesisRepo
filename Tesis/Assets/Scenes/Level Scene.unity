@@ -39816,6 +39816,21 @@ MonoBehaviour:
     m_Bits: 1
   mode: 0
   tags: []
+--- !u!114 &777754202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777754198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32aa9da03a77f614d8239a0019762d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  animator: {fileID: 0}
+  animationTrigger: Hitted
 --- !u!4 &777967277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5239272197777735519, guid: e348e7143b6247b488737e4be26fb038,
@@ -52017,6 +52032,21 @@ MonoBehaviour:
     m_Bits: 1
   mode: 0
   tags: []
+--- !u!114 &1051889617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051889613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32aa9da03a77f614d8239a0019762d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  animator: {fileID: 0}
+  animationTrigger: Hitted
 --- !u!1001 &1053830454
 PrefabInstance:
   m_ObjectHideFlags: 0
