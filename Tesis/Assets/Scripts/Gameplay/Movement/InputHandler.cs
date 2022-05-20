@@ -41,13 +41,42 @@ namespace TimeDistortion.Gameplay.Handler
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            groundedPlayer = true;
         }
 
         private void Update()
         {
             float delta = Time.unscaledDeltaTime;
             // && playerVelocity.y < 0
-            //Calculate Y Movement
+            //Calculate Y Movement            
+
+            characterController.Move(playerVelocity * Time.unscaledDeltaTime);
+
+            //Calculate XZ Movement
+            if (movementInput.magnitude > 0)
+            {
+                Vector3 moveX = Camera.main.transform.right * movementInput.x;
+                Vector3 moveZ = Camera.main.transform.forward * movementInput.y;
+
+                Vector3 move = moveZ + moveX;
+
+                characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
+
+                //if (move.magnitude > 0)
+                //{
+
+                move.y = 0;
+                RotateCharacter(move);
+                //gameObject.transform.forward = move;
+                //}
+            }
+
+            //Calculate Camera Movement
+            if (cameraHandler != null)
+            {
+                cameraHandler.FollowTarget(delta);
+                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+            }
 
             if (lastPos != transform.position && groundedPlayer == true)
             {
@@ -91,37 +120,6 @@ namespace TimeDistortion.Gameplay.Handler
                 {
                     playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
                 }
-            }
-
-
-
-
-            characterController.Move(playerVelocity * Time.unscaledDeltaTime);
-
-            //Calculate XZ Movement
-            if (movementInput.magnitude > 0)
-            {
-                Vector3 moveX = Camera.main.transform.right * movementInput.x;
-                Vector3 moveZ = Camera.main.transform.forward * movementInput.y;
-
-                Vector3 move = moveZ + moveX;
-
-                characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
-
-                //if (move.magnitude > 0)
-                //{
-
-                move.y = 0;
-                RotateCharacter(move);
-                //gameObject.transform.forward = move;
-                //}
-            }
-
-            //Calculate Camera Movement
-            if (cameraHandler != null)
-            {
-                cameraHandler.FollowTarget(delta);
-                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
             }
 
             lastPos = transform.position;
