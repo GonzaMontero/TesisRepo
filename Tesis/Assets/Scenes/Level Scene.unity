@@ -39891,7 +39891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32aa9da03a77f614d8239a0019762d41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1051889616}
+  controller: {fileID: 777754201}
   animator: {fileID: 0}
   animationTrigger: Hitted
 --- !u!4 &777967277 stripped
