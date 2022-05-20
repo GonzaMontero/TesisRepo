@@ -31,6 +31,11 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float jumpHeight = 1.0f;
         private float gravityValue = -9.81f;
 
+
+        [SerializeField] Transform groundcheck;
+        [SerializeField] LayerMask groundLayer;
+        [SerializeField] float groundRadius;
+
         Vector3 lastPos;
 
         private void Start()
@@ -78,58 +83,19 @@ namespace TimeDistortion.Gameplay.Handler
                 cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
             }
 
-            if (lastPos != transform.position && groundedPlayer == true)
-            {
-                groundedPlayer = characterController.isGrounded;
+            groundedPlayer = Physics.CheckSphere(groundcheck.position, groundRadius, (int)groundLayer);
 
-                if (groundedPlayer)
-                {
-                    playerVelocity.y = 0f;
-                }
-                else
-                {
-                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
-                }
-            }
-            else if (lastPos != transform.position && groundedPlayer == false)
+            if (groundedPlayer)
             {
-                groundedPlayer = characterController.isGrounded;
-
-                if (groundedPlayer)
-                {
-                    playerVelocity.y = 0f;
-                }
-                else
-                {
-                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
-                }
+                playerVelocity.y = 0f;
             }
-            else if (lastPos == transform.position && groundedPlayer == true)
+            else
             {
-                if (!PlayerIsFlying())
-                {
-                    playerVelocity.y = 0f;
-                }
-                else
-                {
-                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
-                }
-            }
-            else if (lastPos == transform.position && groundedPlayer == false)
-            {
-                groundedPlayer = characterController.isGrounded;
-
-                if (groundedPlayer)
-                {
-                    playerVelocity.y = 0f;
-                }
-                else
-                {
-                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
-                }
+                playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
             }
 
-            lastPos = transform.position;
+
+            lastPos = transform.position;            
         }
 
         public void OnMoveCameraInput(InputAction.CallbackContext context)
@@ -223,7 +189,7 @@ namespace TimeDistortion.Gameplay.Handler
         bool PlayerIsFlying()
         {
             RaycastHit raycastHit;
-            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, out raycastHit, Mathf.Infinity);
+            bool playerOnFloor = Physics.Raycast(transform.position, -Vector3.up, out raycastHit, Mathf.Infinity);
 
             if(raycastHit.point.y + transform.GetComponent<CharacterController>().bounds.size.y < transform.position.y)
             {
@@ -233,12 +199,30 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 return false;
             }
-
         }
 
         public void SetGrounded(bool gr)
         {
             groundedPlayer = gr;
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (groundedPlayer == false)
+            {
+                if (hit.transform.tag == "Ground")
+                {
+                    groundedPlayer = true;
+                }
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.transform.tag == "Ground")
+            {
+                groundedPlayer = false;
+            }
         }
     }
 }
