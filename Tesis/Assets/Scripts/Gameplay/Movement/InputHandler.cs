@@ -29,6 +29,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float rotationSmoothing = 1;
         [SerializeField] float weight;
         [SerializeField] float jumpHeight = 1.0f;
+        [SerializeField] BoxCollider col;
         private float gravityValue = -9.81f;
 
         private void Start()
