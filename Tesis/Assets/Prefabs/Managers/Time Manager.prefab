@@ -62,7 +62,7 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   centerOfScreen: {x: 0, y: 0}
   cooldownTimer: 1
-  slowMoIsReady: 1
+  slowMoIsReady: 0
   playerOnFloor: 0
 --- !u!114 &8193310065279458637
 MonoBehaviour:

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace TimeDistortion.Gameplay.Handler
@@ -37,6 +38,13 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float groundRadius;
 
         Vector3 lastPos;
+
+        public Action<bool> CameraLocked;
+        public Action<bool> PlayerMoved;
+        public Action PlayerJumped;
+        public Action PlayerAttacked;
+
+        public bool publicGroundedPlayer { get { return groundedPlayer && playerVelocity.y == 0; } }
 
         private void Start()
         {
@@ -113,7 +121,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             //if (!context.performed) return;
             movementInput = context.ReadValue<Vector2>();
-
+            PlayerMoved?.Invoke(movementInput.magnitude > 0);
         }
 
         public void OnJumpInput(InputAction.CallbackContext context)
@@ -136,11 +144,14 @@ namespace TimeDistortion.Gameplay.Handler
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
                 characterController.Move(playerVelocity * Time.unscaledDeltaTime);
                 groundedPlayer = false;
+                PlayerJumped?.Invoke();
             }
         }
 
         public void OnAttackInput(InputAction.CallbackContext context)
         {
+            if (!context.started) return;
+            
             HandleAttackInput();
         }
 
@@ -170,6 +181,7 @@ namespace TimeDistortion.Gameplay.Handler
                 {
                     cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
                     lockOnFlag = true;
+                    CameraLocked?.Invoke(true);
                 }
             }
             else if (lockOnFlag)
@@ -177,12 +189,14 @@ namespace TimeDistortion.Gameplay.Handler
                 lockOnInput = false;
                 lockOnFlag = false;
                 cameraHandler.ClearLockOnTargets();
+                CameraLocked?.Invoke(false);
             }
         }
 
         private void HandleAttackInput()
         {
             attacker.HandleLightAttack();
+            PlayerAttacked?.Invoke();
             Debug.Log("Ataque");
         }
 
