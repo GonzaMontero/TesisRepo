@@ -29,8 +29,9 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float rotationSmoothing = 1;
         [SerializeField] float weight;
         [SerializeField] float jumpHeight = 1.0f;
-        [SerializeField] BoxCollider col;
         private float gravityValue = -9.81f;
+
+        Vector3 lastPos;
 
         private void Start()
         {
@@ -48,16 +49,52 @@ namespace TimeDistortion.Gameplay.Handler
             // && playerVelocity.y < 0
             //Calculate Y Movement
 
-            //groundedPlayer = characterController.isGrounded;
+            if (lastPos != transform.position && groundedPlayer == true)
+            {
+                groundedPlayer = characterController.isGrounded;
 
-            if (groundedPlayer)
-            {
-                playerVelocity.y = 0f;
+                if (groundedPlayer)
+                {
+                    playerVelocity.y = 0f;
+                }
+                else
+                {
+                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
+                }
             }
-            else
+            else if (lastPos != transform.position && groundedPlayer == false)
             {
-                playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
+                groundedPlayer = characterController.isGrounded;
+
+                if (groundedPlayer)
+                {
+                    playerVelocity.y = 0f;
+                }
+                else
+                {
+                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
+                }
             }
+            else if (lastPos == transform.position && groundedPlayer == true)
+            {
+
+            }
+            else if (lastPos == transform.position && groundedPlayer == false)
+            {
+                groundedPlayer = characterController.isGrounded;
+
+                if (groundedPlayer)
+                {
+                    playerVelocity.y = 0f;
+                }
+                else
+                {
+                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
+                }
+            }
+
+
+
 
             characterController.Move(playerVelocity * Time.unscaledDeltaTime);
 
@@ -74,7 +111,7 @@ namespace TimeDistortion.Gameplay.Handler
                 //if (move.magnitude > 0)
                 //{
 
-                move.y = 0;                
+                move.y = 0;
                 RotateCharacter(move);
                 //gameObject.transform.forward = move;
                 //}
@@ -86,6 +123,8 @@ namespace TimeDistortion.Gameplay.Handler
                 cameraHandler.FollowTarget(delta);
                 cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
             }
+
+            lastPos = transform.position;
         }
 
         public void OnMoveCameraInput(InputAction.CallbackContext context)
@@ -109,23 +148,24 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnJumpInput(InputAction.CallbackContext context)
         {
             if (!context.started)
-            {               
+            {
                 Debug.Log("Jump Key Not Detected");
                 return;
             }
-            
-            if (!groundedPlayer) {
+
+            if (!groundedPlayer)
+            {
                 Debug.Log("Is Not Grounded");
                 return;
-            } 
-            
+            }
+
             if (playerVelocity.y == 0)
             {
                 Debug.Log("Jumped");
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
                 characterController.Move(playerVelocity * Time.unscaledDeltaTime);
                 groundedPlayer = false;
-            }                                 
+            }
         }
 
         public void OnAttackInput(InputAction.CallbackContext context)
@@ -180,7 +220,7 @@ namespace TimeDistortion.Gameplay.Handler
         bool PlayerIsOnFloor()
         {
             /*bool*/
-            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, floorheight, floorLayer);           
+            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, floorheight, floorLayer);
 
 #if UNITY_EDITOR
             if (!playerOnFloor)
