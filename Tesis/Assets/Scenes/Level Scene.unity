@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43692294, g: 0.48458737, b: 0.5648461, a: 1}
+  m_IndirectSpecularColor: {r: 0.43692318, g: 0.48458797, b: 0.5648468, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -41865,13 +41865,15 @@ GameObject:
   m_Component:
   - component: {fileID: 827911628}
   - component: {fileID: 827911629}
+  - component: {fileID: 827911630}
+  - component: {fileID: 827911631}
   m_Layer: 10
   m_Name: Blade Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &827911628
 Transform:
   m_ObjectHideFlags: 0
@@ -41897,8 +41899,38 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.4971051, z: 1.7531319}
-  m_Center: {x: 0, y: 0.09343195, z: -0.7942314}
+  m_Size: {x: 1.8169899, y: 1.4971051, z: 1.7531319}
+  m_Center: {x: 0.050722122, y: 0.09343195, z: -0.7942314}
+--- !u!54 &827911630
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827911627}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &827911631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827911627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69eb6802efc1a64e826c00d3c06d875, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitRange: {fileID: 827911629}
+  damage: 1
 --- !u!1001 &828625555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49709,6 +49741,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1014071001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014070999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920621fbb9b5c644884f35ee9630151e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1014071002
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014070999}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6095244, y: 1.0870347, z: 0.21639557}
+  m_Center: {x: -0.024173498, y: 0.43927008, z: -0.10819777}
 --- !u!1001 &1015337819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55994,17 +56051,17 @@ PrefabInstance:
     - target: {fileID: 3311622116438351979, guid: 09e8f3c64581f10419525ad71bfce8a4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.994318
+      value: -32.18
       objectReference: {fileID: 0}
     - target: {fileID: 3311622116438351979, guid: 09e8f3c64581f10419525ad71bfce8a4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.838
+      value: 12.78
       objectReference: {fileID: 0}
     - target: {fileID: 3311622116438351979, guid: 09e8f3c64581f10419525ad71bfce8a4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.53
+      value: 1.85
       objectReference: {fileID: 0}
     - target: {fileID: 3311622116438351979, guid: 09e8f3c64581f10419525ad71bfce8a4,
         type: 3}
@@ -98943,17 +99000,17 @@ PrefabInstance:
     - target: {fileID: 4759590307332305030, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.994318
+      value: -32.18
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305030, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.772
+      value: 12.714
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305030, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.53
+      value: 1.8500004
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305030, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
