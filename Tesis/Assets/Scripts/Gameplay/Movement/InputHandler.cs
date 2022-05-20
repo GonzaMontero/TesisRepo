@@ -46,13 +46,17 @@ namespace TimeDistortion.Gameplay.Handler
             float delta = Time.unscaledDeltaTime;
             // && playerVelocity.y < 0
             //Calculate Y Movement
-            groundedPlayer = PlayerIsOnFloor();
+
+            groundedPlayer = characterController.isGrounded;
             if (groundedPlayer)
             {
                 playerVelocity.y = 0f;
             }
+            else
+            {
+                playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
+            }
 
-            playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
             characterController.Move(playerVelocity * Time.unscaledDeltaTime);
 
             //Calculate XZ Movement
@@ -100,12 +104,15 @@ namespace TimeDistortion.Gameplay.Handler
         }
         public void OnJumpInput(InputAction.CallbackContext context)
         {
-            Debug.Log("TryJump");
             if (!context.started) return;
+            Debug.Log("Try Jump!");
             if (!groundedPlayer) return;
-            Debug.Log("Jumped");
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            characterController.Move(playerVelocity * Time.unscaledDeltaTime);
+            if (playerVelocity.y == 0)
+            {
+                Debug.Log("Jumped");
+                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+                characterController.Move(playerVelocity * Time.unscaledDeltaTime);
+            }                                 
         }
         public void OnAttackInput(InputAction.CallbackContext context)
         {
@@ -153,19 +160,20 @@ namespace TimeDistortion.Gameplay.Handler
             attacker.HandleLightAttack();
             Debug.Log("Ataque");
         }
+
         [SerializeField] float floorheight;
         [SerializeField] LayerMask floorLayer;
         bool PlayerIsOnFloor()
         {
             /*bool*/
-            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, floorheight, floorLayer);
+            bool playerOnFloor = Physics.Raycast(transform.position, -transform.up, floorheight, floorLayer);           
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (!playerOnFloor)
             {
                 Debug.Log("Player Not On Floor!");
             }
-        #endif
+#endif
 
             return playerOnFloor;
         }
