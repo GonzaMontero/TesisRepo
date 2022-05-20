@@ -106,7 +106,16 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else if (lastPos == transform.position && groundedPlayer == true)
             {
+                groundedPlayer = characterController.isGrounded;
 
+                if (groundedPlayer)
+                {
+                    playerVelocity.y = 0f;
+                }
+                else
+                {
+                    playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
+                }
             }
             else if (lastPos == transform.position && groundedPlayer == false)
             {
