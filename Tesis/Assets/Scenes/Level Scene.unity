@@ -9742,6 +9742,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
         type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
+        type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
@@ -23731,7 +23736,7 @@ GameObject:
   - component: {fileID: 456131931}
   - component: {fileID: 456131932}
   - component: {fileID: 456131933}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FloorSet (7)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -34104,7 +34109,7 @@ GameObject:
   - component: {fileID: 662752330}
   - component: {fileID: 662752331}
   - component: {fileID: 662752332}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FloorSet (3)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -42240,7 +42245,7 @@ GameObject:
   - component: {fileID: 839240180}
   - component: {fileID: 839240181}
   - component: {fileID: 839240182}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FloorSet (4)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -63860,7 +63865,7 @@ GameObject:
   - component: {fileID: 1291655705}
   - component: {fileID: 1291655706}
   - component: {fileID: 1291655707}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FloorSet (5)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -66785,7 +66790,7 @@ GameObject:
   - component: {fileID: 1349602843}
   - component: {fileID: 1349602844}
   - component: {fileID: 1349602845}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FloorSet
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -73059,6 +73064,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
         type: 3}
@@ -87937,7 +87947,7 @@ GameObject:
   - component: {fileID: 1784783693}
   - component: {fileID: 1784783694}
   - component: {fileID: 1784783695}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FloorSet (2)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -94307,6 +94317,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
         type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
+        type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
@@ -97543,7 +97558,7 @@ PrefabInstance:
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: groundLayer.m_Bits
-      value: 1
+      value: 4096
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305029, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
@@ -103949,6 +103964,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pillar (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 16038835297913163, guid: 7c7baabdbc078cb4098d5880fc72c0f3,
         type: 3}
