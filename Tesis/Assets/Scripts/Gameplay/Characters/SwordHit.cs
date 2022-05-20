@@ -14,26 +14,26 @@ public class SwordHit : MonoBehaviour
         hitRange = GetComponent<BoxCollider>();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         if (gameObject.transform.tag == "Player")
             return;
 
         IHittable hit;
-        hit = collision.gameObject.GetComponent<IHittable>();
+        hit = other.gameObject.GetComponent<IHittable>();
         if (hit != null)
         {
             hit.GetHitted(damage);
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
         if (gameObject.transform.tag == "Player")
             return;
 
         IHittable hit;
-        hit = collision.gameObject.GetComponent<IHittable>();
+        hit = other.gameObject.GetComponent<IHittable>();
         if (hit != null)
         {
             hit.GetHitted(damage);
