@@ -24,7 +24,7 @@ namespace TimeDistortion.Gameplay.Handler
         Vector2 movementInput;
 
         private Vector3 playerVelocity;
-        private bool groundedPlayer;
+        [SerializeField] bool groundedPlayer;
         [SerializeField] float playerSpeed = 15;
         [SerializeField] float rotationSmoothing = 1;
         [SerializeField] float weight;
@@ -47,7 +47,8 @@ namespace TimeDistortion.Gameplay.Handler
             // && playerVelocity.y < 0
             //Calculate Y Movement
 
-            groundedPlayer = characterController.isGrounded;
+            //groundedPlayer = characterController.isGrounded;
+
             if (groundedPlayer)
             {
                 playerVelocity.y = 0f;
@@ -71,7 +72,8 @@ namespace TimeDistortion.Gameplay.Handler
 
                 //if (move.magnitude > 0)
                 //{
-                move.y = 0;
+
+                move.y = 0;                
                 RotateCharacter(move);
                 //gameObject.transform.forward = move;
                 //}
@@ -102,18 +104,29 @@ namespace TimeDistortion.Gameplay.Handler
             movementInput = context.ReadValue<Vector2>();
 
         }
+
         public void OnJumpInput(InputAction.CallbackContext context)
         {
-            if (!context.started) return;
-            Debug.Log("Try Jump!");
-            if (!groundedPlayer) return;
+            if (!context.started)
+            {               
+                Debug.Log("Jump Key Not Detected");
+                return;
+            }
+            
+            if (!groundedPlayer) {
+                Debug.Log("Is Not Grounded");
+                return;
+            } 
+            
             if (playerVelocity.y == 0)
             {
                 Debug.Log("Jumped");
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
                 characterController.Move(playerVelocity * Time.unscaledDeltaTime);
+                groundedPlayer = false;
             }                                 
         }
+
         public void OnAttackInput(InputAction.CallbackContext context)
         {
             HandleAttackInput();
@@ -176,6 +189,11 @@ namespace TimeDistortion.Gameplay.Handler
 #endif
 
             return playerOnFloor;
+        }
+
+        public void SetGrounded(bool gr)
+        {
+            groundedPlayer = gr;
         }
     }
 }
