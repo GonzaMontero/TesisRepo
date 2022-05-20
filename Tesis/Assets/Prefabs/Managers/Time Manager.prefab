@@ -48,11 +48,12 @@ MonoBehaviour:
   slowableLayers:
     serializedVersion: 2
     m_Bits: 1
+  slowdownDelay: 0.5
   slowdownRange: 50
-  slowdownFactor: 0.1
+  slowdownFactor: 0.05
   slowdownLength: 10
-  slowdownExtraLength: 1
-  cooldownLength: 5
+  slowdownExtraLength: 5
+  cooldownLength: 2
   maxTargets: 1
   targets: []
   currentTarget:
@@ -80,3 +81,6 @@ MonoBehaviour:
   slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
   slowedObjects: []
   auraFadeMod: 0.5
+  newObjectSlowed: {fileID: 0}
+  newObjectUnSlowed: {fileID: 0}
+  newTimer: 0

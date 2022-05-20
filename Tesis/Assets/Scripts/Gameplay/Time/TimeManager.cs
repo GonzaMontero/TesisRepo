@@ -29,6 +29,7 @@ namespace TimeDistortion.Gameplay.Physic
         [Header("Set Values")]
         [SerializeField] Transform player;
         [SerializeField] LayerMask slowableLayers;
+        [SerializeField] float slowdownDelay;
         [SerializeField] float slowdownRange;
         [Tooltip("Speed of SlowMo")]
         [SerializeField] float slowdownFactor;
@@ -53,6 +54,7 @@ namespace TimeDistortion.Gameplay.Physic
         public Action<Transform> ObjectUnSlowed;
 
         public float publicCooldownTimer { get { return cooldownTimer; } }
+        public float publicDelay { get { return slowdownDelay; } }
 
         //Unity Events
         private void Start()
@@ -117,7 +119,9 @@ namespace TimeDistortion.Gameplay.Physic
                 return;
             }
 
-            SlowTarget();
+            //Slow Target after delay
+            Invoke("SlowTarget", slowdownDelay * Time.timeScale);
+            ObjectSlowed?.Invoke(currentTarget.transform, slowdownLength + slowdownExtraLength);
 
             if (targets.Count > maxTargets)
             {
@@ -206,7 +210,6 @@ namespace TimeDistortion.Gameplay.Physic
             targets.Add(currentTarget);
             targetIDs.Add(currentTarget.ID, currentTarget);
             currentTarget.time.TimeChanged(true);
-            ObjectSlowed?.Invoke(currentTarget.transform, slowdownLength + slowdownExtraLength);
 
             //Start Cooldown
             cooldownTimer = 0;

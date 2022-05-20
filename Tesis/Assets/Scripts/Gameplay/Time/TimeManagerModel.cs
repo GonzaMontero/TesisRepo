@@ -30,6 +30,9 @@ namespace TimeDistortion.Gameplay.Physic
         [SerializeField] float auraFadeMod;
         [Header("Runtime Values")]
         [SerializeField] Dictionary<int, SlowMoTarget> slowedObjectsByID;
+        [SerializeField] Transform newObjectSlowed;
+        [SerializeField] Transform newObjectUnSlowed;
+        [SerializeField] float newTimer;
 
         //Unity Events
         private void Start()
@@ -97,44 +100,55 @@ namespace TimeDistortion.Gameplay.Physic
             //Update model Materials
             model.materials = modelMaterials.ToArray();
         }
-
-        //Event Receivers
-        void OnObjectSlowed(Transform objectSlowed, float timer)
+        void ApplyFX()
         {
             //Apply SlowFX to Transform
-            MeshRenderer model = objectSlowed.GetComponent<MeshRenderer>();
+            MeshRenderer model = newObjectSlowed.GetComponent<MeshRenderer>();
             if (model != null)
             {
-                SetSlowAura(model, true, timer);
+                SetSlowAura(model, true, newTimer);
             }
 
             //Apply SlowFX to Children
-            if (objectSlowed.childCount < 1) return;
-            foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
+            if (newObjectSlowed.childCount < 1) return;
+            foreach (var renderer in newObjectSlowed.GetComponentsInChildren<MeshRenderer>())
             {
                 //If Model has FX already, skip
                 if (slowedObjectsByID.ContainsKey(renderer.GetInstanceID())) continue;
-                
-                SetSlowAura(renderer, true, timer);
+
+                SetSlowAura(renderer, true, newTimer);
             }
         }
-        void OnObjectUnSlowed(Transform objectSlowed)
+        void RemoveFX()
         {
             //UnApply SlowFX to Transform
-            MeshRenderer model = objectSlowed.GetComponent<MeshRenderer>();
+            MeshRenderer model = newObjectUnSlowed.GetComponent<MeshRenderer>();
             if (model != null)
             {
                 SetSlowAura(model, false);
             }
 
             //UnApply SlowFX to Children
-            if (objectSlowed.childCount < 1) return;
-            foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
+            if (newObjectUnSlowed.childCount < 1) return;
+            foreach (var renderer in newObjectUnSlowed.GetComponentsInChildren<MeshRenderer>())
             {
                 //If Model doesn't have FX, skip
                 if (!slowedObjectsByID.ContainsKey(renderer.GetInstanceID())) continue;
                 SetSlowAura(renderer, false);
             }
+        }
+
+        //Event Receivers
+        void OnObjectSlowed(Transform objectSlowed, float timer)
+        {
+            newObjectSlowed = objectSlowed;
+            newTimer = timer;
+            Invoke("ApplyFX", manager.publicDelay * Time.timeScale);
+        }
+        void OnObjectUnSlowed(Transform objectSlowed)
+        {
+            newObjectUnSlowed = objectSlowed;
+            Invoke("RemoveFX", manager.publicDelay * Time.timeScale);
         }
     }
 }
