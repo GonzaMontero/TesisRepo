@@ -34,11 +34,11 @@ namespace TimeDistortion.Gameplay.Props
 
             if ((other.transform.root.tag != "Player") && other.transform != transform.parent)
             {
-                Debug.Log("KILL PROJECTILE");
+                //Debug.Log("KILL PROJECTILE");
                 GetDestroyed();
             }
 
-            Debug.Log("HIT PROJECTILE");
+            //Debug.Log("HIT PROJECTILE");
         }
 
         //Methods
