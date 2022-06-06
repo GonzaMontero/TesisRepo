@@ -15,6 +15,9 @@ namespace TimeDistortion.Gameplay.Handler
         public bool jumpInput;
         public bool lockOnInput;
 
+        public float turnSmoothTime = 0.1f;
+        public float turnSmoothVelocity;
+
         public bool lockOnFlag;
 
         PlayerControls inputActions;
@@ -66,22 +69,30 @@ namespace TimeDistortion.Gameplay.Handler
             characterController.Move(playerVelocity * Time.unscaledDeltaTime);
 
             //Calculate XZ Movement
-            if (movementInput.magnitude > 0)
+            if (movementInput.magnitude > 0.1f)
             {
-                Vector3 moveX = Camera.main.transform.right * movementInput.x;
-                Vector3 moveZ = Camera.main.transform.forward * movementInput.y;
+                //Vector3 moveX = Camera.main.transform.right * movementInput.x;
+                //Vector3 moveZ = Camera.main.transform.forward * movementInput.y;
 
-                Vector3 move = moveZ + moveX;
+                //Vector3 move = moveZ + moveX;
 
-                characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
+                //characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
 
-                //if (move.magnitude > 0)
-                //{
+                ////if (move.magnitude > 0)
+                ////{
 
-                move.y = 0;
-                RotateCharacter(move);
-                //gameObject.transform.forward = move;
-                //}
+                //move.y = 0;
+                //RotateCharacter(move);
+                ////gameObject.transform.forward = move;
+                ////}
+
+                // Con este método solo toma angles, no afecta al grounded
+                float targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                characterController.Move(moveDir.normalized * playerSpeed * Time.unscaledDeltaTime);
             }
 
             //Calculate Camera Movement

@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.27661088, g: 0.5283019, b: 0.5226802, a: 1}
+  m_FogColor: {r: 0.764151, g: 0.6502415, b: 0.50102353, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43692294, g: 0.48458737, b: 0.5648461, a: 1}
+  m_IndirectSpecularColor: {r: 0.43692318, g: 0.48458797, b: 0.5648468, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -22229,13 +22229,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1141164127441717049, guid: 5fe54c831b72f614490912f64cf6c46f,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.8000488
-      objectReference: {fileID: 0}
-    - target: {fileID: 1141164127441717049, guid: 5fe54c831b72f614490912f64cf6c46f,
-        type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.39996338
+      value: 0.4000244
       objectReference: {fileID: 0}
     - target: {fileID: 2499175627798808813, guid: 5fe54c831b72f614490912f64cf6c46f,
         type: 3}
@@ -22271,11 +22266,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.9622642
-      objectReference: {fileID: 0}
-    - target: {fileID: 2499175628099961456, guid: 5fe54c831b72f614490912f64cf6c46f,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 112.34003
       objectReference: {fileID: 0}
     - target: {fileID: 2499175628099961456, guid: 5fe54c831b72f614490912f64cf6c46f,
         type: 3}
@@ -99295,6 +99285,11 @@ PrefabInstance:
         type: 3}
       propertyPath: groundRadius
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
+        type: 3}
+      propertyPath: turnSmoothTime
+      value: 0.0065
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
