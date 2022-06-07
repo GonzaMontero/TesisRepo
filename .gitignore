@@ -79,8 +79,5 @@
 # Log files can be ignored.
 */fmod_editor.log
 
-#Ignore Temporary files from FMOD project
-*/FMOD/.cache
-*/FMOD/.unsaved
-*/FMOD/.user
-*/FMOD/Build
+#Ignore FMOD project (has to be manually asigned)
+*/FMOD
