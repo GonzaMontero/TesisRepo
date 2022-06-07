@@ -102,8 +102,23 @@ namespace TimeDistortion.Gameplay.Handler
                 cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
             }
 
-            groundedPlayer = Physics.CheckSphere(groundcheck.position, groundRadius, (int)groundLayer);
+            Collider[] ground;
+            ground = Physics.OverlapSphere(groundcheck.position, groundRadius, (int)groundLayer);
+            groundedPlayer = ground.Length > 0;
 
+            bool inPlatform = false;
+            foreach (Collider c in ground)
+            {
+               if (c.gameObject.tag == "Platform")
+                {
+                    inPlatform = true;
+                    transform.parent = c.transform;
+                }
+            }
+            if (!inPlatform)
+            {
+                    transform.parent = null;
+            }
             if (groundedPlayer)
             {
                 playerVelocity.y = 0f;
