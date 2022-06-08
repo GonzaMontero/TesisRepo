@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{aea3c2d4-52d7-4c39-89a1-3fdcb3ad7586}">
+		<property name="assetPath">
+			<value>activate_slowmo.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.2381458333333333</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{f4e66fb5-1bd2-4d15-934e-26461ae1f5ed}</destination>
+		</relationship>
+	</object>
+</objects>
