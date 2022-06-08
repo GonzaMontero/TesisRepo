@@ -70,8 +70,8 @@ namespace TimeDistortion.Gameplay.Handler
 
             #endregion
 
-            anim.SetFloat(vertical, v, 0.1f, Time.unscaledDeltaTime);
-            anim.SetFloat(horizontal, y, 0.1f, Time.unscaledDeltaTime);
+            anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
+            anim.SetFloat(horizontal, y, 0.1f, Time.deltaTime);
         }
 
         public void CanRotate()

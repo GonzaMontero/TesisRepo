@@ -92,9 +92,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   damage: 5
+  affectedByTime: 0
   player: {fileID: 0}
-  slowed: 0
   speedDelta: 0
+  localTime: 1
 --- !u!114 &8863633881001339765
 MonoBehaviour:
   m_ObjectHideFlags: 0

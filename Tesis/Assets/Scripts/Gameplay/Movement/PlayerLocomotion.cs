@@ -35,7 +35,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void Update()
         {
-            float delta = Time.unscaledDeltaTime;
+            float delta = Time.deltaTime;
 
             //inputHandler.TickInput(delta);
 

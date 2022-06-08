@@ -62,11 +62,11 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Update()
         {
-            float delta = Time.unscaledDeltaTime;
+            float delta = Time.deltaTime;
             // && playerVelocity.y < 0
             //Calculate Y Movement            
 
-            characterController.Move(playerVelocity * Time.unscaledDeltaTime);
+            characterController.Move(playerVelocity * Time.deltaTime);
 
             //Calculate XZ Movement
             if (movementInput.magnitude > 0.1f)
@@ -76,7 +76,7 @@ namespace TimeDistortion.Gameplay.Handler
 
                 //Vector3 move = moveZ + moveX;
 
-                //characterController.Move(move * Time.unscaledDeltaTime * playerSpeed);
+                //characterController.Move(move * Time.deltaTime * playerSpeed);
 
                 ////if (move.magnitude > 0)
                 ////{
@@ -92,7 +92,7 @@ namespace TimeDistortion.Gameplay.Handler
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                characterController.Move(moveDir.normalized * playerSpeed * Time.unscaledDeltaTime);
+                characterController.Move(moveDir.normalized * playerSpeed * Time.deltaTime);
             }
 
             //Calculate Camera Movement
@@ -110,7 +110,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else
             {
-                playerVelocity.y += gravityValue * Time.unscaledDeltaTime * weight;
+                playerVelocity.y += gravityValue * Time.deltaTime * weight;
             }
 
 
@@ -153,7 +153,7 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 Debug.Log("Jumped");
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-                characterController.Move(playerVelocity * Time.unscaledDeltaTime);
+                characterController.Move(playerVelocity * Time.deltaTime);
                 groundedPlayer = false;
                 PlayerJumped?.Invoke();
             }

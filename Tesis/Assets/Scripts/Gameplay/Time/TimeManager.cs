@@ -64,9 +64,6 @@ namespace TimeDistortion.Gameplay.Physic
                 player = GameObject.FindGameObjectWithTag("Player").transform;
             }
 
-            //Set Time
-            Time.timeScale = slowdownFactor;
-
             //Set Camera
             mainCam = Camera.main;
             centerOfScreen = new Vector2(mainCam.pixelWidth / 2, mainCam.pixelHeight / 2);
@@ -209,7 +206,7 @@ namespace TimeDistortion.Gameplay.Physic
             //Add target to list and slow it
             targets.Add(currentTarget);
             targetIDs.Add(currentTarget.ID, currentTarget);
-            currentTarget.time.TimeChanged(true);
+            currentTarget.time.TimeChanged(slowdownFactor);
 
             //Start Cooldown
             cooldownTimer = 0;
@@ -236,7 +233,7 @@ namespace TimeDistortion.Gameplay.Physic
             //Run Cooldown Timer
             if (cooldownTimer < 1)
             {
-                cooldownTimer += Time.unscaledDeltaTime / cooldownLength;
+                cooldownTimer += Time.deltaTime / cooldownLength;
             }
 
             //Run SlowMo Timers from targets
@@ -252,7 +249,7 @@ namespace TimeDistortion.Gameplay.Physic
                     continue;
                 }
 
-                targets[i].timer += Time.unscaledDeltaTime / slowdownLength;
+                targets[i].timer += Time.deltaTime / slowdownLength;
                 //Debug.Log(targets[i] + " timer: " + targets[i].timer);
                 i++;
             }
@@ -283,7 +280,7 @@ namespace TimeDistortion.Gameplay.Physic
 
             //Update Target Time
             //Debug.Log("Target UnSlowed at " + Time.realtimeSinceStartup + "!");
-            target.time.TimeChanged(false);
+            target.time.TimeChanged(1);
             ObjectUnSlowed?.Invoke(target.transform);
         }
     }

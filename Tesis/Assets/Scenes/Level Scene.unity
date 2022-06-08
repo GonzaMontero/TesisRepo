@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43692318, g: 0.48458797, b: 0.5648468, a: 1}
+  m_IndirectSpecularColor: {r: 0.43692294, g: 0.48458737, b: 0.5648461, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -51452,6 +51452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+  affectedByTime: 0
 --- !u!1001 &1043726293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59378,9 +59379,10 @@ MonoBehaviour:
   platformSpeed: 2.5
   timeBetweenPlatforms: 0
   numberOfPlatforms: 1
+  affectedByTime: 1
   platforms: []
   timer: 0
-  slowed: 0
+  localTime: 1
 --- !u!65 &1185078162
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92288,11 +92290,12 @@ MonoBehaviour:
     type: 3}
   platformsEmpty: {fileID: 0}
   platformSpeed: 2.5
-  timeBetweenPlatforms: 5
+  timeBetweenPlatforms: 2
   numberOfPlatforms: 1
+  affectedByTime: 1
   platforms: []
   timer: 0
-  slowed: 0
+  localTime: 1
 --- !u!65 &1850121740
 BoxCollider:
   m_ObjectHideFlags: 0

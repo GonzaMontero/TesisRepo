@@ -54,7 +54,7 @@ namespace TimeDistortion.Gameplay.Physic
             {
                 
                 Color matColor = slowAuraMaterial.color;
-                slowedObject.timer -= Time.unscaledDeltaTime * auraFadeMod;
+                slowedObject.timer -= Time.deltaTime * auraFadeMod;
                 matColor.a = matColor.a * (slowedObject.timer / slowedObject.maxTimer);
                 slowedObject.material.color = matColor;
             }

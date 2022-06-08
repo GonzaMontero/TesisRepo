@@ -8,10 +8,11 @@ namespace TimeDistortion.Gameplay.Props
         [Header("Set Values")]
         [SerializeField] float speed;
         [SerializeField] int damage;
+        [SerializeField] bool affectedByTime = true;
         [Header("Runtime Values")]
         [SerializeField] Transform player;
-        [SerializeField] bool slowed;
         [SerializeField] float speedDelta;
+        [SerializeField] float localTime = 1;
 
         public Action Destroyed;
 
@@ -44,7 +45,7 @@ namespace TimeDistortion.Gameplay.Props
         //Methods
         void Move()
         {
-            float delta = (slowed ? Time.deltaTime : Time.unscaledDeltaTime);
+            float delta = localTime * Time.deltaTime;
             speedDelta = delta;
             transform.Translate(transform.forward * speed * delta, Space.World);
         }
@@ -73,9 +74,10 @@ namespace TimeDistortion.Gameplay.Props
             Debug.Log(transform + "'s new forward " + transform.forward);
         }
 
-        public void TimeChanged(bool useModifiedTime)
+        public void TimeChanged(float newTime)
         {
-            slowed = useModifiedTime;
+            if (!affectedByTime) return;
+            localTime = newTime;
         }
     }
 }

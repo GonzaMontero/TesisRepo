@@ -176,7 +176,7 @@ namespace TimeDistortion.Gameplay.Handler
             currentLockOnTarget = null;
 
             cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue, cameraTransformPosition.z);
-            //cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, preLockOnTransform, Time.unscaledDeltaTime);
+            //cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, preLockOnTransform, Time.deltaTime);
             transform.localRotation = rot[0];
             cameraPivotTransform.localRotation = rot[1];
             cameraTransform.localRotation = rot[2];

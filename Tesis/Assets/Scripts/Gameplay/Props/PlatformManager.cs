@@ -25,10 +25,11 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] float platformSpeed;
         [SerializeField] float timeBetweenPlatforms;
         [SerializeField] [Tooltip("Max Platforms in screen")] int numberOfPlatforms;
+        [SerializeField] bool affectedByTime = true;
         [Header("Runtime Values")]
         [SerializeField] List<Platform> platforms;
         [SerializeField] float timer;
-        [SerializeField] bool slowed;
+        [SerializeField] float localTime = 1;
 
         //Unity Events
         private void Start()
@@ -50,7 +51,7 @@ namespace TimeDistortion.Gameplay.Props
 
             //Instantiate one platform after X seconds had passed
             if (platforms.Count >= numberOfPlatforms) return;
-            timer += Time.unscaledDeltaTime;
+            timer += localTime * Time.deltaTime;
             if (timer > timeBetweenPlatforms)
             {
                 CreatePlatform();
@@ -70,7 +71,7 @@ namespace TimeDistortion.Gameplay.Props
             Transform platTransform = platform.transform;
 
             //Get Time
-            float timeValue = slowed ? Time.deltaTime : Time.unscaledDeltaTime;
+            float timeValue = localTime * Time.deltaTime;
 
             //Calculate Distances
             Vector3 platNextStepDistance = steps[platform.step] - platTransform.localPosition;
@@ -93,9 +94,10 @@ namespace TimeDistortion.Gameplay.Props
         }
 
         //Interface Implementations
-        public void TimeChanged(bool useModifiedTime)
+        public void TimeChanged(float newTime)
         {
-            slowed = useModifiedTime;
+            if (!affectedByTime) return;
+            localTime = newTime;
         }
     }
 }

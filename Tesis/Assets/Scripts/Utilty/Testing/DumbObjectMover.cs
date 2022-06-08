@@ -9,7 +9,7 @@ namespace TimeDistortion.Testing
         [SerializeField] float speed;
         [Header("Runtime Values")]
         [SerializeField] Rigidbody rb;
-        [SerializeField] bool usingModifiedTime;
+        [SerializeField] internal float localTime;
 
         //Unity Events
         private void Start()
@@ -21,14 +21,14 @@ namespace TimeDistortion.Testing
         }
         void Update()
         {
-            float deltaTime = usingModifiedTime ? Time.deltaTime : Time.unscaledDeltaTime;
+            float deltaTime = localTime * Time.deltaTime;
             transform.Translate(direction.normalized * speed * deltaTime);
         }
 
         //Interface Implementations
-        public void TimeChanged(bool useModifiedTime)
+        public void TimeChanged(float newTime)
         {
-            usingModifiedTime = useModifiedTime;
+            localTime = newTime;
             //rb.
         }
     }
