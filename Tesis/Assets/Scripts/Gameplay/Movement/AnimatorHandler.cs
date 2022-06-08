@@ -70,7 +70,7 @@ namespace TimeDistortion.Gameplay.Handler
 
             #endregion
 
-            anim.SetFloat(vertical, v, 0.1f, Time.unscaledDeltaTime);
+            anim.SetFloat(vertical, v, 0.1f, Time.unscaledDeltaTime); //animator
             anim.SetFloat(horizontal, y, 0.1f, Time.unscaledDeltaTime);
         }
 
