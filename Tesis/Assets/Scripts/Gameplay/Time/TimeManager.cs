@@ -12,10 +12,10 @@ namespace TimeDistortion.Gameplay.Physic
         [Serializable]
         class SlowMoTarget
         {
-            public Transform transform;
-            public ITimed time;
-            public float timer;
-            public int ID;
+            public Transform transform = null;
+            public ITimed time = null;
+            public float timer = 0;
+            public int ID = 0;
 
             public SlowMoTarget(Transform newtransform, ITimed newTarget)
             {
@@ -117,7 +117,7 @@ namespace TimeDistortion.Gameplay.Physic
             }
 
             //Slow Target after delay
-            Invoke("SlowTarget", slowdownDelay * Time.timeScale);
+            SlowTarget(currentTarget);
             ObjectSlowed?.Invoke(currentTarget.transform, slowdownLength + slowdownExtraLength);
 
             if (targets.Count > maxTargets)
@@ -201,15 +201,16 @@ namespace TimeDistortion.Gameplay.Physic
             //Debug.Log("Target Found!");
             TargetInScope?.Invoke(true);
         }
-        void SlowTarget()
+        void SlowTarget(SlowMoTarget target)
         {
-            //Add target to list and slow it
+            if (target.timer > 0) return; //Check if already slowing the object
+
+            //Add target to list
             targets.Add(currentTarget);
             targetIDs.Add(currentTarget.ID, currentTarget);
-            currentTarget.time.TimeChanged(slowdownFactor);
 
-            //Start Cooldown
-            cooldownTimer = 0;
+            //Slow
+            StartCoroutine(SlowRoutine(target));
         }
         void DeSlowTarget(SlowMoTarget target)
         {
@@ -269,6 +270,16 @@ namespace TimeDistortion.Gameplay.Physic
         }
 
         //Routines
+        IEnumerator SlowRoutine(SlowMoTarget target)
+        {
+            yield return new WaitForSecondsRealtime(slowdownDelay * Time.timeScale);
+            
+            //Slow target
+            target.time.TimeChanged(slowdownFactor);
+
+            //Start Cooldown
+            cooldownTimer = 0;
+        }
         IEnumerator DeSlowRoutine(SlowMoTarget target)
         {
             //Debug.Log("Target Unslowing at " + Time.realtimeSinceStartup + "!");
