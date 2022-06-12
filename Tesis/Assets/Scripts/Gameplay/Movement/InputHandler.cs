@@ -22,7 +22,6 @@ namespace TimeDistortion.Gameplay.Handler
 
         PlayerControls inputActions;
         CameraHandler cameraHandler;
-        PlayerAttacker attacker;
         CharacterController characterController;
 
         Vector2 movementInput;
@@ -40,6 +39,11 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] LayerMask groundLayer;
         [SerializeField] float groundRadius;
 
+        [SerializeField] GameObject attackHitBox;
+        [SerializeField] float attackDuration;
+        [SerializeField] float attackStartUp;
+        private bool attacking = false;
+
         Vector3 lastPos;
 
         public Action<bool> CameraLocked;
@@ -52,7 +56,6 @@ namespace TimeDistortion.Gameplay.Handler
         private void Start()
         {
             cameraHandler = CameraHandler.singleton;
-            attacker = GetComponent<PlayerAttacker>();
             characterController = GetComponent<CharacterController>();
 
             Cursor.lockState = CursorLockMode.Locked;
@@ -161,8 +164,40 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnAttackInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
-            
+            if (attacking) return;
+
+            attacking = true;
             HandleAttackInput();
+        }
+
+        private void HandleAttackInput()
+        {
+            if (!publicGroundedPlayer)
+                return;
+
+            if (attackHitBox.activeSelf)
+                return;
+
+            if (attackHitBox.activeSelf == false)
+            {                
+                Invoke("StartLightAttack", attackStartUp * Time.timeScale);
+                PlayerAttacked?.Invoke();
+            }  
+        }
+
+        public void StartLightAttack()
+        {
+            attackHitBox.SetActive(true);
+            Invoke("StopLightAttack", attackDuration * Time.timeScale);
+        }
+
+        public void StopLightAttack()
+        {
+            if (attackHitBox.activeSelf == true)
+            {
+                attackHitBox.SetActive(false);
+                attacking = false;
+            }
         }
 
         //private void MoveInput(float delta)
@@ -203,13 +238,6 @@ namespace TimeDistortion.Gameplay.Handler
             }
         }
 
-        private void HandleAttackInput()
-        {
-            attacker.HandleLightAttack();
-            PlayerAttacked?.Invoke();
-            Debug.Log("Ataque");
-        }
-
         bool PlayerIsFlying()
         {
             RaycastHit raycastHit;
@@ -248,5 +276,7 @@ namespace TimeDistortion.Gameplay.Handler
                 groundedPlayer = false;
             }
         }
+
+
     }
 }
