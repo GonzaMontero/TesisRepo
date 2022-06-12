@@ -154,6 +154,8 @@ namespace TimeDistortion.Gameplay.Handler
             if (playerVelocity.y == 0)
             {
                 Debug.Log("Jumped");
+                if (attacking)
+                    StopLightAttack();
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
                 characterController.Move(playerVelocity * Time.unscaledDeltaTime);
                 groundedPlayer = false;
