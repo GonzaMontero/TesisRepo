@@ -146,6 +146,9 @@ namespace TimeDistortion.Gameplay.Handler
 
                 if (character != null)
                 {
+                    EnemyTarget target = colliders[i].GetComponent<EnemyTarget>();
+                    if(target!=null)
+                        colliders[i].GetComponent<EnemyTarget>().isFollowed = true;
                     Vector3 lockTargetDIrection = character.transform.position - targetTransform.position;
                     float distanceFromTarget = Vector3.Distance(targetTransform.position,character.transform.position);
                     float viewableAngle = Vector3.Angle(lockTargetDIrection, cameraTransform.forward);
@@ -171,12 +174,17 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void ClearLockOnTargets()
         {
+            if (availableTargets.Count > 0)
+            {
+                EnemyTarget target = availableTargets[0].GetComponent<EnemyTarget>();
+                if (target != null)
+                    target.isFollowed = false;
+            }
             availableTargets.Clear();
             nearestLockOnTarget = null;
             currentLockOnTarget = null;
 
             cameraTransform.localPosition = new Vector3(cameraTransformPosition.x, Yvalue, cameraTransformPosition.z);
-            //cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, preLockOnTransform, Time.unscaledDeltaTime);
             transform.localRotation = rot[0];
             cameraPivotTransform.localRotation = rot[1];
             cameraTransform.localRotation = rot[2];

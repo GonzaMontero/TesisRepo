@@ -240,6 +240,14 @@ namespace TimeDistortion.Gameplay.Handler
             }
         }
 
+        public void StopLockOn()
+        {
+            lockOnInput = false;
+            lockOnFlag = false;
+            cameraHandler.ClearLockOnTargets();
+            CameraLocked?.Invoke(false);
+        }
+
         bool PlayerIsFlying()
         {
             RaycastHit raycastHit;
@@ -278,7 +286,5 @@ namespace TimeDistortion.Gameplay.Handler
                 groundedPlayer = false;
             }
         }
-
-
     }
 }

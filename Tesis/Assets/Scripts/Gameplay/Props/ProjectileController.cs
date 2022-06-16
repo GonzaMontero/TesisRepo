@@ -12,6 +12,10 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] Transform player;
         [SerializeField] bool slowed;
         [SerializeField] float speedDelta;
+        [Header("Rotation Values")]
+        [SerializeField] float turnSmoothVelocity;
+        [SerializeField] float turnSmoothTime;
+
 
         public Action Destroyed;
 
@@ -64,13 +68,7 @@ namespace TimeDistortion.Gameplay.Props
         //Interface Implementations
         public void GetHitted(int damage)
         {
-            //if (!PlayerIsClose() && damage > 0)
-            //{
-            //    GetDestroyed();
-            //}
-            Debug.Log(transform + "'s old forward " + transform.forward);
-            transform.forward = Camera.main.transform.forward;
-            Debug.Log(transform + "'s new forward " + transform.forward);
+            transform.forward = player.transform.forward;
         }
 
         public void TimeChanged(bool useModifiedTime)

@@ -95,6 +95,8 @@ MonoBehaviour:
   player: {fileID: 0}
   slowed: 0
   speedDelta: 0
+  turnSmoothVelocity: 1
+  turnSmoothTime: 0
 --- !u!114 &8863633881001339765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockOnTransform: {fileID: 7513699676203479157}
+  isFollowed: 0
 --- !u!1001 &7775773491129483658
 PrefabInstance:
   m_ObjectHideFlags: 0

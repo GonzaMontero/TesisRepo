@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TimeDistortion.Gameplay.Handler;
 
 namespace TimeDistortion.Gameplay.Props
 {
@@ -12,6 +13,9 @@ namespace TimeDistortion.Gameplay.Props
         [Header("Runtime Values")]
         [SerializeField] float timer;
         [SerializeField] int currentProjectiles;
+        [Header("Lock On Values")]
+        [SerializeField] CameraHandler mainCam;
+        [SerializeField] InputHandler player;
 
         //Unity Events
         private void Start()
@@ -21,6 +25,7 @@ namespace TimeDistortion.Gameplay.Props
                 projectilesEmpty = transform;
             }
         }
+
         private void Update()
         {
             if (timer >= timeBetweenProjectiles)
@@ -49,6 +54,7 @@ namespace TimeDistortion.Gameplay.Props
 
             //Link Actions
             proj.Destroyed += OnProjectileDestroyed;
+            proj.GetComponent<EnemyTarget>().SetValues(player);
 
             //Increase Counter
             currentProjectiles++;
