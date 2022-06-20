@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Universal.Singletons;
 
@@ -100,37 +101,37 @@ namespace TimeDistortion.Gameplay.Physic
             //Update model Materials
             model.materials = modelMaterials.ToArray();
         }
-        void ApplyFX()
+        void ApplyFX(Transform objectSlowed, float timer)
         {
             //Apply SlowFX to Transform
-            MeshRenderer model = newObjectSlowed.GetComponent<MeshRenderer>();
+            MeshRenderer model = objectSlowed.GetComponent<MeshRenderer>();
             if (model != null)
             {
-                SetSlowAura(model, true, newTimer);
+                SetSlowAura(model, true, timer);
             }
 
             //Apply SlowFX to Children
-            if (newObjectSlowed.childCount < 1) return;
-            foreach (var renderer in newObjectSlowed.GetComponentsInChildren<MeshRenderer>())
+            if (objectSlowed.childCount < 1) return;
+            foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
             {
                 //If Model has FX already, skip
                 if (slowedObjectsByID.ContainsKey(renderer.GetInstanceID())) continue;
 
-                SetSlowAura(renderer, true, newTimer);
+                SetSlowAura(renderer, true, timer);
             }
         }
-        void RemoveFX()
+        void RemoveFX(Transform objectSlowed)
         {
             //UnApply SlowFX to Transform
-            MeshRenderer model = newObjectUnSlowed.GetComponent<MeshRenderer>();
+            MeshRenderer model = objectSlowed.GetComponent<MeshRenderer>();
             if (model != null)
             {
                 SetSlowAura(model, false);
             }
 
             //UnApply SlowFX to Children
-            if (newObjectUnSlowed.childCount < 1) return;
-            foreach (var renderer in newObjectUnSlowed.GetComponentsInChildren<MeshRenderer>())
+            if (objectSlowed.childCount < 1) return;
+            foreach (var renderer in objectSlowed.GetComponentsInChildren<MeshRenderer>())
             {
                 //If Model doesn't have FX, skip
                 if (!slowedObjectsByID.ContainsKey(renderer.GetInstanceID())) continue;
@@ -138,17 +139,26 @@ namespace TimeDistortion.Gameplay.Physic
             }
         }
 
+        //Routines
+        IEnumerator ApplyFXRoutine(Transform objectSlowed, float timer)
+        {
+            yield return new WaitForSeconds(manager.publicDelay);
+            ApplyFX(objectSlowed, timer);
+        }
+        IEnumerator RemoveFXRoutine(Transform objectSlowed)
+        {
+            yield return new WaitForSeconds(manager.publicDelay);
+            RemoveFX(objectSlowed);
+        }
+
         //Event Receivers
         void OnObjectSlowed(Transform objectSlowed, float timer)
         {
-            newObjectSlowed = objectSlowed;
-            newTimer = timer;
-            Invoke("ApplyFX", manager.publicDelay * Time.timeScale);
+            StartCoroutine(ApplyFXRoutine(objectSlowed, timer));
         }
         void OnObjectUnSlowed(Transform objectSlowed)
         {
-            newObjectUnSlowed = objectSlowed;
-            Invoke("RemoveFX", manager.publicDelay * Time.timeScale);
+            StartCoroutine(RemoveFXRoutine(objectSlowed));
         }
     }
 }

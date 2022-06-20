@@ -23,7 +23,7 @@ namespace TimeDistortion.Gameplay.Props
         public void TimeChanged(float newTime)
         {
             if (!affectedByTime) return;
-            //animator.updateMode = useModifiedTime ? AnimatorUpdateMode.Normal : AnimatorUpdateMode.Time;
+            animator.speed = newTime;
         }
     }
 }
