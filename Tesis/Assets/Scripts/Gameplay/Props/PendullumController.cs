@@ -4,7 +4,9 @@ namespace TimeDistortion.Gameplay.Props
 {
     public class PendullumController : MonoBehaviour, ITimed
     {
+        [Header("Set Values")]
         [SerializeField] Animator animator;
+        [SerializeField] bool affectedByTime = true;
 
         //Unity Events
         private void Start()
@@ -18,9 +20,10 @@ namespace TimeDistortion.Gameplay.Props
         //Methods
 
         //Interface Implementations
-        public void TimeChanged(bool useModifiedTime)
+        public void TimeChanged(float newTime)
         {
-            animator.updateMode = useModifiedTime ? AnimatorUpdateMode.Normal : AnimatorUpdateMode.UnscaledTime;
+            if (!affectedByTime) return;
+            animator.speed = newTime;
         }
     }
 }

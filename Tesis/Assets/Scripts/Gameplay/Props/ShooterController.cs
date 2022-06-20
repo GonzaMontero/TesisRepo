@@ -34,7 +34,7 @@ namespace TimeDistortion.Gameplay.Props
                 timer = 0;
             }
 
-            timer += Time.unscaledDeltaTime;
+            timer += Time.deltaTime;
         }
 
         //Methods

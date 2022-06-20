@@ -15,9 +15,9 @@ namespace TimeDistortion.Gameplay
         public Vector3 publicMoveInput { set { moveInput += value; } }
 
         //Unity Events
-        private void Awake()
+        void Start()
         {
-            TimeChanged(false);
+            currentSpeedMod = speedMod;
         }
         internal void Update()
         {
@@ -30,11 +30,11 @@ namespace TimeDistortion.Gameplay
         internal abstract void Move(Space moveRelativeTo);
 
         //Interface Implementations
-        public void TimeChanged(bool useModifiedTime)
+        public void TimeChanged(float newTime)
         {
-            float currentTimeSpeed = affectedByTime ? Time.timeScale : 1; //1=unscaled timeScale
-
-            currentSpeedMod = speedMod * currentTimeSpeed;
+            if (!affectedByTime) return;
+            
+            currentSpeedMod = speedMod * newTime;
         }
     }
 }

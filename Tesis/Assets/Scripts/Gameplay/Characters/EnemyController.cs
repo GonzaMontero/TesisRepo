@@ -15,7 +15,7 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] NavMeshAgent navMesh;
         [SerializeField] CharacterData data;
         [SerializeField] float minDistanceToInvokeWalkAction;
-        [SerializeField] bool affectedByTime;
+        [SerializeField] bool affectedByTime = true;
 
         [Header("Runtime Values")]
         [SerializeField] Transform target;
@@ -40,8 +40,6 @@ namespace TimeDistortion.Gameplay.Characters
             {
                 target = GameObject.FindGameObjectWithTag("Player").transform; 
             }
-            
-            TimeChanged(false);
 
             //Set target position as position to avoid walking sound while
             //targetPos = transform.position;
@@ -115,16 +113,16 @@ namespace TimeDistortion.Gameplay.Characters
                 Destroy(gameObject);
             }
         }
-        public void TimeChanged(bool useModifiedTime)
+        public void TimeChanged(float newTime)
         {
-            float currentTimeSpeed = affectedByTime ? Time.timeScale : 1; //1=unscaled timeScale
-            
+            if (!affectedByTime) return;
+
             //Set Movement Speed
-            data.currentStats.speed = data.baseStats.speed * currentTimeSpeed;
+            data.currentStats.speed = data.baseStats.speed * newTime;
             navMesh.speed = data.currentStats.speed;
 
             //Set Attack Speed
-            attackTimerSpeed = currentTimeSpeed;
+            attackTimerSpeed = newTime;
         }
 
 
