@@ -58078,7 +58078,7 @@ PrefabInstance:
     - target: {fileID: 3214866945009428241, guid: c52fd95991a4de445a25f30f2929b7bd,
         type: 3}
       propertyPath: slowdownFactor
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6713174261186947403, guid: c52fd95991a4de445a25f30f2929b7bd,
         type: 3}
@@ -59238,6 +59238,7 @@ MonoBehaviour:
   platformsEmpty: {fileID: 0}
   platformSpeed: 2
   timeBetweenPlatforms: 0
+  slowMoMod: 0
   numberOfPlatforms: 1
   affectedByTime: 1
   platforms: []
@@ -92192,6 +92193,7 @@ MonoBehaviour:
   platformsEmpty: {fileID: 0}
   platformSpeed: 2
   timeBetweenPlatforms: 5
+  slowMoMod: 0
   numberOfPlatforms: 1
   affectedByTime: 1
   platforms: []
@@ -99211,7 +99213,7 @@ PrefabInstance:
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: attackStartUp
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
@@ -99236,7 +99238,7 @@ PrefabInstance:
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: rotationSmoothing
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
