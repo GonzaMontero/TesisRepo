@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43692294, g: 0.48458737, b: 0.5648461, a: 1}
+  m_IndirectSpecularColor: {r: 0.43692318, g: 0.48458797, b: 0.5648468, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -51290,6 +51290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+  affectedByTime: 1
 --- !u!1001 &1043726293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58074,6 +58075,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3214866945009428241, guid: c52fd95991a4de445a25f30f2929b7bd,
+        type: 3}
+      propertyPath: slowdownFactor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6713174261186947403, guid: c52fd95991a4de445a25f30f2929b7bd,
         type: 3}
       propertyPath: m_RootOrder
@@ -59230,12 +59236,13 @@ MonoBehaviour:
   platformPrefab: {fileID: 5691095578068267736, guid: b88e89d7cd458e94aa70a71ea204cf4f,
     type: 3}
   platformsEmpty: {fileID: 0}
-  platformSpeed: 2.5
+  platformSpeed: 2
   timeBetweenPlatforms: 0
   numberOfPlatforms: 1
+  affectedByTime: 1
   platforms: []
   timer: 0
-  slowed: 0
+  localTime: 1
 --- !u!65 &1185078162
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92183,12 +92190,13 @@ MonoBehaviour:
   platformPrefab: {fileID: 5691095578068267736, guid: b88e89d7cd458e94aa70a71ea204cf4f,
     type: 3}
   platformsEmpty: {fileID: 0}
-  platformSpeed: 2.5
+  platformSpeed: 2
   timeBetweenPlatforms: 5
   numberOfPlatforms: 1
+  affectedByTime: 1
   platforms: []
   timer: 0
-  slowed: 0
+  localTime: 1
 --- !u!65 &1850121740
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99218,7 +99226,7 @@ PrefabInstance:
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: turnSmoothTime
-      value: 0.0028
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
