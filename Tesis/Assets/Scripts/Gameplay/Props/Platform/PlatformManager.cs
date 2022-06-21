@@ -24,6 +24,7 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] Transform platformsEmpty;
         [SerializeField] float platformSpeed;
         [SerializeField] float timeBetweenPlatforms;
+        [SerializeField] float slowMoMod = 1;
         [SerializeField] [Tooltip("Max Platforms in screen")] int numberOfPlatforms;
         [SerializeField] bool affectedByTime = true;
         [Header("Runtime Values")]
@@ -119,7 +120,7 @@ namespace TimeDistortion.Gameplay.Props
         public void TimeChanged(float newTime)
         {
             if (!affectedByTime) return;
-            localTime = newTime;
+            localTime = newTime == 1 ? 1 : newTime * slowMoMod;
         }
     }
 }

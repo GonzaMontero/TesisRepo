@@ -59381,6 +59381,7 @@ MonoBehaviour:
   platformsEmpty: {fileID: 0}
   platformSpeed: 2.5
   timeBetweenPlatforms: 0
+  slowMoMod: 0
   numberOfPlatforms: 1
   affectedByTime: 1
   platforms: []
@@ -74882,12 +74883,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1503072236}
   - component: {fileID: 1503072237}
+  - component: {fileID: 1503072238}
   m_Layer: 0
   m_Name: Platform Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1503072236
 Transform:
@@ -74926,11 +74928,25 @@ MonoBehaviour:
   platformsEmpty: {fileID: 1503072236}
   platformSpeed: 1
   timeBetweenPlatforms: 0
+  slowMoMod: 0
   numberOfPlatforms: 1
   affectedByTime: 1
   platforms: []
   timer: 0
   localTime: 1
+--- !u!65 &1503072238
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503072235}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1505865850
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92353,6 +92369,7 @@ MonoBehaviour:
   platformsEmpty: {fileID: 0}
   platformSpeed: 2.5
   timeBetweenPlatforms: 2
+  slowMoMod: 0
   numberOfPlatforms: 1
   affectedByTime: 1
   platforms: []
