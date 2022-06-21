@@ -8,12 +8,12 @@ namespace TimeDistortion.Gameplay.Props
         [System.Serializable]
         class Platform
         {
-            public Transform transform;
+            public PlatformController controller;
             public int step;
 
-            public Platform(Transform _transform, int _step = 1)
+            public Platform(Transform _controller, int _step = 1)
             {
-                transform = _transform;
+                controller = _controller.GetComponent<PlatformController>();
                 step = _step;
             }
         }
@@ -58,17 +58,38 @@ namespace TimeDistortion.Gameplay.Props
                 timer = 0;
             }
         }
+#if UNITY_EDITOR
+        [ExecuteInEditMode]
+        private void OnDrawGizmos()
+        {
+            Color newColor;
+            for (int i = 0; i < steps.Count; i++)
+            {
+                //Get step color
+                newColor = Color.white;
+                newColor.r *= (i + 1) / (float)steps.Count;
+                newColor.g *= (i + 1) / (float)steps.Count;
+                newColor.b *= (i + 1) / (float)steps.Count;
+
+                //Set step color
+                Gizmos.color = newColor;
+
+                //Draw step cube
+                Gizmos.DrawCube(transform.position + steps[i], Vector3.one * 0.25f);
+            }
+        }
+#endif
 
         //Methods
         void CreatePlatform()
         {
             platforms.Add(new Platform(Instantiate(platformPrefab, platformsEmpty).transform));
-            platforms[platforms.Count - 1].transform.localPosition = steps[0];
+            platforms[platforms.Count - 1].controller.transform.localPosition = steps[0];
         }
         void MovePlatform(Platform platform)
         {
             //Get Platform Transform
-            Transform platTransform = platform.transform;
+            Transform platTransform = platform.controller.transform;
 
             //Get Time
             float timeValue = localTime * Time.deltaTime;
@@ -77,6 +98,7 @@ namespace TimeDistortion.Gameplay.Props
             Vector3 platNextStepDistance = steps[platform.step] - platTransform.localPosition;
             Vector3 platPrevStepDistance = steps[platform.step - 1] - platTransform.localPosition;
             Vector3 stepStepDistance = steps[platform.step] - steps[platform.step -1];
+            Vector3 platNextStepDir = platNextStepDistance.normalized;
 
             //Check if platform already reached next step
             if ((platPrevStepDistance).magnitude >= (stepStepDistance).magnitude)
@@ -90,7 +112,7 @@ namespace TimeDistortion.Gameplay.Props
             }
 
             //Move Platform
-            platTransform.Translate(platNextStepDistance.normalized * platformSpeed * timeValue);
+            platform.controller.Move(platNextStepDir * platformSpeed * timeValue);
         }
 
         //Interface Implementations
