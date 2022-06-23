@@ -23,7 +23,9 @@ namespace TimeDistortion.Gameplay.Handler
         PlayerControls inputActions;
         CameraHandler cameraHandler;
         CharacterController characterController;
+        [SerializeField] Physic.TimeManager timeManager;
 
+        Vector2 movementDir;
         Vector2 movementInput;
 
         private Vector3 playerVelocity;
@@ -32,6 +34,8 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float rotationSmoothing = 1;
         [SerializeField] float weight;
         [SerializeField] float jumpHeight = 1.0f;
+        [SerializeField] float slowMoParalysisTime;
+        public float paralysisTimer;
         private float gravityValue = -9.81f;
 
 
@@ -55,6 +59,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Start()
         {
+            timeManager.ObjectSlowed += OnSlowMo;
             cameraHandler = CameraHandler.singleton;
             characterController = GetComponent<CharacterController>();
 
@@ -69,10 +74,23 @@ namespace TimeDistortion.Gameplay.Handler
             // && playerVelocity.y < 0
             //Calculate Y Movement            
 
+            if (paralysisTimer > 0)
+            {
+                movementDir *= Vector2.zero;
+                playerVelocity.x = 0;
+                playerVelocity.z = 0;
+                PlayerMoved?.Invoke(false);
+            }
+            else 
+            {
+                movementDir = movementInput;
+                PlayerMoved?.Invoke(movementInput.magnitude > 0.1f);
+            }
+
             characterController.Move(playerVelocity * Time.deltaTime);
 
             //Calculate XZ Movement
-            if (movementInput.magnitude > 0.1f)
+            if (movementDir.magnitude > 0.1f)
             {
                 //Vector3 moveX = Camera.main.transform.right * movementInput.x;
                 //Vector3 moveZ = Camera.main.transform.forward * movementInput.y;
@@ -90,7 +108,7 @@ namespace TimeDistortion.Gameplay.Handler
                 ////}
 
                 // Con este método solo toma angles, no afecta al grounded
-                float targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+                float targetAngle = Mathf.Atan2(movementDir.x, movementDir.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
@@ -115,8 +133,12 @@ namespace TimeDistortion.Gameplay.Handler
                 playerVelocity.y += gravityValue * Time.deltaTime * weight;
             }
 
+            if (paralysisTimer > 0)
+            {
+                paralysisTimer -= Time.deltaTime;
+            }
 
-            lastPos = transform.position;            
+                lastPos = transform.position;            
         }
 
         public void OnMoveCameraInput(InputAction.CallbackContext context)
@@ -134,7 +156,6 @@ namespace TimeDistortion.Gameplay.Handler
         {
             //if (!context.performed) return;
             movementInput = context.ReadValue<Vector2>();
-            PlayerMoved?.Invoke(movementInput.magnitude > 0);
         }
 
         public void OnJumpInput(InputAction.CallbackContext context)
@@ -168,8 +189,13 @@ namespace TimeDistortion.Gameplay.Handler
             if (!context.started) return;
             if (attacking) return;
 
+            paralysisTimer = attackDuration + attackStartUp; 
             attacking = true;
             HandleAttackInput();
+        }
+        void OnSlowMo(Transform _notUsed, float __notUsed)
+        {
+            paralysisTimer = slowMoParalysisTime;
         }
 
         private void HandleAttackInput()
