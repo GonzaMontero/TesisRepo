@@ -100599,7 +100599,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1936320151}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1936320157}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18bd03d7d5ae7114f885b2edfb3c5d5e, type: 3}
@@ -100632,6 +100632,90 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1936320151}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1936320157 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4759590307332305035, guid: 14288a1d7462e03479d29fb021e184d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1936320151}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1936320158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936320157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8026f3d77b1248d4cacdc89fc5f596a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  timeManager: {fileID: 0}
+  walkAudio:
+    Guid:
+      Data1: 1495120857
+      Data2: 1312106090
+      Data3: -770450500
+      Data4: -1901421703
+    Path: event:/SFX/Characters/Main/Motions/Footsteps
+  jumpAudio:
+    Guid:
+      Data1: 470647190
+      Data2: 1277209001
+      Data3: 762516610
+      Data4: -1177431074
+    Path: event:/SFX/Characters/Main/Motions/Jump
+  landAudio:
+    Guid:
+      Data1: -2001780402
+      Data2: 1138279009
+      Data3: 1917186712
+      Data4: 1271579436
+    Path: event:/SFX/Characters/Main/Motions/Land
+  attackAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  hitAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  setSlowMoAudio:
+    Guid:
+      Data1: 1858378122
+      Data2: 1150905932
+      Data3: -452890482
+      Data4: -1192852268
+    Path: event:/SFX/Characters/Main/Habilities/SlowMotion - Mirilla
+  activateSlowMoAudio:
+    Guid:
+      Data1: -1419224528
+      Data2: 1111086804
+      Data3: 309088400
+      Data4: -527307311
+    Path: event:/SFX/Characters/Main/Habilities/SlowMotion - General
+  slowMoAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  slowMoFailedAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  playerWalking: 0
 --- !u!1001 &1936348597
 PrefabInstance:
   m_ObjectHideFlags: 0
