@@ -90,14 +90,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8552cc93b6a0946b07957532428710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 12.5
   damage: 5
   affectedByTime: 1
   player: {fileID: 0}
   speedDelta: 0
+  localTime: 1
   turnSmoothVelocity: 1
   turnSmoothTime: 0
-  localTime: 1
 --- !u!114 &8863633881001339765
 MonoBehaviour:
   m_ObjectHideFlags: 0

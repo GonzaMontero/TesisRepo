@@ -31,7 +31,7 @@ namespace TimeDistortion.Gameplay.Characters
 
             if (data.currentStats.health > 0) return;
             data.currentStats.health = 0;
-            Died?.Invoke();
+            //Died?.Invoke();
         }
     }
 }
