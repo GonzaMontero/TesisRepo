@@ -19,6 +19,7 @@ namespace TimeDistortion.Gameplay.Handler
         public float turnSmoothVelocity;
 
         public bool lockOnFlag;
+        public bool fly;
 
         PlayerControls inputActions;
         CameraHandler cameraHandler;
@@ -109,6 +110,7 @@ namespace TimeDistortion.Gameplay.Handler
 
                 // Con este método solo toma angles, no afecta al grounded
                 float targetAngle = Mathf.Atan2(movementDir.x, movementDir.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+                float currentAngle = fly ? Camera.main.transform.eulerAngles.y : transform.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
@@ -130,7 +132,8 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else
             {
-                playerVelocity.y += gravityValue * Time.deltaTime * weight;
+                float gravMod = fly ? 0.2f : 1;
+                playerVelocity.y += gravityValue * Time.deltaTime * weight * gravMod;
             }
 
             if (paralysisTimer > 0)

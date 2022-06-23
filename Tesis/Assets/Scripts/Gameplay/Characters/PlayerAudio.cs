@@ -6,6 +6,7 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.InputHandler controller;
+        [SerializeField] SwordHit playerHitter;
         [SerializeField] Physic.TimeManager timeManager;
         [SerializeField] FMODUnity.EventReference walkAudio;
         [SerializeField] FMODUnity.EventReference jumpAudio;
@@ -35,10 +36,15 @@ namespace TimeDistortion.Gameplay.Characters
             {
                 controller = GetComponent<Handler.InputHandler>();
             }
-            
-            //controller.PlayerAttacked += OnPlayerAttacked;
+            if (!playerHitter)
+            {
+                playerHitter = GetComponentInChildren<SwordHit>();
+            }
+
             controller.PlayerJumped += OnPlayerJumped;
             controller.PlayerMoved += OnPlayerMoved;
+            controller.PlayerAttacked += OnPlayerAttacked;
+            playerHitter.HittedSomething += OnPlayerHittedSomething;
             timeManager.SlowMoReady += OnSlowMoReady;
             timeManager.ObjectSlowed += OnObjectSlowed;
             //timeManager.ObjectUnSlowed +=;
@@ -56,7 +62,11 @@ namespace TimeDistortion.Gameplay.Characters
         //Event Receivers
         void OnPlayerAttacked()
         {
-            //FMODUnity.RuntimeManager.PlayOneShot(attackAudio);
+            FMODUnity.RuntimeManager.PlayOneShot(attackAudio);
+        }
+        void OnPlayerHittedSomething()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(hitAudio);
         }
         void OnPlayerJumped()
         {
