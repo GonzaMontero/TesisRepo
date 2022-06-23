@@ -98695,11 +98695,6 @@ PrefabInstance:
       propertyPath: timeManager
       value: 
       objectReference: {fileID: 1161026472}
-    - target: {fileID: 4759590307332305025, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: slowMoParalysisTime
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4759590307332305030, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: m_RootOrder
