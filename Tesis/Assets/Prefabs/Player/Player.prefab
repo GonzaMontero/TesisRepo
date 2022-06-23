@@ -91,6 +91,7 @@ MonoBehaviour:
   turnSmoothTime: 0.1
   turnSmoothVelocity: 0
   lockOnFlag: 0
+  fly: 0
   timeManager: {fileID: 0}
   groundedPlayer: 0
   playerSpeed: 8
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  playerHitter: {fileID: 5915179769020726642}
   timeManager: {fileID: 0}
   walkAudio:
     Guid:
@@ -217,18 +219,18 @@ MonoBehaviour:
     Path: event:/SFX/Characters/Main/Motions/Land
   attackAudio:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -353947476
+      Data2: 1327299469
+      Data3: -642955388
+      Data4: -502365097
+    Path: event:/SFX/Characters/Main/Attacks/Melee Attack
   hitAudio:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -85637423
+      Data2: 1327291406
+      Data3: 848738475
+      Data4: -585421837
+    Path: event:/SFX/Characters/Main/Attacks/Attack Contact
   setSlowMoAudio:
     Guid:
       Data1: 1858378122

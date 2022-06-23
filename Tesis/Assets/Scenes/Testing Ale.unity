@@ -66062,18 +66062,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1331897624}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1332154223 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5915179769020726642, guid: 14288a1d7462e03479d29fb021e184d7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1936320151}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a69eb6802efc1a64e826c00d3c06d875, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1333567466 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5239272197777735519, guid: e348e7143b6247b488737e4be26fb038,
@@ -98374,58 +98362,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
-      propertyPath: playerHitter
-      value: 
-      objectReference: {fileID: 1332154223}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: hitAudio.Path
-      value: event:/SFX/Characters/Main/Attacks/Attack Contact
+      propertyPath: slowMoAudio.Path
+      value: event:/SFX/Characters/Main/Habilities/During Slowmo
       objectReference: {fileID: 0}
     - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
-      propertyPath: attackAudio.Path
-      value: event:/SFX/Characters/Main/Attacks/Melee Attack
+      propertyPath: slowMoAudio.Guid.Data1
+      value: 79954564
       objectReference: {fileID: 0}
     - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
-      propertyPath: hitAudio.Guid.Data1
-      value: -85637423
+      propertyPath: slowMoAudio.Guid.Data2
+      value: 1312304696
       objectReference: {fileID: 0}
     - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
-      propertyPath: hitAudio.Guid.Data2
-      value: 1327291406
+      propertyPath: slowMoAudio.Guid.Data3
+      value: -1972240250
       objectReference: {fileID: 0}
     - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
-      propertyPath: hitAudio.Guid.Data3
-      value: 848738475
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: hitAudio.Guid.Data4
-      value: -585421837
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: attackAudio.Guid.Data1
-      value: -353947476
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: attackAudio.Guid.Data2
-      value: 1327299469
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: attackAudio.Guid.Data3
-      value: -642955388
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: attackAudio.Guid.Data4
-      value: -502365097
+      propertyPath: slowMoAudio.Guid.Data4
+      value: -1099311744
       objectReference: {fileID: 0}
     - target: {fileID: 2025187117817206498, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}

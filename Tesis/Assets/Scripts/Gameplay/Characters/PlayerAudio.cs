@@ -16,13 +16,14 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] FMODUnity.EventReference setSlowMoAudio;
         [SerializeField] FMODUnity.EventReference activateSlowMoAudio;
         [SerializeField] FMODUnity.EventReference slowMoAudio;
-        [SerializeField] FMODUnity.EventReference slowMoFailedAudio;
+        //[SerializeField] FMODUnity.EventReference slowMoFailedAudio;
         [Header("Runtime Values")]
         [SerializeField] bool playerOnAir;
         [SerializeField] bool playerWalking;
         [SerializeField] bool slowMoReady;
         FMOD.Studio.EventInstance walkAudioInstance;
         FMOD.Studio.EventInstance slowMoReadyAudioInstance;
+        FMOD.Studio.EventInstance slowMoAudioInstance;
 
         //Unity Events
 
@@ -47,7 +48,7 @@ namespace TimeDistortion.Gameplay.Characters
             playerHitter.HittedSomething += OnPlayerHittedSomething;
             timeManager.SlowMoReady += OnSlowMoReady;
             timeManager.ObjectSlowed += OnObjectSlowed;
-            //timeManager.ObjectUnSlowed +=;
+            timeManager.ObjectUnSlowed += OnObjectUnSlowed;
         }
         private void Update()
         {
@@ -119,6 +120,13 @@ namespace TimeDistortion.Gameplay.Characters
         void OnObjectSlowed(Transform notUsed, float _notUsed)
         {
             FMODUnity.RuntimeManager.PlayOneShot(activateSlowMoAudio);
+            slowMoAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoAudio);
+            slowMoAudioInstance.start();
+        }
+        void OnObjectUnSlowed(Transform notUsed)
+        {
+            slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            slowMoAudioInstance.release(); 
         }
     }
 }
