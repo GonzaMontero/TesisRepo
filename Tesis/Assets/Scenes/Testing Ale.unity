@@ -98360,31 +98360,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 19.254835
       objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: slowMoAudio.Path
-      value: event:/SFX/Characters/Main/Habilities/During Slowmo
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: slowMoAudio.Guid.Data1
-      value: 79954564
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: slowMoAudio.Guid.Data2
-      value: 1312304696
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: slowMoAudio.Guid.Data3
-      value: -1972240250
-      objectReference: {fileID: 0}
-    - target: {fileID: 2016406579882970338, guid: 14288a1d7462e03479d29fb021e184d7,
-        type: 3}
-      propertyPath: slowMoAudio.Guid.Data4
-      value: -1099311744
-      objectReference: {fileID: 0}
     - target: {fileID: 2025187117817206498, guid: 14288a1d7462e03479d29fb021e184d7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
