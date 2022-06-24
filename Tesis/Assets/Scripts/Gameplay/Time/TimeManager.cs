@@ -206,16 +206,24 @@ namespace TimeDistortion.Gameplay.Physic
             //Search for target even between old targets
             foreach (var hit in hits)
             {
-                //If target already slowed, skip
+                //I 
                 if (targetIDs.ContainsKey(hit.transform.GetInstanceID())) continue;
                 hittedObj = hit.transform;
 
-                //Check if target is valid (if is, stop searching)
+                if (hittedObj == null)
+                    continue;
+
+                //Check if target is valid (if not, exit)
                 objectToSlow = hittedObj.GetComponent<ITimed>();
                 if (objectToSlow != null) break;
             }
 
-            if (objectToSlow == null) return;
+            if (objectToSlow == null)
+            {
+                currentTarget = null;
+                TargetInScope?.Invoke(false);
+                return;
+            }
 
             //Debug.Log("Valid Target");
 
