@@ -120,13 +120,14 @@ namespace TimeDistortion.Gameplay.Characters
         void OnObjectSlowed(Transform notUsed, float _notUsed)
         {
             FMODUnity.RuntimeManager.PlayOneShot(activateSlowMoAudio);
-            slowMoAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoAudio);
-            slowMoAudioInstance.start();
+            FMODUnity.RuntimeManager.PlayOneShot(slowMoAudio);
+            //slowMoAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoAudio);
+            //slowMoAudioInstance.start();
         }
         void OnObjectUnSlowed(Transform notUsed)
         {
-            slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            slowMoAudioInstance.release(); 
+            //slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            //slowMoAudioInstance.release(); 
         }
     }
 }
