@@ -26,7 +26,6 @@ namespace TimeDistortion.Gameplay.Characters
         FMOD.Studio.EventInstance slowMoAudioInstance;
 
         //Unity Events
-
         private void Start()
         {
             if (!timeManager)
@@ -54,8 +53,15 @@ namespace TimeDistortion.Gameplay.Characters
         {
             if (controller.publicGroundedPlayer != playerOnAir) return;
             playerOnAir = !controller.publicGroundedPlayer;
-            
-            if (playerOnAir) return;
+
+            if (playerOnAir)
+            {
+                //If player is moving and jumps, stop footsteps audio
+                if (!playerWalking) return;
+                OnPlayerMoved(false);
+                return;
+            }
+
             OnPlayerLanded();
         }
 
@@ -79,6 +85,12 @@ namespace TimeDistortion.Gameplay.Characters
         }
         void OnPlayerMoved(bool playerMoved)
         {
+            //If on air, player can't be moving
+            if (playerOnAir)
+            {
+                playerMoved = false;
+            }
+
             //If already using right audio, exit
             if (playerWalking == playerMoved) return;
 
