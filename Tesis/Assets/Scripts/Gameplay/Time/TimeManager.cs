@@ -194,10 +194,21 @@ namespace TimeDistortion.Gameplay.Physic
         {
             if (!slowMoIsReady) return; //Only slow if slow mo mode is active
 
+            Ray ray = mainCam.ScreenPointToRay(centerOfScreen);
+
             //Get target (if not, exit)
-            RaycastHit hit;
-            Physics.Raycast(mainCam.ScreenPointToRay(centerOfScreen), out hit, slowdownRange, slowableLayers);
-            if (hit.transform == null)
+            Transform hittedObj = null;
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(ray.origin, ray.direction, slowdownRange, slowableLayers);
+
+            //Search for target even between old targets
+            foreach (var hit in hits)
+            {
+                if (targetIDs.ContainsKey(hit.transform.GetInstanceID())) continue;
+                hittedObj = hit.transform;
+            }
+            
+            if (hittedObj == null)
             {
                 currentTarget = null;
                 TargetInScope?.Invoke(false);
@@ -205,7 +216,7 @@ namespace TimeDistortion.Gameplay.Physic
             }
 
             //Check if target is valid (if not, exit)
-            ITimed objectToSlow = hit.transform.GetComponent<ITimed>();
+            ITimed objectToSlow = hittedObj.GetComponent<ITimed>();
             if (objectToSlow == null)
             {
                 currentTarget = null;
@@ -219,9 +230,9 @@ namespace TimeDistortion.Gameplay.Physic
             if (currentTarget != null && currentTarget.transform) return;
 
             //If target is already in list, select old one else, create new
-            if (!targetIDs.TryGetValue(hit.transform.GetInstanceID(), out currentTarget))
+            if (!targetIDs.TryGetValue(hittedObj.GetInstanceID(), out currentTarget))
             {
-                currentTarget = new SlowMoTarget(hit.transform, objectToSlow);
+                currentTarget = new SlowMoTarget(hittedObj, objectToSlow);
             }
 
             //Debug.Log("Target Found!");
