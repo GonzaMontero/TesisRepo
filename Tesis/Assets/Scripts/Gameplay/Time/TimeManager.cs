@@ -349,9 +349,6 @@ namespace TimeDistortion.Gameplay.Physic
                 RemoveDestroyedObject(target);
             }
 
-            //Send event
-            ObjectUnSlowed?.Invoke(target.transform);
-
             yield return new WaitForSecondsRealtime(slowdownExtraLength);
 
             //Update Dictionary
@@ -360,6 +357,9 @@ namespace TimeDistortion.Gameplay.Physic
             //Update Target Time
             //Debug.Log("Target UnSlowed at " + Time.realtimeSinceStartup + "!");
             target.time.TimeChanged(1);
+
+            //Send event
+            ObjectUnSlowed?.Invoke(target.transform);
         }
     }
 }

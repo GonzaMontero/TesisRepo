@@ -30,10 +30,10 @@ namespace TimeDistortion.Gameplay.Physic
         [SerializeField] List<SlowMoTarget> slowedObjects;
         [SerializeField] float auraFadeMod;
         [Header("Runtime Values")]
-        [SerializeField] Dictionary<int, SlowMoTarget> slowedObjectsByID;
         [SerializeField] Transform newObjectSlowed;
         [SerializeField] Transform newObjectUnSlowed;
         [SerializeField] float newTimer;
+        Dictionary<int, SlowMoTarget> slowedObjectsByID;
 
         //Unity Events
         private void Start()

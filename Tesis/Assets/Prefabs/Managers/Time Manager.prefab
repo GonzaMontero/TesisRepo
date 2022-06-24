@@ -80,7 +80,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
   slowedObjects: []
-  auraFadeMod: 0.5
+  auraFadeMod: 0.8
   newObjectSlowed: {fileID: 0}
   newObjectUnSlowed: {fileID: 0}
   newTimer: 0
