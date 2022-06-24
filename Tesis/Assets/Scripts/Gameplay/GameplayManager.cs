@@ -28,7 +28,7 @@ namespace TimeDistortion.Gameplay
         }
         private void OnDestroy()
         {
-            player.Died -= OnPlayerDied;
+            //player.Died -= OnPlayerDied;
         }
 
         //Methods

@@ -33,8 +33,8 @@ namespace TimeDistortion.Gameplay.Characters
         private void OnDestroy()
         {
             //UnLink Actions
-            controller.Hitted -= OnHitted;
-            controller.Died -= OnHitted;
+            //controller.Hitted -= OnHitted;
+            //controller.Died -= OnHitted;
         }
 
 

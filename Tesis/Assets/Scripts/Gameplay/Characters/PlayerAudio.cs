@@ -70,6 +70,8 @@ namespace TimeDistortion.Gameplay.Characters
         private void OnDestroy()
         {
             FMODUnity.RuntimeManager.GetBus("Bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            walkAudioInstance.release();
+            slowMoReadyAudioInstance.release();
         }
 
         //Event Receivers
