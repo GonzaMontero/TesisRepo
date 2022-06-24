@@ -201,28 +201,21 @@ namespace TimeDistortion.Gameplay.Physic
             RaycastHit[] hits;
             hits = Physics.RaycastAll(ray.origin, ray.direction, slowdownRange, slowableLayers);
 
+            ITimed objectToSlow = null;
+
             //Search for target even between old targets
             foreach (var hit in hits)
             {
+                //If target already slowed, skip
                 if (targetIDs.ContainsKey(hit.transform.GetInstanceID())) continue;
                 hittedObj = hit.transform;
-            }
-            
-            if (hittedObj == null)
-            {
-                currentTarget = null;
-                TargetInScope?.Invoke(false);
-                return;
+
+                //Check if target is valid (if is, stop searching)
+                objectToSlow = hittedObj.GetComponent<ITimed>();
+                if (objectToSlow != null) break;
             }
 
-            //Check if target is valid (if not, exit)
-            ITimed objectToSlow = hittedObj.GetComponent<ITimed>();
-            if (objectToSlow == null)
-            {
-                currentTarget = null;
-                TargetInScope?.Invoke(false);
-                return;
-            }
+            if (objectToSlow == null) return;
 
             //Debug.Log("Valid Target");
 
@@ -348,6 +341,9 @@ namespace TimeDistortion.Gameplay.Physic
                 RemoveDestroyedObject(target);
             }
 
+            //Send event
+            ObjectUnSlowed?.Invoke(target.transform);
+
             yield return new WaitForSecondsRealtime(slowdownExtraLength);
 
             //Update Dictionary
@@ -356,7 +352,6 @@ namespace TimeDistortion.Gameplay.Physic
             //Update Target Time
             //Debug.Log("Target UnSlowed at " + Time.realtimeSinceStartup + "!");
             target.time.TimeChanged(1);
-            ObjectUnSlowed?.Invoke(target.transform);
         }
     }
 }
