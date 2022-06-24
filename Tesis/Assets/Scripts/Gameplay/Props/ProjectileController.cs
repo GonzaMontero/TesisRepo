@@ -7,6 +7,7 @@ namespace TimeDistortion.Gameplay.Props
     {
         [Header("Set Values")]
         [SerializeField] float speed;
+        [SerializeField] float slowMoMod = 1;
         [SerializeField] int damage;
         [SerializeField] bool affectedByTime = true;
         [Header("Runtime Values")]
@@ -75,7 +76,7 @@ namespace TimeDistortion.Gameplay.Props
         public void TimeChanged(float newTime)
         {
             if (!affectedByTime) return;
-            localTime = newTime;
+            localTime = newTime * (newTime == 1 ? 1 : slowMoMod);
         }
     }
 }
