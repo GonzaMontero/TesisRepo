@@ -52,6 +52,7 @@ namespace TimeDistortion.Gameplay.Physic
         public Action<bool> TargetInScope;
         public Action<Transform, float> ObjectSlowed;
         public Action<Transform> ObjectUnSlowed;
+        public Action<int> ObjectDestroyed;
         public Action SlowMoFailed;
 
         public float publicCooldownTimer { get { return cooldownTimer; } }
@@ -254,6 +255,20 @@ namespace TimeDistortion.Gameplay.Physic
 
             StartCoroutine(DeSlowRoutine(target));
         }
+        void RemoveDestroyedObject(SlowMoTarget target)
+        {
+            //Update Dictionary
+            targetIDs.Remove(target.ID);
+
+            //Update List if existant
+            if (targets.Contains(target))
+            {
+                targets.Remove(target);
+            }
+
+            //Send Event
+            ObjectDestroyed?.Invoke(target.ID);
+        }
         void UpdateTimers()
         {
             //Run Cooldown Timer
@@ -267,6 +282,14 @@ namespace TimeDistortion.Gameplay.Physic
             int i = 0;
             while (i < targets.Count)
             {
+                //if there is no more target, remove
+                if (targets[i].transform == null)
+                {
+                    RemoveDestroyedObject(targets[i]);
+                    continue;
+                }
+
+                //If target timer is beyond limit, deslow
                 if (targets[i].timer > 1)
                 {
                     //Debug.Break();
@@ -308,6 +331,11 @@ namespace TimeDistortion.Gameplay.Physic
         IEnumerator DeSlowRoutine(SlowMoTarget target)
         {
             //Debug.Log("Target Unslowing at " + Time.realtimeSinceStartup + "!");
+
+            if (target.transform == null)
+            {
+                RemoveDestroyedObject(target);
+            }
 
             yield return new WaitForSecondsRealtime(slowdownExtraLength);
 

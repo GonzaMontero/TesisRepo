@@ -31,12 +31,12 @@ namespace TimeDistortion.Gameplay
             manager.GameEnded += OnGameEnded;
             //manager.GamePaused += OnPause;
         }
-        private void OnDestroy()
-        {
-            //Unlink action
-            manager.GameEnded -= OnGameEnded;
-            //manager.GamePaused -= OnPause;
-        }
+        //private void OnDestroy()
+        //{
+        //    //Unlink action
+        //    manager.GameEnded -= OnGameEnded;
+        //    //manager.GamePaused -= OnPause;
+        //}
 
         //Methods
         //public void SetPause(bool pause)

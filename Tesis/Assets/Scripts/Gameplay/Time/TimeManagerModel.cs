@@ -45,6 +45,7 @@ namespace TimeDistortion.Gameplay.Physic
 
             manager.ObjectSlowed += OnObjectSlowed;
             manager.ObjectUnSlowed += OnObjectUnSlowed;
+            manager.ObjectDestroyed += OnObjectDestroyed;
 
             slowedObjectsByID = new Dictionary<int, SlowMoTarget>();
         }
@@ -159,6 +160,16 @@ namespace TimeDistortion.Gameplay.Physic
         void OnObjectUnSlowed(Transform objectSlowed)
         {
             StartCoroutine(RemoveFXRoutine(objectSlowed));
+        }
+        void OnObjectDestroyed(int objectID)
+        {
+            //Get Removed object
+            SlowMoTarget target;
+            if(!slowedObjectsByID.TryGetValue(objectID, out target)) return;
+
+            //Update SlowedObjectsFX list
+            slowedObjectsByID.Remove(objectID);
+            slowedObjects.Remove(target);
         }
     }
 }
