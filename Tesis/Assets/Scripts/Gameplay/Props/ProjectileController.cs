@@ -18,7 +18,7 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] float turnSmoothVelocity;
         [SerializeField] float turnSmoothTime;
 
-
+        public Action Redirected;
         public Action Destroyed;
 
         //Unity Events
@@ -71,6 +71,7 @@ namespace TimeDistortion.Gameplay.Props
         public void GetHitted(int damage)
         {
             transform.forward = player.transform.forward;
+            Redirected?.Invoke();
         }
 
         public void TimeChanged(float newTime)
