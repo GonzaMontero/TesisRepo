@@ -199,10 +199,6 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnAttackInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
-            if (attacking) return;
-
-            paralysisTimer = attackDuration + attackStartUp; 
-            attacking = true;
             HandleAttackInput();
         }
         void OnSlowMo(Transform _notUsed, float __notUsed)
@@ -212,17 +208,16 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void HandleAttackInput()
         {
-            if (!publicGroundedPlayer)
-                return;
+            if (attacking) return; //If player is already attacking, exit
+            
+            if (!publicGroundedPlayer) return; //If player is on air, exit
 
-            if (attackHitBox.activeSelf)
-                return;
+            if (attackHitBox.activeSelf) return; //If hit box is on (player is attacking), exit
 
-            if (attackHitBox.activeSelf == false)
-            {                
-                Invoke("StartLightAttack", attackStartUp * Time.timeScale);
-                PlayerAttacked?.Invoke();
-            }  
+            paralysisTimer = attackDuration + attackStartUp;
+            attacking = true;
+            Invoke("StartLightAttack", attackStartUp * Time.timeScale);
+            PlayerAttacked?.Invoke();
         }
 
         public void StartLightAttack()
