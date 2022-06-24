@@ -28,6 +28,7 @@ namespace TimeDistortion.Gameplay.Characters
         //Unity Events
         private void Start()
         {
+            //Get list
             if (!timeManager)
             {
                 timeManager = Physic.TimeManager.Get();
@@ -41,6 +42,7 @@ namespace TimeDistortion.Gameplay.Characters
                 playerHitter = GetComponentInChildren<SwordHit>();
             }
 
+            //Link events
             controller.PlayerJumped += OnPlayerJumped;
             controller.PlayerMoved += OnPlayerMoved;
             controller.PlayerAttacked += OnPlayerAttacked;
@@ -65,7 +67,10 @@ namespace TimeDistortion.Gameplay.Characters
 
             OnPlayerLanded();
         }
-
+        private void OnDestroy()
+        {
+            FMODUnity.RuntimeManager.GetBus("Bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
 
         //Event Receivers
         void OnPlayerAttacked()
