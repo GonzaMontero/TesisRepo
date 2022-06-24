@@ -52,6 +52,7 @@ namespace TimeDistortion.Gameplay.Physic
         public Action<bool> TargetInScope;
         public Action<Transform, float> ObjectSlowed;
         public Action<Transform> ObjectUnSlowed;
+        public Action SlowMoFailed;
 
         public float publicCooldownTimer { get { return cooldownTimer; } }
         public float publicDelay { get { return slowdownDelay; } }
@@ -98,21 +99,40 @@ namespace TimeDistortion.Gameplay.Physic
         {
             if (!context.performed) return; //only do action on press frame
             //Debug.Log("Key Pressed!");
-            if (currentTarget == null) return;
-            if (currentTarget.transform == null) return; //double check
+            if (currentTarget == null)
+            {
+                SlowMoFailed?.Invoke();
+                return;
+            }
+            if (currentTarget.transform == null)
+            {
+                SlowMoFailed?.Invoke();
+                return;
+            }
             //Debug.Log("Target Is Valid!");
-            if (!slowMoIsReady) return; //Only slow if slow mo mode is active
+            //Only slow if slow mo mode is active
+            if (!slowMoIsReady)
+            {
+                SlowMoFailed?.Invoke();
+                return;
+            }
             //Debug.Log("SlowMo Ready!");
-            if (cooldownTimer < 1) return; //Only slow if cooldown over
+            //Only slow if cooldown over
+            if (cooldownTimer < 1)
+            {
+                SlowMoFailed?.Invoke();
+                return;
+            }
             //Debug.Log("Cooldown Over!");
 
             //if target was already slowed, DEslow
             if (targetIDs.ContainsKey(currentTarget.ID))
             {
-                if (currentTarget.timer < 0) return; // return if already DeSlowing Target
+                //if (currentTarget.timer < 0) return; // return if already DeSlowing Target
 
-                Debug.Log("DeSlowing " + currentTarget.transform + " by command!");
-                DeSlowTarget(currentTarget);
+                //Debug.Log("DeSlowing " + currentTarget.transform + " by command!");
+                //DeSlowTarget(currentTarget);
+                SlowMoFailed?.Invoke();
                 return;
             }
 
@@ -161,8 +181,13 @@ namespace TimeDistortion.Gameplay.Physic
         {
             slowMoIsReady = !slowMoIsReady;
             SlowMoReady?.Invoke(slowMoIsReady);
+            if (!slowMoIsReady)
+            {
+                currentTarget = null;
+                TargetInScope?.Invoke(false);
+            }
 
-            Debug.Log("SlowMo Ready: " + slowMoIsReady);
+            //Debug.Log("SlowMo Ready: " + slowMoIsReady);
         }
         void GetValidTarget()
         {
