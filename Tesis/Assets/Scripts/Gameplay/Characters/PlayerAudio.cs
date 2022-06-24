@@ -45,7 +45,7 @@ namespace TimeDistortion.Gameplay.Characters
             controller.PlayerMoved += OnPlayerMoved;
             controller.PlayerAttacked += OnPlayerAttacked;
             playerHitter.HittedSomething += OnPlayerHittedSomething;
-            timeManager.SlowMoReady += OnSlowMoReady;
+            timeManager.TargetInScope += OnSlowMoReady;
             timeManager.ObjectSlowed += OnObjectSlowed;
             timeManager.ObjectUnSlowed += OnObjectUnSlowed;
         }
