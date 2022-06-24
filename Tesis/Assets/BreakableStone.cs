@@ -8,8 +8,10 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] GameObject brokenRock;
         [SerializeField] Transform floorLevel;
 
+        public System.Action StoneBroke;
         public void GetHitted(int damage)
         {
+            StoneBroke?.Invoke();
             Instantiate(brokenRock, floorLevel.position, Quaternion.identity, this.transform.parent);
             Destroy(this.gameObject);
         }

@@ -14,6 +14,7 @@ namespace TimeDistortion.Gameplay
         //[SerializeField] GameObject pauseUI;
         [SerializeField] GameObject gameOverUI;
 
+
         [Header("Runtime Values")]
         [SerializeField] GameplayScreens currentState = GameplayScreens.inGame;
 
@@ -47,7 +48,7 @@ namespace TimeDistortion.Gameplay
         //}
         void SetGameOver()
         {
-            GameManager.Get().SetPause(true);
+            //GameManager.Get().SetPause(true);
 
             currentState = GameplayScreens.gameOver;
             SwitchUIStage();

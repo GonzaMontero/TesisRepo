@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using Universal.Singletons;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 namespace TimeDistortion.Gameplay
 {
@@ -8,12 +10,15 @@ namespace TimeDistortion.Gameplay
     {
         [Header("Set Values")]
         [SerializeField] Characters.PlayerController player;
+        [SerializeField] Props.BreakableStone stone;
+        private bool gameOver = false;
 
         public Action<bool> GameEnded; //bool = playerWon
 
         //Unity Events
         private void Start()
         {
+            stone.StoneBroke += OnStoneBroke;
             if (!player)
             {
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<Characters.PlayerController>();
@@ -27,9 +32,17 @@ namespace TimeDistortion.Gameplay
         }
 
         //Methods
-        void GameOver(bool playerWon)
+        public void GameOver(bool playerWon)
         {
             GameEnded?.Invoke(playerWon);
+            gameOver = true;
+        }
+
+        public void OnRestartInput(InputAction.CallbackContext context)
+        {
+            if(!gameOver)
+                return;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         //Event Receivers
@@ -37,6 +50,11 @@ namespace TimeDistortion.Gameplay
         {
             //Player lost, so invoke gameover and set "playerWon" to false
             GameOver(false);
+        }
+
+        void OnStoneBroke()
+        {
+            GameOver(true);
         }
     }
 }
