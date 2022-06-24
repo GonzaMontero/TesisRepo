@@ -16,7 +16,7 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] FMODUnity.EventReference setSlowMoAudio;
         [SerializeField] FMODUnity.EventReference activateSlowMoAudio;
         [SerializeField] FMODUnity.EventReference slowMoAudio;
-        //[SerializeField] FMODUnity.EventReference slowMoFailedAudio;
+        [SerializeField] FMODUnity.EventReference slowMoFailedAudio;
         [Header("Runtime Values")]
         [SerializeField] bool playerOnAir;
         [SerializeField] bool playerWalking;
@@ -48,6 +48,7 @@ namespace TimeDistortion.Gameplay.Characters
             timeManager.TargetInScope += OnSlowMoReady;
             timeManager.ObjectSlowed += OnObjectSlowed;
             timeManager.ObjectUnSlowed += OnObjectUnSlowed;
+            timeManager.SlowMoFailed += OnSlowMoFailed;
         }
         private void Update()
         {
@@ -140,6 +141,10 @@ namespace TimeDistortion.Gameplay.Characters
         {
             //slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             //slowMoAudioInstance.release(); 
+        }
+        void OnSlowMoFailed()
+        {
+
         }
     }
 }
