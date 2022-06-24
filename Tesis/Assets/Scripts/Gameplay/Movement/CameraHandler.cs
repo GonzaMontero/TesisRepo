@@ -90,7 +90,7 @@ namespace TimeDistortion.Gameplay.Handler
                 rot[2] = cameraTransform.localRotation;
                 preLockOnTransform = cameraTransform.localPosition;
             }
-            else
+            else if(currentLockOnTarget)
             {
                 Vector3 dir = currentLockOnTarget.position - transform.position;
                 dir.Normalize();
@@ -174,7 +174,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void ClearLockOnTargets()
         {
-            if (availableTargets.Count > 0)
+            if (availableTargets.Count > 0 && availableTargets[0])
             {
                 EnemyTarget target = availableTargets[0].GetComponent<EnemyTarget>();
                 if (target != null)

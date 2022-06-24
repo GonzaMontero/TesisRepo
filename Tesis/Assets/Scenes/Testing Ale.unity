@@ -33239,12 +33239,12 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7433315546770259163, guid: 9e4937cce1c909542947d4f32d8a072c,
     type: 3}
   projectilesEmpty: {fileID: 0}
+  mainCam: {fileID: 0}
+  player: {fileID: 0}
   timeBetweenProjectiles: 1
   maxProjectilesInScreen: 1
   timer: 0
   currentProjectiles: 0
-  mainCam: {fileID: 0}
-  player: {fileID: 0}
 --- !u!1001 &641411339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96639,12 +96639,12 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7433315546770259163, guid: 9e4937cce1c909542947d4f32d8a072c,
     type: 3}
   projectilesEmpty: {fileID: 0}
+  mainCam: {fileID: 0}
+  player: {fileID: 0}
   timeBetweenProjectiles: 5
   maxProjectilesInScreen: 1
   timer: 0
   currentProjectiles: 0
-  mainCam: {fileID: 0}
-  player: {fileID: 0}
 --- !u!4 &1915539415 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5239272197777735519, guid: e348e7143b6247b488737e4be26fb038,

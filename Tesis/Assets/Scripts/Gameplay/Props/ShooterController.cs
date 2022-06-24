@@ -8,14 +8,13 @@ namespace TimeDistortion.Gameplay.Props
         [Header("Set Values")]
         [SerializeField] GameObject projectilePrefab;
         [SerializeField] Transform projectilesEmpty;
+        [SerializeField] CameraHandler mainCam;
+        [SerializeField] InputHandler player;
         [SerializeField] float timeBetweenProjectiles;
         [SerializeField] int maxProjectilesInScreen;
         [Header("Runtime Values")]
         [SerializeField] float timer;
         [SerializeField] int currentProjectiles;
-        [Header("Lock On Values")]
-        [SerializeField] CameraHandler mainCam;
-        [SerializeField] InputHandler player;
 
         //Unity Events
         private void Start()
@@ -23,6 +22,14 @@ namespace TimeDistortion.Gameplay.Props
             if (projectilesEmpty == null)
             {
                 projectilesEmpty = transform;
+            }
+            if (mainCam == null)
+            {
+                mainCam = GameObject.FindGameObjectWithTag("CameraHolder").GetComponent<CameraHandler>();
+            }
+            if (player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player").GetComponent<InputHandler>(); ;
             }
         }
 
