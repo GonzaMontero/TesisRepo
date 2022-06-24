@@ -89,6 +89,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Fly (CHEAT)"",
+                    ""type"": ""Button"",
+                    ""id"": ""5bcf2306-ac73-4ddf-b73e-92651357b8c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -300,6 +308,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca2a4d6e-9a93-4e41-b6f1-24ebe87a78e0"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fly (CHEAT)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -317,6 +336,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_OpenMenu = m_Player.FindAction("Open Menu", throwIfNotFound: true);
         m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
+        m_Player_FlyCHEAT = m_Player.FindAction("Fly (CHEAT)", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -375,6 +395,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_OpenMenu;
     private readonly InputAction m_Player_Restart;
+    private readonly InputAction m_Player_FlyCHEAT;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -388,6 +409,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @OpenMenu => m_Wrapper.m_Player_OpenMenu;
         public InputAction @Restart => m_Wrapper.m_Player_Restart;
+        public InputAction @FlyCHEAT => m_Wrapper.m_Player_FlyCHEAT;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -424,6 +446,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Restart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
                 @Restart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
                 @Restart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
+                @FlyCHEAT.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlyCHEAT;
+                @FlyCHEAT.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlyCHEAT;
+                @FlyCHEAT.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlyCHEAT;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -455,6 +480,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Restart.started += instance.OnRestart;
                 @Restart.performed += instance.OnRestart;
                 @Restart.canceled += instance.OnRestart;
+                @FlyCHEAT.started += instance.OnFlyCHEAT;
+                @FlyCHEAT.performed += instance.OnFlyCHEAT;
+                @FlyCHEAT.canceled += instance.OnFlyCHEAT;
             }
         }
     }
@@ -470,5 +498,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnOpenMenu(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
+        void OnFlyCHEAT(InputAction.CallbackContext context);
     }
 }

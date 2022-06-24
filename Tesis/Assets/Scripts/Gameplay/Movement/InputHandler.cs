@@ -187,6 +187,15 @@ namespace TimeDistortion.Gameplay.Handler
             }
         }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        public void OnFlyInput(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+
+            fly = !fly;
+        }
+#endif
+
         public void OnAttackInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
