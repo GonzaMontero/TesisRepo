@@ -167,7 +167,7 @@ namespace TimeDistortion.Gameplay.Physic
         void GetValidTarget()
         {
             if (!slowMoIsReady) return; //Only slow if slow mo mode is active
-           
+
             //Get target (if not, exit)
             RaycastHit hit;
             Physics.Raycast(mainCam.ScreenPointToRay(centerOfScreen), out hit, slowdownRange, slowableLayers);
@@ -190,7 +190,7 @@ namespace TimeDistortion.Gameplay.Physic
             //Debug.Log("Valid Target");
 
             //If already targetting a valid object, exit
-            if (currentTarget != null) return;
+            if (currentTarget != null && currentTarget.transform) return;
 
             //If target is already in list, select old one else, create new
             if (!targetIDs.TryGetValue(hit.transform.GetInstanceID(), out currentTarget))
