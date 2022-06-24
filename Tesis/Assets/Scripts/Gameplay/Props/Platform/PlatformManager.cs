@@ -23,6 +23,7 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] GameObject platformPrefab;
         [SerializeField] Transform platformsEmpty;
         [SerializeField] float platformSpeed;
+        [SerializeField] float firstSpawnDelay;
         [SerializeField] float timeBetweenPlatforms;
         [SerializeField] float slowMoMod = 1;
         [SerializeField] [Tooltip("Max Platforms in screen")] int numberOfPlatforms;
@@ -42,6 +43,8 @@ namespace TimeDistortion.Gameplay.Props
             {
                 platformsEmpty = transform;
             }
+
+            timer = firstSpawnDelay;
         }
         private void Update()
         {
@@ -52,11 +55,11 @@ namespace TimeDistortion.Gameplay.Props
 
             //Instantiate one platform after X seconds had passed
             if (platforms.Count >= numberOfPlatforms) return;
-            timer += localTime * Time.deltaTime;
-            if (timer > timeBetweenPlatforms)
+            timer -= localTime * Time.deltaTime;
+            if (timer < 0)
             {
                 CreatePlatform();
-                timer = 0;
+                timer = timeBetweenPlatforms;
             }
         }
 #if UNITY_EDITOR
