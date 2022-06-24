@@ -252,6 +252,13 @@ MonoBehaviour:
       Data3: -1972240250
       Data4: -1099311744
     Path: event:/SFX/Characters/Main/Habilities/During Slowmo
+  slowMoFailedAudio:
+    Guid:
+      Data1: 604599526
+      Data2: 1136308462
+      Data3: -384268359
+      Data4: -2036734355
+    Path: event:/SFX/UI/SlowMotion - Unavailable
   playerOnAir: 0
   playerWalking: 0
   slowMoReady: 0

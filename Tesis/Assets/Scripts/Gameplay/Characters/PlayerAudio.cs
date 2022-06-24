@@ -144,7 +144,7 @@ namespace TimeDistortion.Gameplay.Characters
         }
         void OnSlowMoFailed()
         {
-
+            FMODUnity.RuntimeManager.PlayOneShot(slowMoFailedAudio);
         }
     }
 }
