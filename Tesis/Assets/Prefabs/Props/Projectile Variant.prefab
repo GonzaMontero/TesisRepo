@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  slowMoMod: 0.2
   damage: 5
   affectedByTime: 1
   player: {fileID: 0}
