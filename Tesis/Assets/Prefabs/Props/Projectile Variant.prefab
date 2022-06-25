@@ -130,21 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockOnTransform: {fileID: 7513699676203479157}
   isFollowed: 0
---- !u!114 &2925329784259774368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7433315546770259163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b03acd16625c5d84691bde66db7f10a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 602833383}
-  impactVFXPrefab: {fileID: 1392484901424030496, guid: db0aff02c5433cf46b6b13b2bf2aa35e,
-    type: 3}
 --- !u!1001 &7775773491129483658
 PrefabInstance:
   m_ObjectHideFlags: 0
