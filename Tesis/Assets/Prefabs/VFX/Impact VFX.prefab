@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1392484901424030496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.23886123, y: 0.23886123, z: 0.23886123}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -54,7 +54,10 @@ VisualEffect:
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 7.588109, y: 5.456553, z: 1.5390977, w: 0.039215688}
+        m_Name: Color01
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
