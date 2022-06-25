@@ -8,6 +8,10 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] Handler.InputHandler controller;
         [SerializeField] Physic.TimeManager timeManager;
         [SerializeField] Animator animator;
+        [SerializeField] GameObject swordTrail;
+        [SerializeField] float swordTrailTimer;
+        [Header("Runtime Values")]
+        [SerializeField] float timer;
 
         //Unity Events
         private void Start()
@@ -39,6 +43,15 @@ namespace TimeDistortion.Gameplay.Characters
             {
                 animator.SetBool("OnAir", !controller.publicGroundedPlayer);
             }
+
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else if(swordTrail.activeSelf)
+            {
+                swordTrail.SetActive(false);
+            }
         }
 
         //Methods
@@ -50,6 +63,8 @@ namespace TimeDistortion.Gameplay.Characters
         void OnPlayerAttacked()
         {
             animator.SetTrigger("Attack");
+            timer = swordTrailTimer;
+            swordTrail.SetActive(true);
         }
         void OnPlayerJumped()
         {
