@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6548968815573507187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6548968815573507184}
+  - component: {fileID: 6548968815573507185}
+  - component: {fileID: 6548968815573507190}
+  m_Layer: 0
+  m_Name: MovingPlatform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6548968815573507184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6548968815573507187}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -16.795, y: 19.167, z: 33.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6548968815573507185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6548968815573507187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aafeee074a6bd048bbc0004eb503ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps:
+  - {x: -1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: -3.8, z: 0}
+  - {x: -1, y: -3.8, z: 0}
+  platformPrefab: {fileID: 5691095578068267736, guid: b88e89d7cd458e94aa70a71ea204cf4f,
+    type: 3}
+  platformsEmpty: {fileID: 0}
+  platformSpeed: 2
+  firstSpawnDelay: 0
+  timeBetweenPlatforms: 5
+  slowMoMod: 0
+  numberOfPlatforms: 1
+  affectedByTime: 1
+  platforms: []
+  timer: 0
+  localTime: 1
+--- !u!65 &6548968815573507190
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6548968815573507187}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.1289272, y: 5.7395687, z: 3.2076879}
+  m_Center: {x: 0.5644636, y: -2.7229366, z: 0.084567785}
