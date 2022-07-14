@@ -78,17 +78,17 @@ MonoBehaviour:
   targetTransform: {fileID: 0}
   cameraTransform: {fileID: 3311622116524530615}
   cameraPivotTransform: {fileID: 3311622115164647621}
-  lookSpeed: 0.0140625
-  followSpeed: 0.75
-  pivotSpeed: 0.00375
-  minimumPivot: -35
-  maximumPivot: 35
+  lookSpeed: 0.03456
+  followSpeed: 1.2
+  pivotSpeed: 0.006
+  minimumPivot: -50
+  maximumPivot: 50
   cameraSphereRadius: 0.1
-  cameraCollisionOffset: 3
-  minimumCollisionOffset: 0.2
+  cameraCollisionOffset: 2
+  minimumCollisionOffset: 1.3
   currentLockOnTarget: {fileID: 0}
   rot:
-  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: 0, z: 0, w: 0}
   - {x: 0, y: 0, z: 0, w: 0}
   maximumLockOnDistance: 30
@@ -119,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3311622116524530608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: -6}
+  m_LocalPosition: {x: 0, y: 1, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3311622115164647621}
@@ -134,8 +134,8 @@ Camera:
   m_GameObject: {fileID: 3311622116524530608}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

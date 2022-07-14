@@ -50,7 +50,7 @@ MonoBehaviour:
     m_Bits: 257
   slowdownDelay: 0.5
   slowdownRange: 50
-  slowdownFactor: 0.05
+  slowdownFactor: 0.1
   slowdownLength: 20
   slowdownExtraLength: 5
   cooldownLength: 2
