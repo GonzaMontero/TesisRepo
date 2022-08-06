@@ -101,8 +101,8 @@ namespace TimeDistortion.Gameplay.Props
             //Calculate Distances
             Vector3 platNextStepDistance = steps[platform.step] - platTransform.localPosition;
             Vector3 platPrevStepDistance = steps[platform.step - 1] - platTransform.localPosition;
-            Vector3 stepStepDistance = steps[platform.step] - steps[platform.step -1];
-            Vector3 platNextStepDir = platNextStepDistance.normalized;
+            Vector3 stepStepDistance = steps[platform.step] - steps[platform.step - 1];
+            Vector3 platNextStepDir = stepStepDistance.normalized;
 
             //Check if platform already reached next step
             if ((platPrevStepDistance).magnitude >= (stepStepDistance).magnitude)
