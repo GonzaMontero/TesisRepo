@@ -75,7 +75,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
-            if (!inputHandler.lockOnFlag && currentLockOnTarget==null)
+            if (currentLockOnTarget==null)
             {                        
                 lookAngle += (mouseXInput * lookSpeed) / delta;
                 pivotAngle -= (mouseYInput * pivotSpeed) / delta;

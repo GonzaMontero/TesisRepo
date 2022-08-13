@@ -9,7 +9,7 @@ namespace TimeDistortion.Gameplay
     public class GameplayManager : MonoBehaviourSingletonInScene<GameplayManager>
     {
         [Header("Set Values")]
-        [SerializeField] Characters.PlayerController player;
+        [SerializeField] Handler.PlayerController player;
         [SerializeField] Props.BreakableStone stone;
         private bool gameOver = false;
 
@@ -21,7 +21,7 @@ namespace TimeDistortion.Gameplay
             stone.StoneBroke += OnStoneBroke;
             if (!player)
             {
-                player = GameObject.FindGameObjectWithTag("Player").GetComponent<Characters.PlayerController>();
+                player = GameObject.FindGameObjectWithTag("Player").GetComponent<Handler.PlayerController>();
             }
 
             player.Died += OnPlayerDied;

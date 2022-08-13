@@ -6,7 +6,7 @@ namespace TimeDistortion.Gameplay.Handler
     public class PlayerLocomotion : MonoBehaviour
     {
         Transform cameraObject;
-        InputHandler inputHandler;
+        RigidBodyCharacter rigidBodyCharacter;
         Vector3 moveDirection;
 
         bool grounded = true;
@@ -23,7 +23,7 @@ namespace TimeDistortion.Gameplay.Handler
         void Start()
         {
             rigidbody = GetComponent<Rigidbody>();
-            inputHandler = GetComponent<InputHandler>();
+            rigidBodyCharacter = GetComponent<RigidBodyCharacter>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             cameraObject = Camera.main.transform;
             myTransform = transform;
@@ -37,10 +37,10 @@ namespace TimeDistortion.Gameplay.Handler
         {
             float delta = Time.deltaTime;
 
-            //inputHandler.TickInput(delta);
+            rigidBodyCharacter.TickInput(delta);
 
-            moveDirection = cameraObject.forward * inputHandler.vertical;
-            moveDirection += cameraObject.right * inputHandler.horizontal;
+            moveDirection = cameraObject.forward * rigidBodyCharacter.vertical;
+            moveDirection += cameraObject.right * rigidBodyCharacter.horizontal;
             moveDirection.Normalize();
 
             float speed = movementSpeed;
@@ -65,15 +65,14 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region Movement
         Vector3 normalVector;
-        Vector3 targetPosition;
 
         private void HandleRotation(float delta)
         {
             Vector3 targetDir = Vector3.zero;
-            float moveOverride = inputHandler.moveAmount;
+            float moveOverride = rigidBodyCharacter.moveAmount;
 
-            targetDir = cameraObject.forward * inputHandler.vertical;
-            targetDir += cameraObject.right * inputHandler.horizontal;
+            targetDir = cameraObject.forward * rigidBodyCharacter.vertical;
+            targetDir += cameraObject.right * rigidBodyCharacter.horizontal;
 
             targetDir.Normalize();
             targetDir.y = 0;
@@ -93,7 +92,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void HandleJumping()
         {
-            if (inputHandler.jumpInput && grounded)
+            if (rigidBodyCharacter.jumpInput && grounded)
             {
                 //if (inputHandler.moveAmount > 0)
                 //{
