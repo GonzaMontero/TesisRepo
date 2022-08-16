@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace TimeDistortion.Gameplay.Handler
@@ -59,6 +60,11 @@ namespace TimeDistortion.Gameplay.Handler
             rot[0] = transform.localRotation;
         }
 
+        private void Update()
+        {
+            LockTargetIsFar();
+        }
+
         public void FollowTarget(float delta)
         {
             Vector3 targetPosition = Vector3.SmoothDamp(myTransform.position, targetTransform.position, ref cameraFollowVelocity, delta / followSpeed);
@@ -69,7 +75,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
-            if (!inputHandler.lockOnFlag && currentLockOnTarget==null)
+            if (currentLockOnTarget==null)
             {                        
                 lookAngle += (mouseXInput * lookSpeed) / delta;
                 pivotAngle -= (mouseYInput * pivotSpeed) / delta;
@@ -189,6 +195,20 @@ namespace TimeDistortion.Gameplay.Handler
             transform.localRotation = rot[0];
             cameraPivotTransform.localRotation = rot[1];
             cameraTransform.localRotation = rot[2];
+        }
+
+        public bool LockTargetIsFar()
+        {
+            //if there's no target, return false (because is not far
+            if(!currentLockOnTarget)
+                return false;
+            
+            //Get distance with lock target
+            float lockDis;
+            lockDis = Vector3.Distance(transform.position, currentLockOnTarget.position); 
+            
+            //Return if distance is ok
+            return lockDis > maximumLockOnDistance;
         }
     }
 }

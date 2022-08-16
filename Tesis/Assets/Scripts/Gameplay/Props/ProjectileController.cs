@@ -6,28 +6,36 @@ namespace TimeDistortion.Gameplay.Props
     public class ProjectileController : MonoBehaviour, IHittable, ITimed
     {
         [Header("Set Values")]
+        [SerializeField] float selfDestroyTime;
         [SerializeField] float speed;
         [SerializeField] float slowMoMod = 1;
         [SerializeField] int damage;
         [SerializeField] bool affectedByTime = true;
+        [SerializeField] bool useLocalSelfDestroy = false;
         [Header("Runtime Values")]
         [SerializeField] Transform player;
-        [SerializeField] float speedDelta;
+        [SerializeField] float delta;
         [SerializeField] float localTime = 1;
-        [Header("Rotation Values")]
-        [SerializeField] float turnSmoothVelocity;
-        [SerializeField] float turnSmoothTime;
+        [SerializeField] float destroyTimer;
 
         public Action Redirected;
         public Action Destroyed;
-
+        
         //Unity Events
         private void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
+            destroyTimer = selfDestroyTime;
         }
         void Update()
         {
+            delta = localTime * Time.deltaTime;
+            destroyTimer -= delta;
+            if (destroyTimer < 0)
+            {
+                GetDestroyed();
+                return;
+            }
             Move();
         }
         private void OnCollisionEnter(Collision other)
@@ -38,7 +46,7 @@ namespace TimeDistortion.Gameplay.Props
                 hittable.GetHitted(damage);
             }
 
-            if ((other.transform.root.tag != "Player") && other.transform != transform.parent)
+            if ((!other.transform.root.CompareTag("Player")) && other.transform != transform.parent)
             {
                 //Debug.Log("KILL PROJECTILE");
                 GetDestroyed();
@@ -48,11 +56,15 @@ namespace TimeDistortion.Gameplay.Props
         }
 
         //Methods
+        public void SetSelfDestroyTimer(float newTime)
+        {
+            if (useLocalSelfDestroy)
+                return;
+            selfDestroyTime = newTime;
+        }
         void Move()
         {
-            float delta = localTime * Time.deltaTime;
-            speedDelta = delta;
-            transform.Translate(transform.forward * speed * delta, Space.World);
+            transform.Translate(transform.forward * (speed * delta), Space.World);
         }
         void GetDestroyed()
         {
@@ -68,12 +80,11 @@ namespace TimeDistortion.Gameplay.Props
         }
 
         //Interface Implementations
-        public void GetHitted(int damage)
+        public void GetHitted(int notUsed)
         {
             transform.forward = player.transform.forward;
             Redirected?.Invoke();
         }
-
         public void TimeChanged(float newTime)
         {
             if (!affectedByTime) return;

@@ -11,6 +11,7 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] CameraHandler mainCam;
         [SerializeField] InputHandler player;
         [SerializeField] float timeBetweenProjectiles;
+        [SerializeField] float projectileSelfDestroyTime = 15f;
         [SerializeField] int maxProjectilesInScreen;
         [Header("Runtime Values")]
         [SerializeField] float timer;
@@ -61,6 +62,7 @@ namespace TimeDistortion.Gameplay.Props
 
             //Link Actions
             proj.Destroyed += OnProjectileDestroyed;
+            proj.SetSelfDestroyTimer(projectileSelfDestroyTime);
             proj.GetComponent<EnemyTarget>().SetValues(player);
 
             //Increase Counter

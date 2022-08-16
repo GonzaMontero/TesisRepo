@@ -7,7 +7,7 @@ namespace TimeDistortion.Gameplay.Characters
     public class UIPlayer : MonoBehaviour
     {
         [Header("Set Values")]
-        [SerializeField] PlayerController controller;
+        [SerializeField] Handler.PlayerController controller;
         [SerializeField] Slider healthBar;
         [SerializeField] TextMeshProUGUI healthText;
         [Header("Runtime Values")]
@@ -19,7 +19,7 @@ namespace TimeDistortion.Gameplay.Characters
         {
             if (!controller)
             {
-                controller = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                controller = GameObject.FindGameObjectWithTag("Player").GetComponent<Handler.PlayerController>();
             }
 
             //Link Actions
@@ -30,6 +30,7 @@ namespace TimeDistortion.Gameplay.Characters
             baseHealth = controller.publicData.baseStats.health;
             OnHitted();
         }
+
         private void OnDestroy()
         {
             //UnLink Actions
@@ -37,13 +38,13 @@ namespace TimeDistortion.Gameplay.Characters
             //controller.Died -= OnHitted;
         }
 
-
         //Methods
         void UpdateHealthBar()
         {
             if (healthBar == null) return;
             healthBar.value = (float)currentHealth / (float)baseHealth;
         }
+
         void UpdateHealthText()
         {
             if (healthText == null) return;

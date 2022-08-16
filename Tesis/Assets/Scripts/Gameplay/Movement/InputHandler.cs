@@ -141,7 +141,13 @@ namespace TimeDistortion.Gameplay.Handler
                 paralysisTimer -= Time.deltaTime;
             }
 
-                lastPos = transform.position;            
+                lastPos = transform.position;
+
+                if (cameraHandler.LockTargetIsFar())
+                {
+                    Debug.Log("Is far");
+                    StopLockOn();
+                }
         }
 
         public void OnMoveCameraInput(InputAction.CallbackContext context)

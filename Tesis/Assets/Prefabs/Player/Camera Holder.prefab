@@ -91,7 +91,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0, w: 1}
   - {x: 0, y: 0, z: 0, w: 0}
   - {x: 0, y: 0, z: 0, w: 0}
-  maximumLockOnDistance: 30
+  maximumLockOnDistance: 20
   nearestLockOnTarget: {fileID: 0}
 --- !u!1 &3311622116524530608
 GameObject:
