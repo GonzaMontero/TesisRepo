@@ -18,6 +18,7 @@ namespace TimeDistortion.Gameplay.Handler
         #endregion
 
         #region Movement Values
+        private float deltaTime;
         private float horizontal;
         private float vertical;
         private float moveAmount;
@@ -34,6 +35,7 @@ namespace TimeDistortion.Gameplay.Handler
         Transform cameraObject;
         Vector3 moveDirection;
         Vector3 normalVector;
+        Vector3 projectedVelocity;
 
         public bool grounded = true;
 
@@ -113,12 +115,14 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Update()
         {
-            float delta = Time.deltaTime;
+            deltaTime = Time.deltaTime;
 
             if (cameraHandler != null)
             {
-                cameraHandler.FollowTarget(delta);
+                cameraHandler.FollowTarget(deltaTime);
             }
+
+            rigidbody.velocity = projectedVelocity;
         }
 
         private void LateUpdate()
@@ -210,6 +214,21 @@ namespace TimeDistortion.Gameplay.Handler
             }
         }
 
+        /// <summary> ///  Calculates projected velocity with last input /// </summary>
+        private void ProjectVelocity()
+        {
+            projectedVelocity = Vector3.zero;
+
+            TickInput(deltaTime);
+
+            Vector3 movement = HandleMovement();
+
+            if (movement.y == 0)
+            {
+                projectedVelocity = new Vector3(movement.x, 0, movement.z);
+            }
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.transform.tag == "Ground")
@@ -228,7 +247,11 @@ namespace TimeDistortion.Gameplay.Handler
             mouseX = context.ReadValue<Vector2>().x;
             mouseY = context.ReadValue<Vector2>().y;
 
-            cameraHandler.HandleCameraRotation(Time.deltaTime, mouseX, mouseY);
+            cameraHandler.HandleCameraRotation(deltaTime, mouseX, mouseY);
+
+            //Calculate velocity and rotation after camera moved;
+            ProjectVelocity();
+            HandleRotation(deltaTime);
         }
 
         public void OnLockCameraInput(InputAction.CallbackContext context)
@@ -240,22 +263,10 @@ namespace TimeDistortion.Gameplay.Handler
         {
             moveInput = context.ReadValue<Vector2>();
 
-            Vector3 projectedVelocity = Vector3.zero;
-
-            float delta = Time.deltaTime;
-
-            TickInput(delta);
-
-            Vector3 movement = HandleMovement();
-
-            if (movement.y == 0)
-            {
-                projectedVelocity = new Vector3(movement.x, 0, movement.z);
-            }
-
+            ProjectVelocity();
             rigidbody.velocity = projectedVelocity;
 
-            HandleRotation(delta);
+            HandleRotation(deltaTime);
         }
 
         public void OnJumpInput(InputAction.CallbackContext context)
@@ -278,7 +289,7 @@ namespace TimeDistortion.Gameplay.Handler
             //    if (attacking)
             //        StopLightAttack();
             //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            //    characterController.Move(playerVelocity * Time.deltaTime);
+            //    characterController.Move(playerVelocity * deltaTime);
             //    groundedPlayer = false;
             //    PlayerJumped?.Invoke();
             //}
