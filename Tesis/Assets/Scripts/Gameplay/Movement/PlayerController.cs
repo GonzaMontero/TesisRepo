@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
@@ -46,6 +46,7 @@ namespace TimeDistortion.Gameplay.Handler
         [Header("Stats")]
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
+        Quaternion targetRotation;
         #endregion
 
         #region Gameplay Actions
@@ -123,6 +124,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
 
             rigidbody.velocity = projectedVelocity;
+            HandleRotation(deltaTime);
         }
 
         private void LateUpdate()
@@ -167,17 +169,19 @@ namespace TimeDistortion.Gameplay.Handler
             return Vector3.ProjectOnPlane(moveDirection, normalVector);            
         }
 
-        private void HandleRotation(float delta)
+        /// <summary> 
+        /// Sets a new target rotation, taking in account camera forward
+        /// </summary>
+        private void SetNewRotation()
         {
             Vector3 targetDir = Vector3.zero;
             float moveOverride = moveAmount;
 
-
-            Vector3 camDir = cameraObject.forward;
+            Vector3 camDir = cameraObject.right;
             camDir.y = 0;
             targetDir = camDir * moveInput.x;
 
-            camDir = cameraObject.right;
+            camDir = cameraObject.forward;
             camDir.y = 0;
             targetDir += camDir * moveInput.y;
 
@@ -191,10 +195,20 @@ namespace TimeDistortion.Gameplay.Handler
 
             float rs = rotationSpeed;
 
-            Quaternion tr = Quaternion.LookRotation(targetDir);
-            Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rotationSpeed * delta);
+            targetRotation = Quaternion.LookRotation(targetDir);
+        }
 
-            myTransform.rotation = targetRotation;
+        /// <summary> 
+        /// Rotates character with lerp until it reaches Target Rotation
+        /// </summary>
+        private void HandleRotation(float delta)
+        {
+            if (myTransform.rotation == targetRotation)
+                return;
+
+            Quaternion rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, rotationSpeed * delta);
+
+            myTransform.rotation = rotation;
         }
 
         private void HandleJumping()
@@ -251,7 +265,7 @@ namespace TimeDistortion.Gameplay.Handler
 
             //Calculate velocity and rotation after camera moved;
             ProjectVelocity();
-            HandleRotation(deltaTime);
+            SetNewRotation();
         }
 
         public void OnLockCameraInput(InputAction.CallbackContext context)
@@ -266,7 +280,7 @@ namespace TimeDistortion.Gameplay.Handler
             ProjectVelocity();
             rigidbody.velocity = projectedVelocity;
 
-            HandleRotation(deltaTime);
+            SetNewRotation();
         }
 
         public void OnJumpInput(InputAction.CallbackContext context)
