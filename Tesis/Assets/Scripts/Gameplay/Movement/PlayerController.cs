@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
@@ -123,7 +123,7 @@ namespace TimeDistortion.Gameplay.Handler
                 cameraHandler.FollowTarget(deltaTime);
             }
 
-            rigidbody.velocity = projectedVelocity;
+            UpdateRigidVelocity();
             HandleRotation(deltaTime);
         }
 
@@ -228,7 +228,9 @@ namespace TimeDistortion.Gameplay.Handler
             }
         }
 
-        /// <summary> ///  Calculates projected velocity with last input /// </summary>
+        /// <summary>  
+        /// Calculates projected velocity with last input 
+        /// </summary>
         private void ProjectVelocity()
         {
             projectedVelocity = Vector3.zero;
@@ -241,6 +243,17 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 projectedVelocity = new Vector3(movement.x, 0, movement.z);
             }
+        }
+
+        /// <summary>  
+        /// Updates velocity with projected velocity
+        /// </summary>
+        private void UpdateRigidVelocity()
+        {
+            if (projectedVelocity.sqrMagnitude < 1)
+                return;
+            projectedVelocity.y = rigidbody.velocity.y;
+            rigidbody.velocity = projectedVelocity;
         }
 
         private void OnCollisionEnter(Collision collision)
