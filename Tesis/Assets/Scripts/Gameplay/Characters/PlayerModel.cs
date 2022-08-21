@@ -5,7 +5,7 @@ namespace TimeDistortion.Gameplay.Characters
     public class PlayerModel : MonoBehaviour
     {
         [Header("Set Values")]
-        [SerializeField] Handler.InputHandler controller;
+        [SerializeField] Handler.PlayerController controller;
         [SerializeField] Physic.TimeManager timeManager;
         [SerializeField] Animator animator;
         [SerializeField] GameObject swordTrail;
@@ -26,7 +26,7 @@ namespace TimeDistortion.Gameplay.Characters
             }
             if (!controller)
             {
-                controller = GetComponent<Handler.InputHandler>();
+                controller = GetComponent<Handler.PlayerController>();
             }
 
             //controller.CameraLocked += OnCameraLocked;
@@ -39,9 +39,9 @@ namespace TimeDistortion.Gameplay.Characters
         }
         private void Update()
         {
-            if (controller.publicGroundedPlayer == animator.GetBool("OnAir"))
+            if (controller.grounded == animator.GetBool("OnAir"))
             {
-                animator.SetBool("OnAir", !controller.publicGroundedPlayer);
+                animator.SetBool("OnAir", !controller.grounded);
             }
 
             if (timer > 0)

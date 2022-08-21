@@ -225,6 +225,7 @@ namespace TimeDistortion.Gameplay.Handler
                 //}
                 rigidbody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
                 grounded = false;
+                PlayerJumped?.Invoke();
             }
         }
 
@@ -251,9 +252,14 @@ namespace TimeDistortion.Gameplay.Handler
         private void UpdateRigidVelocity()
         {
             if (projectedVelocity.sqrMagnitude < 1)
+            {
+                PlayerMoved?.Invoke(false);
                 return;
+            }
             projectedVelocity.y = rigidbody.velocity.y;
             rigidbody.velocity = projectedVelocity;
+            
+            PlayerMoved?.Invoke(true);
         }
 
         private void OnCollisionEnter(Collision collision)
