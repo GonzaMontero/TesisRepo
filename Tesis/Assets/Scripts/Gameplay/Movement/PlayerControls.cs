@@ -37,21 +37,48 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Camera"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""c97fd9a5-ca62-49e1-962d-cfd1476441d1"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""36b66832-ab15-4fa0-b0a0-47ab27d78fc2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""05c193ae-fece-4e20-b375-46f41e4a0b76"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e5461ff-3c7b-4613-aff5-b9b8eb254da5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use SlowMo"",
+                    ""type"": ""Button"",
+                    ""id"": ""e92dffae-5174-4e8a-9882-02eca75de9a4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Camera"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""c97fd9a5-ca62-49e1-962d-cfd1476441d1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -64,27 +91,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Ready SlowMo"",
-                    ""type"": ""Button"",
-                    ""id"": ""e92dffae-5174-4e8a-9882-02eca75de9a4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""10b0cf13-cc00-4558-a861-0e5a9342ea13"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Attack"",
-                    ""type"": ""Button"",
-                    ""id"": ""05c193ae-fece-4e20-b375-46f41e4a0b76"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -177,22 +186,11 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4165a6e9-e38f-44cd-a20a-87bd07f8390b"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""path"": ""<XInputController>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5865aea3-d4fc-4eff-a410-2cd635cbfd29"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
-                    ""groups"": """",
-                    ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -204,28 +202,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
                     ""action"": ""Camera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7c8abb45-72bf-4779-af6d-1ab3b6fd9986"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9ddb7a66-b1ee-4069-8d3c-0013b73bd03d"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -243,33 +219,11 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e957adb4-6f12-4c71-afe7-210bfd7d48bc"",
-                    ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Lock On"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""adb2340d-a71b-41b1-aa76-4d2ade5cfdad"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Ready SlowMo"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""708ed4b3-1df0-4060-9e93-e0e04b17aa8c"",
                     ""path"": ""<XInputController>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Ready SlowMo"",
+                    ""action"": ""Lock On"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -308,17 +262,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e6b55fe9-0ad5-42ce-96a9-fffee95fef60"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""a6190af2-9c4c-4764-baab-dc1614bc02b7"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
@@ -338,6 +281,105 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Fly (CHEAT)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5865aea3-d4fc-4eff-a410-2cd635cbfd29"",
+                    ""path"": ""<XInputController>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c8abb45-72bf-4779-af6d-1ab3b6fd9986"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ddb7a66-b1ee-4069-8d3c-0013b73bd03d"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6b55fe9-0ad5-42ce-96a9-fffee95fef60"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed14f802-256c-40cc-b10c-c18340f3acca"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8a7305b-0ec7-4bf3-b168-c3b074b383de"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42fd83ac-0a27-4286-b5de-8fbf55f18e4f"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""adb2340d-a71b-41b1-aa76-4d2ade5cfdad"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use SlowMo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""708ed4b3-1df0-4060-9e93-e0e04b17aa8c"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use SlowMo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -347,12 +389,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
-        m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_LockOn = m_Player.FindAction("Lock On", throwIfNotFound: true);
-        m_Player_ReadySlowMo = m_Player.FindAction("Ready SlowMo", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_UseSlowMo = m_Player.FindAction("Use SlowMo", throwIfNotFound: true);
+        m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
+        m_Player_LockOn = m_Player.FindAction("Lock On", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_OpenMenu = m_Player.FindAction("Open Menu", throwIfNotFound: true);
         m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
         m_Player_FlyCHEAT = m_Player.FindAction("Fly (CHEAT)", throwIfNotFound: true);
@@ -416,12 +459,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
-    private readonly InputAction m_Player_Camera;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_LockOn;
-    private readonly InputAction m_Player_ReadySlowMo;
-    private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_UseSlowMo;
+    private readonly InputAction m_Player_Camera;
+    private readonly InputAction m_Player_LockOn;
+    private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_OpenMenu;
     private readonly InputAction m_Player_Restart;
     private readonly InputAction m_Player_FlyCHEAT;
@@ -430,12 +474,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
-        public InputAction @Camera => m_Wrapper.m_Player_Camera;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
-        public InputAction @ReadySlowMo => m_Wrapper.m_Player_ReadySlowMo;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @UseSlowMo => m_Wrapper.m_Player_UseSlowMo;
+        public InputAction @Camera => m_Wrapper.m_Player_Camera;
+        public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @OpenMenu => m_Wrapper.m_Player_OpenMenu;
         public InputAction @Restart => m_Wrapper.m_Player_Restart;
         public InputAction @FlyCHEAT => m_Wrapper.m_Player_FlyCHEAT;
@@ -451,24 +496,27 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Camera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
-                @Camera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
-                @Camera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @LockOn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
-                @LockOn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
-                @LockOn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
-                @ReadySlowMo.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadySlowMo;
-                @ReadySlowMo.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadySlowMo;
-                @ReadySlowMo.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadySlowMo;
-                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @UseSlowMo.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSlowMo;
+                @UseSlowMo.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSlowMo;
+                @UseSlowMo.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSlowMo;
+                @Camera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                @Camera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                @Camera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                @LockOn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @LockOn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @LockOn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @OpenMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
                 @OpenMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
                 @OpenMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
@@ -485,24 +533,27 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
-                @Camera.started += instance.OnCamera;
-                @Camera.performed += instance.OnCamera;
-                @Camera.canceled += instance.OnCamera;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @LockOn.started += instance.OnLockOn;
-                @LockOn.performed += instance.OnLockOn;
-                @LockOn.canceled += instance.OnLockOn;
-                @ReadySlowMo.started += instance.OnReadySlowMo;
-                @ReadySlowMo.performed += instance.OnReadySlowMo;
-                @ReadySlowMo.canceled += instance.OnReadySlowMo;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @UseSlowMo.started += instance.OnUseSlowMo;
+                @UseSlowMo.performed += instance.OnUseSlowMo;
+                @UseSlowMo.canceled += instance.OnUseSlowMo;
+                @Camera.started += instance.OnCamera;
+                @Camera.performed += instance.OnCamera;
+                @Camera.canceled += instance.OnCamera;
+                @LockOn.started += instance.OnLockOn;
+                @LockOn.performed += instance.OnLockOn;
+                @LockOn.canceled += instance.OnLockOn;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
                 @OpenMenu.started += instance.OnOpenMenu;
                 @OpenMenu.performed += instance.OnOpenMenu;
                 @OpenMenu.canceled += instance.OnOpenMenu;
@@ -519,12 +570,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnCamera(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnLockOn(InputAction.CallbackContext context);
-        void OnReadySlowMo(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnUseSlowMo(InputAction.CallbackContext context);
+        void OnCamera(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
         void OnOpenMenu(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
         void OnFlyCHEAT(InputAction.CallbackContext context);

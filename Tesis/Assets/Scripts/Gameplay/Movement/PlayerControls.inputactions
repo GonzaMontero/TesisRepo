@@ -11,15 +11,8 @@
                     "id": "024070aa-9a07-4f7d-98e9-58a7cc2cc253",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Camera",
-                    "type": "PassThrough",
-                    "id": "c97fd9a5-ca62-49e1-962d-cfd1476441d1",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
@@ -27,31 +20,8 @@
                     "id": "36b66832-ab15-4fa0-b0a0-47ab27d78fc2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
-                },
-                {
-                    "name": "Lock On",
-                    "type": "Button",
-                    "id": "78e02fe1-d03b-4cd0-8114-59d7aed3a321",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Ready SlowMo",
-                    "type": "Button",
-                    "id": "e92dffae-5174-4e8a-9882-02eca75de9a4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Interact",
-                    "type": "Button",
-                    "id": "10b0cf13-cc00-4558-a861-0e5a9342ea13",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Attack",
@@ -59,7 +29,53 @@
                     "id": "05c193ae-fece-4e20-b375-46f41e4a0b76",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "3e5461ff-3c7b-4613-aff5-b9b8eb254da5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use SlowMo",
+                    "type": "Button",
+                    "id": "e92dffae-5174-4e8a-9882-02eca75de9a4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Camera",
+                    "type": "PassThrough",
+                    "id": "c97fd9a5-ca62-49e1-962d-cfd1476441d1",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lock On",
+                    "type": "Button",
+                    "id": "78e02fe1-d03b-4cd0-8114-59d7aed3a321",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "10b0cf13-cc00-4558-a861-0e5a9342ea13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Open Menu",
@@ -67,7 +83,8 @@
                     "id": "c2d36052-2a77-4575-912c-3e811d2a5784",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Restart",
@@ -75,7 +92,8 @@
                     "id": "612c79a0-bb86-4637-8544-0648be7571f2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Fly (CHEAT)",
@@ -83,7 +101,8 @@
                     "id": "5bcf2306-ac73-4ddf-b73e-92651357b8c1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -145,22 +164,11 @@
                 {
                     "name": "",
                     "id": "4165a6e9-e38f-44cd-a20a-87bd07f8390b",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<XInputController>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5865aea3-d4fc-4eff-a410-2cd635cbfd29",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "StickDeadzone",
-                    "groups": "",
-                    "action": "Camera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -172,28 +180,6 @@
                     "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7c8abb45-72bf-4779-af6d-1ab3b6fd9986",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9ddb7a66-b1ee-4069-8d3c-0013b73bd03d",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -211,33 +197,11 @@
                 {
                     "name": "",
                     "id": "e957adb4-6f12-4c71-afe7-210bfd7d48bc",
-                    "path": "<Gamepad>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Lock On",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "adb2340d-a71b-41b1-aa76-4d2ade5cfdad",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Ready SlowMo",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "708ed4b3-1df0-4060-9e93-e0e04b17aa8c",
                     "path": "<XInputController>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Ready SlowMo",
+                    "action": "Lock On",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -276,17 +240,6 @@
                 },
                 {
                     "name": "",
-                    "id": "e6b55fe9-0ad5-42ce-96a9-fffee95fef60",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a6190af2-9c4c-4764-baab-dc1614bc02b7",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -304,6 +257,105 @@
                     "processors": "",
                     "groups": "",
                     "action": "Fly (CHEAT)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5865aea3-d4fc-4eff-a410-2cd635cbfd29",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c8abb45-72bf-4779-af6d-1ab3b6fd9986",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ddb7a66-b1ee-4069-8d3c-0013b73bd03d",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6b55fe9-0ad5-42ce-96a9-fffee95fef60",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed14f802-256c-40cc-b10c-c18340f3acca",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8a7305b-0ec7-4bf3-b168-c3b074b383de",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42fd83ac-0a27-4286-b5de-8fbf55f18e4f",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "adb2340d-a71b-41b1-aa76-4d2ade5cfdad",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use SlowMo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "708ed4b3-1df0-4060-9e93-e0e04b17aa8c",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use SlowMo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

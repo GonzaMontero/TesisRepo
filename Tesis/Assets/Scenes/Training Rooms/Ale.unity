@@ -2166,14 +2166,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4759590306485559340}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8026f3d77b1248d4cacdc89fc5f596a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
+  controller: {fileID: 4759590306485559341}
   playerHitter: {fileID: 5915179767855279573}
-  timeManager: {fileID: 0}
+  timeManager: {fileID: 196171866}
   walkAudio:
     Guid:
       Data1: 1495120857
