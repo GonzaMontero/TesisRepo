@@ -5,7 +5,7 @@ namespace TimeDistortion.Gameplay.Characters
     public class PlayerAudio : MonoBehaviour
     {
         [Header("Set Values")]
-        [SerializeField] Handler.InputHandler controller;
+        [SerializeField] Handler.PlayerController controller;
         [SerializeField] SwordHit playerHitter;
         [SerializeField] Physic.TimeManager timeManager;
         [SerializeField] FMODUnity.EventReference walkAudio;
@@ -35,7 +35,7 @@ namespace TimeDistortion.Gameplay.Characters
             }
             if (!controller)
             {
-                controller = GetComponent<Handler.InputHandler>();
+                controller = GetComponent<Handler.PlayerController>();
             }
             if (!playerHitter)
             {
@@ -54,8 +54,8 @@ namespace TimeDistortion.Gameplay.Characters
         }
         private void Update()
         {
-            if (controller.publicGroundedPlayer != playerOnAir) return;
-            playerOnAir = !controller.publicGroundedPlayer;
+            if (controller.grounded != playerOnAir) return;
+            playerOnAir = !controller.grounded;
 
             if (playerOnAir)
             {
