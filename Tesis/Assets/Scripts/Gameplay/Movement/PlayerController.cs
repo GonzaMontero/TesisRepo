@@ -8,13 +8,13 @@ namespace TimeDistortion.Gameplay.Handler
     public class PlayerController : MonoBehaviour
     {
         #region Components and Controls
-        [SerializeField] CameraHandler cameraHandler;
+        //[SerializeField] CameraHandler cameraHandler;
         [SerializeField] GameObject attackHitBox;
         #endregion
 
         #region Movement and Camera Input
         Vector2 moveInput;
-        Vector2 cameraInput;
+        //Vector2 cameraInput;
         #endregion
 
         #region Movement Values
@@ -39,9 +39,8 @@ namespace TimeDistortion.Gameplay.Handler
 
         public bool grounded = true;
 
-        private Transform myTransform;
         private new Rigidbody rigidbody;
-        private GameObject normalCamera;
+        //private GameObject normalCamera;
 
         [Header("Stats")]
         [SerializeField] float movementSpeed = 5;
@@ -55,7 +54,7 @@ namespace TimeDistortion.Gameplay.Handler
         #endregion
 
         #region Handler Actions and Stuff
-        public Action<bool> CameraLocked;
+        //public Action<bool> CameraLocked;
         public Action<bool> PlayerMoved;
         public Action PlayerJumped;
         public Action PlayerAttacked;
@@ -100,7 +99,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Start()
         {
-            cameraHandler = CameraHandler.singleton;
+            //cameraHandler = CameraHandler.singleton;
 
             InitRigidSystem();
         }
@@ -109,7 +108,6 @@ namespace TimeDistortion.Gameplay.Handler
         {
             rigidbody = GetComponent<Rigidbody>();
             cameraObject = Camera.main.transform;
-            myTransform = transform;
 
             grounded = true;
         }
@@ -118,10 +116,10 @@ namespace TimeDistortion.Gameplay.Handler
         {
             deltaTime = Time.deltaTime;
 
-            if (cameraHandler != null)
-            {
-                cameraHandler.FollowTarget(deltaTime);
-            }
+            // if (cameraHandler != null)
+            // {
+            //     cameraHandler.FollowTarget(deltaTime);
+            // }
 
             UpdateRigidVelocity();
             HandleRotation(deltaTime);
@@ -146,8 +144,8 @@ namespace TimeDistortion.Gameplay.Handler
             horizontal = moveInput.x;
             vertical = moveInput.y;
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-            mouseX = cameraInput.x;
-            mouseY = cameraInput.y;
+            //mouseX = cameraInput.x;
+            //mouseY = cameraInput.y;
         }
 
         private Vector3 HandleMovement()
@@ -190,7 +188,7 @@ namespace TimeDistortion.Gameplay.Handler
 
             if (targetDir == Vector3.zero)
             {
-                targetDir = myTransform.forward;
+                targetDir = transform.forward;
             }
 
             float rs = rotationSpeed;
@@ -203,12 +201,12 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void HandleRotation(float delta)
         {
-            if (myTransform.rotation == targetRotation)
+            if (transform.rotation == targetRotation)
                 return;
 
-            Quaternion rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, rotationSpeed * delta);
+            Quaternion rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
 
-            myTransform.rotation = rotation;
+            transform.rotation = rotation;
         }
 
         private void HandleJumping()
@@ -273,15 +271,8 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region On Inputs
 
-        public void OnMoveCameraInput(InputAction.CallbackContext context)
+        public void OnRotateInput(InputAction.CallbackContext context)
         {
-            if (cameraHandler == null) return;
-
-            mouseX = context.ReadValue<Vector2>().x;
-            mouseY = context.ReadValue<Vector2>().y;
-
-            cameraHandler.HandleCameraRotation(deltaTime, mouseX, mouseY);
-
             //Calculate velocity and rotation after camera moved;
             ProjectVelocity();
             SetNewRotation();
@@ -304,6 +295,8 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnJumpInput(InputAction.CallbackContext context)
         {
+            if (!context.started)
+                return;
             HandleJumping();
 
             //if (!context.started)
@@ -376,33 +369,33 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void HandleLockOnInput()
         {
-            if (!lockOnFlag)
-            {
-                cameraHandler.ClearLockOnTargets();
-                lockOnInput = false;
-                cameraHandler.HandleLockOn();
-                if (cameraHandler.nearestLockOnTarget != null)
-                {
-                    cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
-                    lockOnFlag = true;
-                    CameraLocked?.Invoke(true);
-                }
-            }
-            else if (lockOnFlag)
-            {
-                lockOnInput = false;
-                lockOnFlag = false;
-                cameraHandler.ClearLockOnTargets();
-                CameraLocked?.Invoke(false);
-            }
+            // if (!lockOnFlag)
+            // {
+            //     cameraHandler.ClearLockOnTargets();
+            //     lockOnInput = false;
+            //     cameraHandler.HandleLockOn();
+            //     if (cameraHandler.nearestLockOnTarget != null)
+            //     {
+            //         cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+            //         lockOnFlag = true;
+            //         CameraLocked?.Invoke(true);
+            //     }
+            // }
+            // else if (lockOnFlag)
+            // {
+            //     lockOnInput = false;
+            //     lockOnFlag = false;
+            //     cameraHandler.ClearLockOnTargets();
+            //     CameraLocked?.Invoke(false);
+            // }
         }
 
         public void StopLockOn()
         {
-            lockOnInput = false;
-            lockOnFlag = false;
-            cameraHandler.ClearLockOnTargets();
-            CameraLocked?.Invoke(false);
+            // lockOnInput = false;
+            // lockOnFlag = false;
+            // cameraHandler.ClearLockOnTargets();
+            // CameraLocked?.Invoke(false);
         }
         #endregion
     }
