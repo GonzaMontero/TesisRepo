@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: aa87107d0c3535c4983a4edb2d0e9f7b, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4367177, g: 0.48432398, b: 0.5645757, a: 1}
+  m_IndirectSpecularColor: {r: 0.06784614, g: 0.274145, b: 0.48477334, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1819,7 +1819,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444714014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.004, y: 13.78, z: 13}
+  m_LocalPosition: {x: -3.08, y: 13.78, z: 13}
   m_LocalScale: {x: 0.82322, y: 1.48356, z: 0.32070145}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6745,8 +6745,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1431308609916771774, guid: 370f9360db4d6f54ab94285a5169fd1a,
         type: 3}
+      propertyPath: jumpHeight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431308609916771774, guid: 370f9360db4d6f54ab94285a5169fd1a,
+        type: 3}
       propertyPath: movementSpeed
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431308609916771774, guid: 370f9360db4d6f54ab94285a5169fd1a,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1431308609916771775, guid: 370f9360db4d6f54ab94285a5169fd1a,
         type: 3}
@@ -6785,7 +6795,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19844
+  m_Name: pb_Mesh19804
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
