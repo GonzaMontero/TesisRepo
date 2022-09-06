@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
@@ -300,6 +300,7 @@ namespace TimeDistortion.Gameplay.Handler
                 if (grounded) return;
 
                 grounded = true;
+                paralysisTimer = fallParalysisTime;
             }
         }
         #endregion
