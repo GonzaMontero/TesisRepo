@@ -850,9 +850,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
-  m_Height: 2
+  m_Height: 1.9028668
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.04856658, z: 0}
 --- !u!54 &1431308609916771773
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -884,12 +884,12 @@ MonoBehaviour:
   attackHitBox: {fileID: 1927738861302865628}
   lockOnFlag: 0
   grounded: 1
-  movementSpeed: 5
-  rotationSpeed: 10
+  movementSpeed: 8
+  rotationSpeed: 18
   playerSpeed: 15
   rotationSmoothing: 1
   weight: 0
-  jumpHeight: 10
+  jumpHeight: 5
   slowMoParalysisTime: 2
   paralysisTimer: 0
   attackDuration: 1
