@@ -298,6 +298,14 @@ namespace TimeDistortion.Gameplay.Handler
             return moveInput.sqrMagnitude > 0 && projectedVelocity.sqrMagnitude < 0.01f;
         }
 
+        /// <summary>  
+        /// Checks if projected velocity is in use, but move input is 0
+        /// </summary>
+        private bool ShouldStop()
+        {
+            return projectedVelocity.sqrMagnitude > 0 && moveInput.sqrMagnitude < 0.01f;
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.transform.tag == "Ground")
@@ -318,6 +326,13 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnMovementInput(InputAction.CallbackContext context)
         {
+            if (context.canceled)
+            {
+                StopRigidMovement();
+                moveInput = Vector2.zero;
+                return;
+            }
+
             moveInput = context.ReadValue<Vector2>();
 
             ProjectVelocity();

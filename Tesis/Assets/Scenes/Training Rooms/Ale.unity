@@ -1500,12 +1500,12 @@ PrefabInstance:
     - target: {fileID: 1563751104017585890, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.008933737
+      value: 0.008933696
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104017585890, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0017203682
+      value: -0.0017203607
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104100659092, guid: a14264756e7acb446bac55055c657293,
         type: 3}
@@ -1708,5 +1708,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1431308609916771767, guid: 370f9360db4d6f54ab94285a5169fd1a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 370f9360db4d6f54ab94285a5169fd1a, type: 3}
