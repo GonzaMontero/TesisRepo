@@ -36,7 +36,6 @@ namespace TimeDistortion.Gameplay.Handler
         Vector3 moveDirection;
         Vector3 normalVector;
         Vector3 projectedVelocity;
-
         public bool grounded = true;
 
         private new Rigidbody rigidbody;
@@ -54,7 +53,6 @@ namespace TimeDistortion.Gameplay.Handler
         #endregion
 
         #region Handler Actions and Stuff
-        //public Action<bool> CameraLocked;
         public Action<bool> PlayerMoved;
         public Action PlayerJumped;
         public Action PlayerAttacked;
@@ -121,7 +119,15 @@ namespace TimeDistortion.Gameplay.Handler
             //     cameraHandler.FollowTarget(deltaTime);
             // }
 
-            if (lockOnFlag)
+            if(paralysisTimer > 0)
+            {
+                paralysisTimer -= Time.deltaTime;
+                if (projectedVelocity.sqrMagnitude > 0)
+                    StopRigidMovement();
+                return;
+            }
+
+            if (lockOnFlag || ShouldMove())
             {
                 ProjectVelocity();
                 SetNewRotation();
@@ -253,7 +259,7 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void UpdateRigidVelocity()
         {
-            if (projectedVelocity.sqrMagnitude < 1)
+            if (projectedVelocity.sqrMagnitude < 1 || paralysisTimer > 0)
             {
                 PlayerMoved?.Invoke(false);
                 return;
@@ -262,6 +268,34 @@ namespace TimeDistortion.Gameplay.Handler
             rigidbody.velocity = projectedVelocity;
             
             PlayerMoved?.Invoke(true);
+        }
+
+        /// <summary>  
+        /// Stops the rigidbody movement (clearing it's velocity) 
+        /// and clears projected velocity
+        /// </summary>
+        private void StopRigidMovement()
+        {
+            //Set projected velocity to 0
+            projectedVelocity = Vector3.zero;
+
+            //Update rigid velocity (without modifying Y)
+            projectedVelocity.y = rigidbody.velocity.y;
+            rigidbody.velocity = projectedVelocity;
+            
+            //Clear again projected V, so it stays in 0
+            projectedVelocity = Vector3.zero;
+         
+            //Invoke action
+            PlayerMoved?.Invoke(false);
+        }
+
+        /// <summary>  
+        /// Checks if move input is in use, but projected velocity is 0
+        /// </summary>
+        private bool ShouldMove()
+        {
+            return moveInput.sqrMagnitude > 0 && projectedVelocity.sqrMagnitude < 0.01f;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -360,7 +394,7 @@ namespace TimeDistortion.Gameplay.Handler
         #endregion
 
         #region Camera and Slow Motion
-        void OnSlowMo(Transform _notUsed, float __notUsed)
+        public void OnSlowMo()
         {
             paralysisTimer = slowMoParalysisTime;
         }

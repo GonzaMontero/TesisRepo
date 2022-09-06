@@ -881,7 +881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9079694d0fc7e00448b067e60b46cade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraHandler: {fileID: 0}
   attackHitBox: {fileID: 1927738861302865628}
   lockOnFlag: 0
   grounded: 1
@@ -891,10 +890,10 @@ MonoBehaviour:
   rotationSmoothing: 1
   weight: 0
   jumpHeight: 10
-  slowMoParalysisTime: 0
+  slowMoParalysisTime: 2
   paralysisTimer: 0
-  attackDuration: 0
-  attackStartUp: 0
+  attackDuration: 1
+  attackStartUp: 0.5
   data:
     baseStats:
       speed: 0
