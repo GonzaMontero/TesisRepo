@@ -121,6 +121,12 @@ namespace TimeDistortion.Gameplay.Handler
             //     cameraHandler.FollowTarget(deltaTime);
             // }
 
+            if (lockOnFlag)
+            {
+                ProjectVelocity();
+                SetNewRotation();
+            }
+
             UpdateRigidVelocity();
             HandleRotation(deltaTime);
         }
@@ -135,8 +141,6 @@ namespace TimeDistortion.Gameplay.Handler
         public void TickInput(float delta)
         {
             MoveInput(delta);
-
-            HandleLockOnInput();
         }
 
         private void MoveInput(float delta)
@@ -278,11 +282,6 @@ namespace TimeDistortion.Gameplay.Handler
             SetNewRotation();
         }
 
-        public void OnLockCameraInput(InputAction.CallbackContext context)
-        {
-            HandleLockOnInput();
-        }
-
         public void OnMovementInput(InputAction.CallbackContext context)
         {
             moveInput = context.ReadValue<Vector2>();
@@ -361,41 +360,9 @@ namespace TimeDistortion.Gameplay.Handler
         #endregion
 
         #region Camera and Slow Motion
-
         void OnSlowMo(Transform _notUsed, float __notUsed)
         {
             paralysisTimer = slowMoParalysisTime;
-        }
-
-        private void HandleLockOnInput()
-        {
-            // if (!lockOnFlag)
-            // {
-            //     cameraHandler.ClearLockOnTargets();
-            //     lockOnInput = false;
-            //     cameraHandler.HandleLockOn();
-            //     if (cameraHandler.nearestLockOnTarget != null)
-            //     {
-            //         cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
-            //         lockOnFlag = true;
-            //         CameraLocked?.Invoke(true);
-            //     }
-            // }
-            // else if (lockOnFlag)
-            // {
-            //     lockOnInput = false;
-            //     lockOnFlag = false;
-            //     cameraHandler.ClearLockOnTargets();
-            //     CameraLocked?.Invoke(false);
-            // }
-        }
-
-        public void StopLockOn()
-        {
-            // lockOnInput = false;
-            // lockOnFlag = false;
-            // cameraHandler.ClearLockOnTargets();
-            // CameraLocked?.Invoke(false);
         }
         #endregion
     }
