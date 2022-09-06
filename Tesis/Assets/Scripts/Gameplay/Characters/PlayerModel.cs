@@ -30,9 +30,9 @@ namespace TimeDistortion.Gameplay.Characters
             }
 
             //controller.CameraLocked += OnCameraLocked;
-            controller.PlayerAttacked += OnPlayerAttacked;
-            controller.PlayerJumped += OnPlayerJumped;
-            controller.PlayerMoved += OnPlayerMoved;
+            controller.Attacked += OnPlayerAttacked;
+            controller.Jumped += OnPlayerJumped;
+            controller.Moved += OnPlayerMoved;
             //timeManager.SlowMoReady += ;
             timeManager.ObjectSlowed += OnObjectSlowed;
             //timeManager.ObjectUnSlowed +=;
