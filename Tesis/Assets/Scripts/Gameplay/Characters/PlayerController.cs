@@ -287,7 +287,7 @@ namespace TimeDistortion.Gameplay.Handler
             moveInput = context.ReadValue<Vector2>();
 
             ProjectVelocity();
-            rigidbody.velocity = projectedVelocity;
+            UpdateRigidVelocity();
 
             SetNewRotation();
         }
