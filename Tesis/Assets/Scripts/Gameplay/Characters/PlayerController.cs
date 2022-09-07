@@ -217,6 +217,8 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void HandleJumping()
         {
+            if (paralysisTimer > 0)
+                return;
             if (grounded)
             {
                 //if (inputHandler.moveAmount > 0)
