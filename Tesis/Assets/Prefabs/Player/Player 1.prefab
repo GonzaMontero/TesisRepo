@@ -882,6 +882,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackHitBox: {fileID: 1927738861302865628}
   grounded: 1
+  onAirSpeedMod: 0.25
   movementSpeed: 8
   rotationSpeed: 18
   jumpHeight: 5

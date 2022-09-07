@@ -31,8 +31,10 @@ namespace TimeDistortion.Gameplay.Handler
         Vector3 moveDirection;
         Vector3 normalVector;
         Vector3 projectedVelocity;
+        Vector3 projectedAirVelocity;
         public bool grounded = true;
 
+        [SerializeField] float onAirSpeedMod = .5f;
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
         Quaternion targetRotation;
@@ -114,7 +116,7 @@ namespace TimeDistortion.Gameplay.Handler
                 return;
             }
 
-            if (lockOnFlag || ShouldMove())
+            if (lockOnFlag || ShouldMove() || !grounded)
             {
                 ProjectVelocity();
                 SetNewRotation();
@@ -198,8 +200,8 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void HandleRotation(float delta)
         {
-            if (transform.rotation == targetRotation)
-                return;
+            if (!grounded) return;
+            if (transform.rotation == targetRotation) return;
 
             Quaternion rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
 
@@ -229,15 +231,18 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void ProjectVelocity()
         {
-            projectedVelocity = Vector3.zero;
-
             TickInput(deltaTime);
 
             Vector3 movement = HandleMovement();
 
-            if (movement.y == 0)
+            if (grounded)
             {
                 projectedVelocity = new Vector3(movement.x, 0, movement.z);
+            }
+            else
+            {
+                projectedAirVelocity = new Vector3(movement.x, 0, movement.z);
+                projectedAirVelocity *= onAirSpeedMod;
             }
         }
 
@@ -246,13 +251,20 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void UpdateRigidVelocity()
         {
-            if (projectedVelocity.sqrMagnitude < 1 || paralysisTimer > 0)
+            //Check if player is paralyzed OR if it is still while ond the ground
+            if ((projectedVelocity.sqrMagnitude < 1 && grounded) || paralysisTimer > 0)
             {
                 Moved?.Invoke(false);
                 return;
             }
+
             projectedVelocity.y = rigidbody.velocity.y;
             rigidbody.velocity = projectedVelocity;
+            
+            if(!grounded)
+            {
+                rigidbody.velocity += projectedAirVelocity;
+            }
             
             Moved?.Invoke(true);
         }
@@ -300,6 +312,11 @@ namespace TimeDistortion.Gameplay.Handler
                 if (grounded) return;
 
                 grounded = true;
+                if(ShouldStop())
+                {
+                    StopRigidMovement();
+                }
+
                 paralysisTimer = fallParalysisTime;
             }
         }
@@ -318,7 +335,8 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (context.canceled)
             {
-                StopRigidMovement();
+                if(grounded)
+                    StopRigidMovement();
                 moveInput = Vector2.zero;
                 return;
             }
@@ -406,5 +424,3 @@ namespace TimeDistortion.Gameplay.Handler
         #endregion
     }
 }
-
-

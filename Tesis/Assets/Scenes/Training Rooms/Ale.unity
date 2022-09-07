@@ -1500,22 +1500,22 @@ PrefabInstance:
     - target: {fileID: 1563751104017585890, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0089337
+      value: 0.008933696
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104017585890, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0017203579
+      value: -0.0017203607
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104100659092, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.008990298
+      value: 0.008990294
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104100659092, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0013947076
+      value: -0.0013947104
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104842510849, guid: a14264756e7acb446bac55055c657293,
         type: 3}
@@ -1555,7 +1555,7 @@ PrefabInstance:
     - target: {fileID: 1563751105381192254, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.009240934
+      value: -0.009240936
       objectReference: {fileID: 0}
     - target: {fileID: 1563751105590874120, guid: a14264756e7acb446bac55055c657293,
         type: 3}
@@ -1662,6 +1662,11 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraHandler
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431308609916771774, guid: 370f9360db4d6f54ab94285a5169fd1a,
+        type: 3}
+      propertyPath: onAirSpeedMod
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1431308609916771775, guid: 370f9360db4d6f54ab94285a5169fd1a,
         type: 3}
