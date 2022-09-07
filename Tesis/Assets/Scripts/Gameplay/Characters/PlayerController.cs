@@ -207,7 +207,7 @@ namespace TimeDistortion.Gameplay.Handler
             
             if(!grounded)
             {
-                frameRot *= onAirSpeedMod;
+                frameRot *= onAirRotMod;
             }
 
             Quaternion rotation = Quaternion.Slerp(transform.rotation, targetRotation, frameRot);
