@@ -326,12 +326,15 @@ namespace TimeDistortion.Gameplay.Handler
 
                 paralysisTimer = fallParalysisTime;
             }
-            else if (!grounded) //CLEAN LATER
-            {
-                StopRigidMovement();//good
-                projectedAirVelocity = Vector3.zero; //MESSY
-                moveInput = Vector2.zero; //MESSY
-            }
+        }
+        private void OnCollisionStay(Collision collision) //CLEAN LATER
+        {
+            if (collision.gameObject.transform.tag == "Ground") return;
+            if (grounded) return;
+
+            StopRigidMovement();//good
+            projectedAirVelocity = Vector3.zero; //MESSY
+            moveInput = Vector2.zero; //MESSY
         }
         #endregion
 
