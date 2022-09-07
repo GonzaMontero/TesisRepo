@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
@@ -35,6 +35,7 @@ namespace TimeDistortion.Gameplay.Handler
         public bool grounded = true;
 
         [SerializeField] float onAirSpeedMod = .5f;
+        [SerializeField] float onAirRotMod = .5f;
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
         Quaternion targetRotation;
@@ -200,10 +201,16 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void HandleRotation(float delta)
         {
-            if (!grounded) return;
             if (transform.rotation == targetRotation) return;
 
-            Quaternion rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
+            float frameRot = rotationSpeed * delta;
+            
+            if(!grounded)
+            {
+                frameRot *= onAirSpeedMod;
+            }
+
+            Quaternion rotation = Quaternion.Slerp(transform.rotation, targetRotation, frameRot);
 
             transform.rotation = rotation;
         }
