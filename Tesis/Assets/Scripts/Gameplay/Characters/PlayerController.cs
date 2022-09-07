@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
@@ -325,6 +325,12 @@ namespace TimeDistortion.Gameplay.Handler
                 }
 
                 paralysisTimer = fallParalysisTime;
+            }
+            else if (!grounded) //CLEAN LATER
+            {
+                StopRigidMovement();//good
+                projectedAirVelocity = Vector3.zero; //MESSY
+                moveInput = Vector2.zero; //MESSY
             }
         }
         #endregion
