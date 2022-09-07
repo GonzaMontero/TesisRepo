@@ -886,7 +886,7 @@ MonoBehaviour:
   rotationSpeed: 18
   jumpHeight: 5
   slowMoParalysisTime: 2
-  fallParalysisTime: 0.5
+  fallParalysisTime: 0.3
   attackDuration: 1
   attackStartUp: 0.5
   data:
