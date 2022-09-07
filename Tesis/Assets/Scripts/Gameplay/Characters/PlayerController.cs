@@ -8,16 +8,11 @@ namespace TimeDistortion.Gameplay.Handler
     public class PlayerController : MonoBehaviour
     {
         #region Components and Controls
-        //[SerializeField] CameraHandler cameraHandler;
         [SerializeField] GameObject attackHitBox;
         #endregion
 
-        #region Movement and Camera Input
-        Vector2 moveInput;
-        //Vector2 cameraInput;
-        #endregion
-
         #region Movement Values
+        Vector2 moveInput;
         private float deltaTime;
         private float horizontal;
         private float vertical;
@@ -26,44 +21,36 @@ namespace TimeDistortion.Gameplay.Handler
         private float mouseY;
 
         private bool jumpInput;
-        private bool lockOnInput;
 
-        public bool lockOnFlag;
+        public bool lockOnFlag { set; private get; }
         #endregion
 
         #region Rigid System Movement Values
+        private new Rigidbody rigidbody;
         Transform cameraObject;
         Vector3 moveDirection;
         Vector3 normalVector;
         Vector3 projectedVelocity;
         public bool grounded = true;
 
-        private new Rigidbody rigidbody;
-        //private GameObject normalCamera;
-
-        [Header("Stats")]
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
         Quaternion targetRotation;
         #endregion
 
         #region Gameplay Actions
+        public Action<bool> Moved;
+        public Action Jumped;
+        public Action Attacked;
         public Action Died;
         public Action Hitted;
         #endregion
 
         #region Handler Actions and Stuff
-        public Action<bool> PlayerMoved;
-        public Action PlayerJumped;
-        public Action PlayerAttacked;
-
-        [SerializeField] float playerSpeed = 15;
-        [SerializeField] float rotationSmoothing = 1;
-        [SerializeField] float weight;
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] float slowMoParalysisTime;
-        public float paralysisTimer;
-
+        [SerializeField] float fallParalysisTime;
+        public float paralysisTimer { set; private get; }
         
         [SerializeField] float attackDuration;
         [SerializeField] float attackStartUp;
@@ -233,7 +220,7 @@ namespace TimeDistortion.Gameplay.Handler
                 //}
                 rigidbody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
                 grounded = false;
-                PlayerJumped?.Invoke();
+                Jumped?.Invoke();
             }
         }
 
@@ -261,13 +248,13 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (projectedVelocity.sqrMagnitude < 1 || paralysisTimer > 0)
             {
-                PlayerMoved?.Invoke(false);
+                Moved?.Invoke(false);
                 return;
             }
             projectedVelocity.y = rigidbody.velocity.y;
             rigidbody.velocity = projectedVelocity;
             
-            PlayerMoved?.Invoke(true);
+            Moved?.Invoke(true);
         }
 
         /// <summary>  
@@ -287,7 +274,7 @@ namespace TimeDistortion.Gameplay.Handler
             projectedVelocity = Vector3.zero;
          
             //Invoke action
-            PlayerMoved?.Invoke(false);
+            Moved?.Invoke(false);
         }
 
         /// <summary>  
@@ -310,7 +297,10 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (collision.gameObject.transform.tag == "Ground")
             {
+                if (grounded) return;
+
                 grounded = true;
+                paralysisTimer = fallParalysisTime;
             }
         }
         #endregion
@@ -389,7 +379,7 @@ namespace TimeDistortion.Gameplay.Handler
             paralysisTimer = attackDuration + attackStartUp;
             attacking = true;
             Invoke("StartLightAttack", attackStartUp * Time.timeScale);
-            PlayerAttacked?.Invoke();
+            Attacked?.Invoke();
         }
 
         public void StartLightAttack()

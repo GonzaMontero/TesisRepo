@@ -43,9 +43,9 @@ namespace TimeDistortion.Gameplay.Characters
             }
 
             //Link events
-            controller.PlayerJumped += OnPlayerJumped;
-            controller.PlayerMoved += OnPlayerMoved;
-            controller.PlayerAttacked += OnPlayerAttacked;
+            controller.Jumped += OnPlayerJumped;
+            controller.Moved += OnPlayerMoved;
+            controller.Attacked += OnPlayerAttacked;
             playerHitter.HittedSomething += OnPlayerHittedSomething;
             timeManager.TargetInScope += OnSlowMoReady;
             timeManager.ObjectSlowed += OnObjectSlowed;
