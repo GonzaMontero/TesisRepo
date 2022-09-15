@@ -849,9 +849,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
-  m_Height: 1.9028668
+  m_Height: 1.859968
   m_Direction: 1
-  m_Center: {x: 0, y: 0.04856658, z: 0}
+  m_Center: {x: 0, y: 0.07001603, z: 0}
 --- !u!54 &1431308609916771773
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -882,7 +882,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackHitBox: {fileID: 1927738861302865628}
   grounded: 1
-  onAirSpeedMod: 0.25
+  onAirSpeedMod: 0.3
+  onAirRotMod: 0.06
   movementSpeed: 8
   rotationSpeed: 18
   jumpHeight: 5
