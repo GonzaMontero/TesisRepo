@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: -6772371758186844590}
   - component: {fileID: 2016406579882970338}
   m_Layer: 10
-  m_Name: Player
+  m_Name: Player - Deprecated
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
