@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
+using System.Collections;
 
 namespace TimeDistortion.Gameplay.Handler
 {
@@ -85,6 +87,15 @@ namespace TimeDistortion.Gameplay.Handler
         }
         #endregion
 
+        #region Dash Abilities
+        public float dashForce;
+        public float dashDuration;
+        public float dashCooldown;
+        private float dashTime;
+        private bool dashing;
+        private bool dashCurrent;
+        #endregion
+
         private void Start()
         {
             //cameraHandler = CameraHandler.singleton;
@@ -125,6 +136,9 @@ namespace TimeDistortion.Gameplay.Handler
 
             UpdateRigidVelocity();
             HandleRotation(deltaTime);
+
+            if (dashTime > 0)
+                dashTime -= Time.deltaTime;
         }
 
         private void LateUpdate()
@@ -221,14 +235,6 @@ namespace TimeDistortion.Gameplay.Handler
                 return;
             if (grounded)
             {
-                //if (inputHandler.moveAmount > 0)
-                //{
-                //    moveDirection = cameraObject.forward * inputHandler.vertical;
-                //    moveDirection += cameraObject.right * inputHandler.horizontal;
-                //    moveDirection.y = 0;
-                //    Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
-                //    myTransform.rotation = jumpRotation;
-                //}
                 rigidbody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
                 grounded = false;
                 Jumped?.Invoke();
@@ -240,6 +246,8 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void ProjectVelocity()
         {
+            if (dashing) return;
+
             TickInput(deltaTime);
 
             Vector3 movement = HandleMovement();
@@ -260,6 +268,8 @@ namespace TimeDistortion.Gameplay.Handler
         /// </summary>
         private void UpdateRigidVelocity()
         {
+            if (dashing) return;
+
             //Check if player is paralyzed OR if it is still while ond the ground
             if ((projectedVelocity.sqrMagnitude < 1 && grounded) || paralysisTimer > 0)
             {
@@ -438,6 +448,60 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnSlowMo()
         {
             paralysisTimer = slowMoParalysisTime;
+        }
+        #endregion
+
+        #region Dash Inputs
+        public void OnDashInput(InputAction.CallbackContext context)
+        {
+            if (dashCurrent) return;
+            StartCoroutine(Dash());
+        }
+
+        private IEnumerator Dash()
+        {
+            dashTime = dashCooldown;
+            dashing = true;
+            dashCurrent = true;
+            //VelocityChange ignores mass, contrary to ForceMode.Impulse
+            if(moveInput.sqrMagnitude > 0)
+            {
+                rigidbody.AddForce(HandleDashInput() * dashForce, ForceMode.VelocityChange);
+            }
+            else
+            {
+                rigidbody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange); //TOUCH THIS AND YOU WILL PERISH UNDER THE WEIGH OF YOUR ARROGANCE
+            }            
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+            projectedAirVelocity = Vector3.zero;
+            projectedVelocity = Vector3.zero;
+            rigidbody.useGravity = false;
+
+            yield return new WaitForSeconds(dashDuration);
+
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.useGravity = true;
+            dashing = false;
+
+            yield return new WaitForSeconds(dashCooldown);
+
+            dashCurrent = false;
+        }
+
+        Vector3 HandleDashInput()
+        {
+            Vector3 camDir = cameraObject.forward;
+            camDir.y = 0;
+
+            moveDirection = camDir * moveInput.y;
+
+            camDir = cameraObject.right;
+            camDir.y = 0;
+
+            moveDirection += camDir * moveInput.x;
+            moveDirection.Normalize();
+
+            return Vector3.ProjectOnPlane(moveDirection, normalVector);
         }
         #endregion
     }
