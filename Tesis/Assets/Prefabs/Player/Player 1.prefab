@@ -812,7 +812,6 @@ GameObject:
   - component: {fileID: 1431308609916771772}
   - component: {fileID: 1431308609916771773}
   - component: {fileID: 1431308609916771774}
-  - component: {fileID: 1431308609916771767}
   - component: {fileID: 8346228347994473318}
   - component: {fileID: 5344583824813351382}
   m_Layer: 10
@@ -850,9 +849,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
-  m_Height: 2
+  m_Height: 1.859968
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.07001603, z: 0}
 --- !u!54 &1431308609916771773
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -881,20 +880,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9079694d0fc7e00448b067e60b46cade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraHandler: {fileID: 0}
   attackHitBox: {fileID: 1927738861302865628}
-  lockOnFlag: 0
   grounded: 1
-  movementSpeed: 5
-  rotationSpeed: 10
-  playerSpeed: 15
-  rotationSmoothing: 1
-  weight: 0
-  jumpHeight: 10
-  slowMoParalysisTime: 0
-  paralysisTimer: 0
-  attackDuration: 0
-  attackStartUp: 0
+  onAirSpeedMod: 0.3
+  onAirRotMod: 0.06
+  movementSpeed: 8
+  rotationSpeed: 18
+  jumpHeight: 5
+  slowMoParalysisTime: 2
+  fallParalysisTime: 0.3
+  attackDuration: 1
+  attackStartUp: 0.5
   data:
     baseStats:
       speed: 0
@@ -912,19 +908,6 @@ MonoBehaviour:
       speed: 0
       health: 0
       damage: 0
---- !u!114 &1431308609916771767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431308609916771775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd0b60075fdf0c441b413546c4af52b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockOnTransform: {fileID: 1431308610248082016}
 --- !u!114 &8346228347994473318
 MonoBehaviour:
   m_ObjectHideFlags: 0
