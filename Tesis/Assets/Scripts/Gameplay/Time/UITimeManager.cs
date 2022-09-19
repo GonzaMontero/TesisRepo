@@ -31,7 +31,7 @@ namespace TimeDistortion.Gameplay.Physic
         {
             //if (!slowMoScope.activeSelf) return;
             
-            float currentStage = 4 * (manager.publicCooldownTimer);
+            float currentStage = 4 * (manager.publicCharge);
             if (cooldownStage != currentStage)
             {
                 cooldownStage = (int)currentStage;

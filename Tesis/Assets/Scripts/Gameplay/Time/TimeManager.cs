@@ -36,16 +36,15 @@ namespace TimeDistortion.Gameplay.Physic
         [SerializeField] float slowdownLength;
         [Tooltip("Seconds before true deactivation")]
         [SerializeField] float slowdownExtraLength;
-        [SerializeField] float cooldownLength;
+        [SerializeField] float chargeLength;
         [SerializeField] int maxTargets;
         [Header("Runtime Values")]
         [SerializeField] List<SlowMoTarget> targets;
         [SerializeField] SlowMoTarget currentTarget;
         [SerializeField] Camera mainCam;
         [SerializeField] Vector2 centerOfScreen;
-        [SerializeField] float cooldownTimer;
-        [SerializeField] bool slowMoIsReady;
-        [SerializeField] bool playerOnFloor;
+        [SerializeField] float chargeTimer;
+        [SerializeField] bool activating;
         Dictionary<int, SlowMoTarget> targetIDs;
 
         public Action<bool> SlowMoReady;
@@ -55,7 +54,7 @@ namespace TimeDistortion.Gameplay.Physic
         public Action<int> ObjectDestroyed;
         public Action SlowMoFailed;
 
-        public float publicCooldownTimer { get { return cooldownTimer; } }
+        public float publicCharge { get { return chargeTimer; } }
         public float publicDelay { get { return slowdownDelay; } }
 
         //Unity Events
@@ -77,12 +76,7 @@ namespace TimeDistortion.Gameplay.Physic
         {
             UpdateTimers();
 
-            if (!slowMoIsReady) return;
-            if (!PlayerIsOnFloor())
-            {
-                slowMoIsReady = false;
-                return;
-            }
+            if (!activating) return;
 
             GetValidTarget();
 
@@ -90,68 +84,34 @@ namespace TimeDistortion.Gameplay.Physic
             DEBUGDrawRays();
 #endif
         }
-        public void OnReadySlowMo(InputAction.CallbackContext context)
-        {
-            if (!context.performed) return;
-
-            ReadySlowMo();
-        }
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-            if (!context.performed) return; //only do action on press frame
-            //Debug.Log("Key Pressed!");
-            if (currentTarget == null)
-            {
-                SlowMoFailed?.Invoke();
-                return;
-            }
-            if (currentTarget.transform == null)
-            {
-                SlowMoFailed?.Invoke();
-                return;
-            }
-            //Debug.Log("Target Is Valid!");
-            //Only slow if slow mo mode is active
-            if (!slowMoIsReady)
-            {
-                SlowMoFailed?.Invoke();
-                return;
-            }
-            //Debug.Log("SlowMo Ready!");
-            //Only slow if cooldown over
-            if (cooldownTimer < 1)
-            {
-                SlowMoFailed?.Invoke();
-                return;
-            }
-            //Debug.Log("Cooldown Over!");
-
-            //if target was already slowed, DEslow
-            if (targetIDs.ContainsKey(currentTarget.ID))
-            {
-                //if (currentTarget.timer < 0) return; // return if already DeSlowing Target
-
-                //Debug.Log("DeSlowing " + currentTarget.transform + " by command!");
-                //DeSlowTarget(currentTarget);
-                SlowMoFailed?.Invoke();
-                return;
-            }
-
-            //Slow Target after delay
-            SlowTarget(currentTarget);
-            ObjectSlowed?.Invoke(currentTarget.transform, slowdownLength + slowdownExtraLength);
-
-            if (targets.Count > maxTargets)
-            {
-                Debug.Log("DeSlowing " + targets[0].transform + " by max reached!");
-                DeSlowTarget(targets[0]);
-            }
-        }
 
         //Methods
+        public void Activate()
+        {
+            if (chargeTimer > 0) return;
+            activating = true;
+        }
+        public void Release()
+        {
+            activating = false;
+            if(chargeTimer < 1)
+            {
+                chargeTimer = 0;
+                currentTarget = null;
+                TargetInScope?.Invoke(false);
+                //DO CANCEL
+
+                return;
+            }
+            chargeTimer = 0;
+            SlowTarget(currentTarget);
+
+            currentTarget = null;
+            TargetInScope?.Invoke(false);
+        }
         void DEBUGDrawRays()
         {
-            if (!slowMoIsReady) return;
+            if (!activating) return;
 
             //Debug.DrawRay(mainCam.ScreenPointToRay(centerOfScreen).origin, mainCam.ScreenPointToRay(centerOfScreen).direction, Color.gray);
 
@@ -178,21 +138,9 @@ namespace TimeDistortion.Gameplay.Physic
                 //Debug.Log("Hitted Valid");
             }
         }
-        void ReadySlowMo()
-        {
-            slowMoIsReady = !slowMoIsReady;
-            SlowMoReady?.Invoke(slowMoIsReady);
-            if (!slowMoIsReady)
-            {
-                currentTarget = null;
-                TargetInScope?.Invoke(false);
-            }
-
-            //Debug.Log("SlowMo Ready: " + slowMoIsReady);
-        }
         void GetValidTarget()
         {
-            if (!slowMoIsReady) return; //Only slow if slow mo mode is active
+            if (chargeTimer > 1) return; //Only slow if slow mo mode is active
 
             Ray ray = mainCam.ScreenPointToRay(centerOfScreen);
 
@@ -241,6 +189,7 @@ namespace TimeDistortion.Gameplay.Physic
         }
         void SlowTarget(SlowMoTarget target)
         {
+            if(target == null) return;
             if (target.timer > 0) return; //Check if already slowing the object
 
             //Add target to list
@@ -284,9 +233,9 @@ namespace TimeDistortion.Gameplay.Physic
         void UpdateTimers()
         {
             //Run Cooldown Timer
-            if (cooldownTimer < 1)
+            if (activating && chargeTimer < 1)
             {
-                cooldownTimer += Time.deltaTime / cooldownLength;
+                chargeTimer += Time.deltaTime / chargeLength;
             }
 
             //Run SlowMo Timers from targets
@@ -315,19 +264,6 @@ namespace TimeDistortion.Gameplay.Physic
                 i++;
             }
         }
-        bool PlayerIsOnFloor()
-        {
-            /*bool*/ playerOnFloor = Physics.Raycast(player.position, -player.up, 2);
-
-#if UNITY_EDITOR
-            if (!playerOnFloor)
-            {
-                Debug.Log("Player Not On Floor!");
-            }
-#endif
-
-            return player;
-        }
 
         //Routines
         IEnumerator SlowRoutine(SlowMoTarget target)
@@ -338,7 +274,9 @@ namespace TimeDistortion.Gameplay.Physic
             target.time.TimeChanged(slowdownFactor);
 
             //Start Cooldown
-            cooldownTimer = 0;
+            chargeTimer = 0;
+
+            ObjectSlowed.Invoke(target.transform, target.timer);
         }
         IEnumerator DeSlowRoutine(SlowMoTarget target)
         {

@@ -400,8 +400,15 @@ namespace TimeDistortion.Gameplay.Handler
             if (!context.started) return;
             HandleAttackInput();
         }
+        public void OnSlowMoInput(InputAction.CallbackContext context)
+        {
+            if (context.canceled)
+            Physic.TimeManager.Get().Release();
+            else if (context.started)
+                Physic.TimeManager.Get().Activate();
+        }
         #endregion
-        
+
         #region Attacking
 
         private void HandleAttackInput()
