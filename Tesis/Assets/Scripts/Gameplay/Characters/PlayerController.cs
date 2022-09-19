@@ -87,13 +87,14 @@ namespace TimeDistortion.Gameplay.Handler
         }
         #endregion
 
-        #region Dash Abilities
+        #region Dash Variables
         public float dashForce;
         public float dashDuration;
         public float dashCooldown;
         private float dashTime;
         private bool dashing;
         private bool dashCurrent;
+        [SerializeField] private bool dashAirCompleted = false;
         #endregion
 
         private void Start()
@@ -106,7 +107,7 @@ namespace TimeDistortion.Gameplay.Handler
         private void InitRigidSystem()
         {
             rigidbody = GetComponent<Rigidbody>();
-            cameraObject = Camera.main.transform;
+            cameraObject = Camera.main.transform;           
 
             grounded = true;
         }
@@ -331,6 +332,7 @@ namespace TimeDistortion.Gameplay.Handler
                 if (grounded) return;
 
                 grounded = true;
+                dashAirCompleted = false;
                 if(ShouldStop())
                 {
                     StopRigidMovement();
@@ -454,7 +456,7 @@ namespace TimeDistortion.Gameplay.Handler
         #region Dash Inputs
         public void OnDashInput(InputAction.CallbackContext context)
         {
-            if (dashCurrent) return;
+            if (dashCurrent || dashAirCompleted) return;
             StartCoroutine(Dash());
         }
 
@@ -463,6 +465,8 @@ namespace TimeDistortion.Gameplay.Handler
             dashTime = dashCooldown;
             dashing = true;
             dashCurrent = true;
+            if (!grounded)
+                dashAirCompleted = true;
             //VelocityChange ignores mass, contrary to ForceMode.Impulse
             if(moveInput.sqrMagnitude > 0)
             {
