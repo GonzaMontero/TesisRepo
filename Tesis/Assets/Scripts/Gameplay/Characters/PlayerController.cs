@@ -403,9 +403,9 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
             if (context.canceled)
-            Physic.TimeManager.Get().Release();
+            TimePhys.TimeManager.Get().Release();
             else if (context.started)
-                Physic.TimeManager.Get().Activate();
+                TimePhys.TimeManager.Get().Activate();
         }
         #endregion
 

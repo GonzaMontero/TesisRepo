@@ -20,18 +20,16 @@ namespace TimeDistortion.Gameplay.Props
 
         [Header("Set Values")]
         [SerializeField] List<Vector3> steps;
+        [SerializeField] TimePhys.ObjectTimeController timeController;
         [SerializeField] GameObject platformPrefab;
         [SerializeField] Transform platformsEmpty;
         [SerializeField] float platformSpeed;
         [SerializeField] float firstSpawnDelay;
         [SerializeField] float timeBetweenPlatforms;
-        [SerializeField] float slowMoMod = 1;
         [SerializeField] [Tooltip("Max Platforms in screen")] int numberOfPlatforms;
-        [SerializeField] bool affectedByTime = true;
         [Header("Runtime Values")]
         [SerializeField] List<Platform> platforms;
         [SerializeField] float timer;
-        [SerializeField] float localTime = 1;
 
         //Unity Events
         private void Start()
@@ -42,6 +40,10 @@ namespace TimeDistortion.Gameplay.Props
             if (platformsEmpty == null)
             {
                 platformsEmpty = transform;
+            }
+            if (timeController == null)
+            {
+                timeController = GetComponent<TimePhys.ObjectTimeController>();
             }
 
             timer = firstSpawnDelay;
@@ -55,7 +57,7 @@ namespace TimeDistortion.Gameplay.Props
 
             //Instantiate one platform after X seconds had passed
             if (platforms.Count >= numberOfPlatforms) return;
-            timer -= localTime * Time.deltaTime;
+            timer -= timeController.delta;
             if (timer < 0)
             {
                 CreatePlatform();
@@ -96,7 +98,7 @@ namespace TimeDistortion.Gameplay.Props
             Transform platTransform = platform.controller.transform;
 
             //Get Time
-            float timeValue = localTime * Time.deltaTime;
+            float timeValue = timeController.delta;
 
             //Calculate Distances
             Vector3 platNextStepDistance = steps[platform.step] - platTransform.localPosition;
@@ -122,8 +124,7 @@ namespace TimeDistortion.Gameplay.Props
         //Interface Implementations
         public void TimeChanged(float newTime)
         {
-            if (!affectedByTime) return;
-            localTime = newTime == 1 ? 1 : newTime * slowMoMod;
+            timeController.ChangeTime(newTime);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace TimeDistortion.Gameplay.Characters
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
         [SerializeField] SwordHit playerHitter;
-        [SerializeField] Physic.TimeManager timeManager;
+        [SerializeField] TimePhys.TimeManager timeManager;
         [SerializeField] FMODUnity.EventReference walkAudio;
         [SerializeField] FMODUnity.EventReference jumpAudio;
         [SerializeField] FMODUnity.EventReference landAudio;
@@ -31,7 +31,7 @@ namespace TimeDistortion.Gameplay.Characters
             //Get list
             if (!timeManager)
             {
-                timeManager = Physic.TimeManager.Get();
+                timeManager = TimePhys.TimeManager.Get();
             }
             if (!controller)
             {

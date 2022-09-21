@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Universal.Singletons;
 
-namespace TimeDistortion.Gameplay.Physic
+namespace TimeDistortion.Gameplay.TimePhys
 {
     public class TimeManager : MonoBehaviourSingletonInScene<TimeManager>
     {
@@ -33,9 +33,6 @@ namespace TimeDistortion.Gameplay.Physic
         [SerializeField] float slowdownRange;
         [Tooltip("Speed of SlowMo")]
         [SerializeField] float slowdownFactor;
-        [SerializeField] float slowdownLength;
-        [Tooltip("Seconds before true deactivation")]
-        [SerializeField] float slowdownExtraLength;
         [SerializeField] float chargeLength;
         [SerializeField] int maxTargets;
         [Header("Runtime Values")]
@@ -190,6 +187,7 @@ namespace TimeDistortion.Gameplay.Physic
         void SlowTarget(SlowMoTarget target)
         {
             if(target == null) return;
+            if(target.transform == null) return;
             if (target.timer > 0) return; //Check if already slowing the object
 
             //Add target to list
@@ -214,7 +212,19 @@ namespace TimeDistortion.Gameplay.Physic
             //Update Timer so dictionary doesn't break
             target.timer = -1f;
 
-            StartCoroutine(DeSlowRoutine(target));
+            if (target.transform == null)
+            {
+                RemoveDestroyedObject(target);
+            }
+
+            //Update Dictionary
+            targetIDs.Remove(target.ID);
+
+            //Update Target Time
+            target.time.TimeChanged(1);
+
+            //Send event
+            ObjectUnSlowed?.Invoke(target.transform);
         }
         void RemoveDestroyedObject(SlowMoTarget target)
         {
@@ -259,8 +269,7 @@ namespace TimeDistortion.Gameplay.Physic
                     continue;
                 }
 
-                targets[i].timer += Time.deltaTime / slowdownLength;
-                //Debug.Log(targets[i] + " timer: " + targets[i].timer);
+                targets[i].timer += Time.deltaTime / 5;
                 i++;
             }
         }
@@ -268,7 +277,7 @@ namespace TimeDistortion.Gameplay.Physic
         //Routines
         IEnumerator SlowRoutine(SlowMoTarget target)
         {
-            yield return new WaitForSecondsRealtime(slowdownDelay * Time.timeScale);
+            yield return new WaitForSecondsRealtime(slowdownDelay);
             
             //Slow target
             target.time.TimeChanged(slowdownFactor);
@@ -277,27 +286,6 @@ namespace TimeDistortion.Gameplay.Physic
             chargeTimer = 0;
 
             ObjectSlowed.Invoke(target.transform, target.timer);
-        }
-        IEnumerator DeSlowRoutine(SlowMoTarget target)
-        {
-            //Debug.Log("Target Unslowing at " + Time.realtimeSinceStartup + "!");
-
-            if (target.transform == null)
-            {
-                RemoveDestroyedObject(target);
-            }
-
-            yield return new WaitForSecondsRealtime(slowdownExtraLength);
-
-            //Update Dictionary
-            targetIDs.Remove(target.ID);
-
-            //Update Target Time
-            //Debug.Log("Target UnSlowed at " + Time.realtimeSinceStartup + "!");
-            target.time.TimeChanged(1);
-
-            //Send event
-            ObjectUnSlowed?.Invoke(target.transform);
         }
     }
 }

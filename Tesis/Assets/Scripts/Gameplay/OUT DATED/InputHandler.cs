@@ -24,7 +24,7 @@ namespace TimeDistortion.Gameplay.Handler
         PlayerControls inputActions;
         CameraHandler cameraHandler;
         CharacterController characterController;
-        [SerializeField] Physic.TimeManager timeManager;
+        [SerializeField] TimePhys.TimeManager timeManager;
 
         Vector2 movementDir;
         Vector2 movementInput;

@@ -6,7 +6,7 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
-        [SerializeField] Physic.TimeManager timeManager;
+        [SerializeField] TimePhys.TimeManager timeManager;
         [SerializeField] Animator animator;
         [SerializeField] GameObject swordTrail;
         [SerializeField] float swordTrailTimer;
@@ -22,7 +22,7 @@ namespace TimeDistortion.Gameplay.Characters
             }
             if (!timeManager)
             {
-                timeManager = Physic.TimeManager.Get();
+                timeManager = TimePhys.TimeManager.Get();
             }
             if (!controller)
             {

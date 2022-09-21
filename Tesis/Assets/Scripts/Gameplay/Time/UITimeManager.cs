@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TimeDistortion.Gameplay.Physic
+namespace TimeDistortion.Gameplay.TimePhys
 {
     public class UITimeManager : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Universal.Singletons;
 
-namespace TimeDistortion.Gameplay.Physic
+namespace TimeDistortion.Gameplay.TimePhys
 {
     public class TimeManagerModel : MonoBehaviourSingletonInScene<TimeManagerModel>
     {
