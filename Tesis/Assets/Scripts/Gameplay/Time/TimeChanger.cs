@@ -17,13 +17,15 @@ namespace TimeDistortion.Gameplay.TimePhys
         [Tooltip("Speed of SlowMo")]
         [SerializeField] float slowdownFactor;
         [SerializeField] float chargeLength;
+        [Tooltip("Global time while timeChange is charged")]
+        [SerializeField] float chargeSlowdown;
         [SerializeField] int maxTargets;
         [Header("Runtime Values")]
-        [SerializeField] ITimed currentTarget;
         [SerializeField] Camera mainCam;
         [SerializeField] Vector2 centerOfScreen;
         [SerializeField] float chargeTimer;
         [SerializeField] bool activating;
+        ITimed currentTarget;
 
         public Action<bool> SlowMoReady;
         public Action<bool> TargetInScope;
@@ -68,16 +70,20 @@ namespace TimeDistortion.Gameplay.TimePhys
         }
         public void Release()
         {
-            activating = false;
-            if(chargeTimer < 1)
+            activating = false; //slow mo was activated, so is not activating anymore
+            Time.timeScale = 1; //set timescale to default again
+
+            //If charge wasn't complete, cancel slowMo
+            if (chargeTimer < 1)
             {
                 chargeTimer = 0;
                 currentTarget = null;
                 TargetInScope?.Invoke(false);
-                //DO CANCEL
 
                 return;
             }
+
+            //If charge was complete, slow obj
             chargeTimer = 0;
             ActivateTarget();
 
@@ -188,15 +194,18 @@ namespace TimeDistortion.Gameplay.TimePhys
                 
                 if(chargeTimer >= 1)
                 {
+                    chargeTimer = 1;
                     activating = false;
                 }
+
+                Time.timeScale = Mathf.Lerp(1, chargeSlowdown, chargeTimer);
             }
         }
 
         //Routines
         IEnumerator SlowRoutine(ITimed target)
         {
-            yield return new WaitForSecondsRealtime(slowdownDelay);
+            yield return new WaitForSeconds(slowdownDelay);
             
             //Slow target
             target.ChangeTime(slowdownFactor);
