@@ -1319,7 +1319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
   slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
-  slowableMaterial: {fileID: 2100000, guid: 1f3b1b996f9c5384f842847e91a32144, type: 2}
   auraFadeMod: 1
   models: []
   currentFX: {fileID: 0}
@@ -1654,7 +1653,8 @@ MonoBehaviour:
   slowableLayers:
     serializedVersion: 2
     m_Bits: 257
-  slowdownDelay: 0
+  slowdownDelay: 1
+  cancelDelay: 0.5
   slowdownRange: 20
   slowdownFactor: 0.1
   chargeLength: 1
@@ -1685,17 +1685,17 @@ PrefabInstance:
     - target: {fileID: 1563751104017585890, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0017203589
+      value: -0.0017203607
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104100659092, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.008990328
+      value: 0.008990294
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104100659092, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0013947141
+      value: -0.0013947104
       objectReference: {fileID: 0}
     - target: {fileID: 1563751104842510849, guid: a14264756e7acb446bac55055c657293,
         type: 3}
@@ -1735,7 +1735,7 @@ PrefabInstance:
     - target: {fileID: 1563751105381192254, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.009240934
+      value: -0.009240936
       objectReference: {fileID: 0}
     - target: {fileID: 1563751105590874120, guid: a14264756e7acb446bac55055c657293,
         type: 3}
@@ -1780,7 +1780,7 @@ PrefabInstance:
     - target: {fileID: 1563751105590874131, guid: a14264756e7acb446bac55055c657293,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.007504082
+      value: -0.00750408
       objectReference: {fileID: 0}
     - target: {fileID: 1563751105590874131, guid: a14264756e7acb446bac55055c657293,
         type: 3}

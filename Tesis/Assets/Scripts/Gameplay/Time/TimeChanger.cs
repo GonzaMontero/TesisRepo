@@ -13,6 +13,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         [SerializeField] Transform player;
         [SerializeField] LayerMask slowableLayers;
         [SerializeField] float slowdownDelay;
+        [SerializeField] float cancelDelay;
         [SerializeField] float slowdownRange;
         [Tooltip("Speed of SlowMo")]
         [SerializeField] float slowdownFactor;
@@ -37,7 +38,6 @@ namespace TimeDistortion.Gameplay.TimePhys
         public Action SlowMoFailed;
 
         public float publicCharge { get { return chargeTimer; } }
-        public float publicDelay { get { return slowdownDelay; } }
 
         //Unity Events
         private void Start()
@@ -74,14 +74,11 @@ namespace TimeDistortion.Gameplay.TimePhys
         public void Release()
         {
             activating = false; //slow mo was activated, so is not activating anymore
-            Time.timeScale = 1; //set timescale to default again
-
-            ReleasedCharge?.Invoke();
 
             //If charge wasn't complete, cancel slowMo
             if (chargeTimer < 1)
             {
-                chargeTimer = 0;
+                StartCoroutine(CancelRoutine());
                 currentTarget = null;
                 TargetInScope?.Invoke(false);
 
@@ -89,7 +86,6 @@ namespace TimeDistortion.Gameplay.TimePhys
             }
 
             //If charge was complete, slow obj
-            chargeTimer = 0;
             ActivateTarget();
 
             currentTarget = null;
@@ -184,7 +180,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             if (currentTarget == null)
             {
                 //Restart Charge
-                chargeTimer = 0;
+                StartCoroutine(CancelRoutine());
                 return;
             }
 
@@ -210,15 +206,40 @@ namespace TimeDistortion.Gameplay.TimePhys
         //Routines
         IEnumerator SlowRoutine(ITimed target)
         {
-            yield return new WaitForSeconds(slowdownDelay);
-            
+            while (chargeTimer > 0)
+            {
+                //Update Timer
+                chargeTimer -= Time.deltaTime / slowdownDelay;
+
+                if (chargeTimer < 0) chargeTimer = 0;
+
+                //Update timescale smoothly
+                Time.timeScale = Mathf.Lerp(1, chargeSlowdown, chargeTimer);
+
+                yield return null;
+            }
+
             //Slow target
             target.ChangeTime(slowdownFactor);
 
-            //Restart Charge
-            chargeTimer = 0;
+            ReleasedCharge?.Invoke();
+        }
+        IEnumerator CancelRoutine()
+        {
+            while (chargeTimer > 0)
+            {
+                //Update Timer
+                chargeTimer -= Time.deltaTime / cancelDelay;
 
-            //ObjectSlowed.Invoke(target.transform, target.timer);
+                if (chargeTimer < 0) chargeTimer = 0;
+
+                //Update timescale smoothly
+                Time.timeScale = Mathf.Lerp(1, chargeSlowdown, chargeTimer);
+
+                yield return null;
+            }
+
+            ReleasedCharge?.Invoke();
         }
     }
 }
