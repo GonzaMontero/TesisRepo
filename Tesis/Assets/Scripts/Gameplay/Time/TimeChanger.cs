@@ -32,6 +32,8 @@ namespace TimeDistortion.Gameplay.TimePhys
         public Action<Transform, float> ObjectSlowed;
         public Action<Transform> ObjectUnSlowed;
         public Action<int> ObjectDestroyed;
+        public Action ActivatingCharge;
+        public Action ReleasedCharge;
         public Action SlowMoFailed;
 
         public float publicCharge { get { return chargeTimer; } }
@@ -67,11 +69,14 @@ namespace TimeDistortion.Gameplay.TimePhys
         {
             if (chargeTimer > 0) return;
             activating = true;
+            ActivatingCharge?.Invoke();
         }
         public void Release()
         {
             activating = false; //slow mo was activated, so is not activating anymore
             Time.timeScale = 1; //set timescale to default again
+
+            ReleasedCharge?.Invoke();
 
             //If charge wasn't complete, cancel slowMo
             if (chargeTimer < 1)

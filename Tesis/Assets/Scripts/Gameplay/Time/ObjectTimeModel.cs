@@ -22,7 +22,6 @@ namespace TimeDistortion.Gameplay.TimePhys
         [Header("Set Values")]
         [SerializeField] ObjectTimeController controller;
         [SerializeField] Material slowAuraMaterial;
-        [SerializeField] Material slowableMaterial;
         [SerializeField] float auraFadeMod = 1;
         [Header("Runtime Values")]
         [SerializeField] List<ModelWithFX> models;
@@ -71,6 +70,15 @@ namespace TimeDistortion.Gameplay.TimePhys
 
             //Update model Materials
             model.materials = modelMaterials.ToArray();
+
+            //If a material was applied, update target material
+            if (material != null)
+            {
+                ModelWithFX target;
+                modelsByID.TryGetValue(model.GetInstanceID(), out target);
+                int matIndex = modelMaterials.Count - 1;
+                target.material = model.materials[matIndex];
+            }
         }
         void ApplyAura(MeshRenderer model, List<Material> materials, Material aura)
         {
@@ -92,8 +100,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             }
 
             //Remove SlowMoFX
-            //materials.Remove(target.material);
-            materials.Remove(materials[materials.Count - 1]);
+            materials.Remove(target.material);
             modelsByID.Remove(target.modelID);
 
             //Update SlowedObjectsFX list
