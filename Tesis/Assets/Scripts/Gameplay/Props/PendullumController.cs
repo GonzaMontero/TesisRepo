@@ -20,7 +20,7 @@ namespace TimeDistortion.Gameplay.Props
         //Methods
 
         //Interface Implementations
-        public void TimeChanged(float newTime)
+        public void ChangeTime(float newTime)
         {
             if (!affectedByTime) return;
             animator.speed = newTime;

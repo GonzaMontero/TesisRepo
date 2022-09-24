@@ -25,7 +25,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         }
 
         [Header("Set Values")]
-        [SerializeField] TimeManager manager;
+        [SerializeField] TimeChanger manager;
         [SerializeField] Material slowAuraMaterial;
         [SerializeField] List<SlowMoTarget> slowedObjects;
         [SerializeField] float auraFadeMod;
@@ -40,7 +40,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         {
             if (!manager)
             {
-                manager = TimeManager.Get();
+                manager = TimeChanger.Get();
             }
 
             manager.ObjectSlowed += OnObjectSlowed;

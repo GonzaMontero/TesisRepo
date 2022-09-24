@@ -122,7 +122,7 @@ namespace TimeDistortion.Gameplay.Props
         }
 
         //Interface Implementations
-        public void TimeChanged(float newTime)
+        public void ChangeTime(float newTime)
         {
             timeController.ChangeTime(newTime);
         }

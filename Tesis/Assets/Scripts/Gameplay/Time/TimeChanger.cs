@@ -7,25 +7,8 @@ using Universal.Singletons;
 
 namespace TimeDistortion.Gameplay.TimePhys
 {
-    public class TimeManager : MonoBehaviourSingletonInScene<TimeManager>
+    public class TimeChanger : MonoBehaviourSingletonInScene<TimeChanger>
     {
-        [Serializable]
-        class SlowMoTarget
-        {
-            public Transform transform = null;
-            public ITimed time = null;
-            public float timer = 0;
-            public int ID = 0;
-
-            public SlowMoTarget(Transform newtransform, ITimed newTarget)
-            {
-                transform = newtransform;
-                time = newTarget;
-                timer = 0;
-                ID = transform.GetInstanceID();
-            }
-        }
-
         [Header("Set Values")]
         [SerializeField] Transform player;
         [SerializeField] LayerMask slowableLayers;
@@ -36,13 +19,11 @@ namespace TimeDistortion.Gameplay.TimePhys
         [SerializeField] float chargeLength;
         [SerializeField] int maxTargets;
         [Header("Runtime Values")]
-        [SerializeField] List<SlowMoTarget> targets;
-        [SerializeField] SlowMoTarget currentTarget;
+        [SerializeField] ITimed currentTarget;
         [SerializeField] Camera mainCam;
         [SerializeField] Vector2 centerOfScreen;
         [SerializeField] float chargeTimer;
         [SerializeField] bool activating;
-        Dictionary<int, SlowMoTarget> targetIDs;
 
         public Action<bool> SlowMoReady;
         public Action<bool> TargetInScope;
@@ -65,15 +46,12 @@ namespace TimeDistortion.Gameplay.TimePhys
             //Set Camera
             mainCam = Camera.main;
             centerOfScreen = new Vector2(mainCam.pixelWidth / 2, mainCam.pixelHeight / 2);
-
-            //Instatiate Dictionary
-            targetIDs = new Dictionary<int, SlowMoTarget>();
         }
         void Update()
         {
             UpdateTimers();
 
-            if (!activating) return;
+            if (chargeTimer < 1) return; //Only slow if slow mo mode is active
 
             GetValidTarget();
 
@@ -83,7 +61,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         }
 
         //Methods
-        public void Activate()
+        public void Activate() //change to "Charge"
         {
             if (chargeTimer > 0) return;
             activating = true;
@@ -101,14 +79,14 @@ namespace TimeDistortion.Gameplay.TimePhys
                 return;
             }
             chargeTimer = 0;
-            SlowTarget(currentTarget);
+            ActivateTarget();
 
             currentTarget = null;
             TargetInScope?.Invoke(false);
         }
         void DEBUGDrawRays()
         {
-            if (!activating) return;
+            if (chargeTimer < 1) return; //Only slow if slow mo mode is active
 
             //Debug.DrawRay(mainCam.ScreenPointToRay(centerOfScreen).origin, mainCam.ScreenPointToRay(centerOfScreen).direction, Color.gray);
 
@@ -137,7 +115,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         }
         void GetValidTarget()
         {
-            if (chargeTimer > 1) return; //Only slow if slow mo mode is active
+            if (chargeTimer < 1) return; //Only slow if slow mo mode is active
 
             Ray ray = mainCam.ScreenPointToRay(centerOfScreen);
 
@@ -151,16 +129,25 @@ namespace TimeDistortion.Gameplay.TimePhys
             //Search for target even between old targets
             foreach (var hit in hits)
             {
-                //I 
-                if (targetIDs.ContainsKey(hit.transform.GetInstanceID())) continue;
                 hittedObj = hit.transform;
 
-                if (hittedObj == null)
-                    continue;
+                if (hittedObj == null) continue;
 
-                //Check if target is valid (if not, exit)
+                //Check if target is valid (if not, skip)
                 objectToSlow = hittedObj.GetComponent<ITimed>();
-                if (objectToSlow != null) break;
+                if (objectToSlow == null) continue;
+
+                //Check if target is already slowed, if it is, skip
+                ObjectTimeController objTime;
+                objTime = hittedObj.GetComponent<ObjectTimeController>();
+                if (objTime != null)
+                    if (objTime.slowMoLeft > 0)
+                    {
+                        //objectToSlow = null;
+                        continue;
+                    }
+
+                break;
             }
 
             if (objectToSlow == null)
@@ -170,75 +157,27 @@ namespace TimeDistortion.Gameplay.TimePhys
                 return;
             }
 
-            //Debug.Log("Valid Target");
+            Debug.Log("Valid Target");
 
             //If already targetting a valid object, exit
-            if (currentTarget != null && currentTarget.transform) return;
+            if (currentTarget != null) return;
 
-            //If target is already in list, select old one else, create new
-            if (!targetIDs.TryGetValue(hittedObj.GetInstanceID(), out currentTarget))
-            {
-                currentTarget = new SlowMoTarget(hittedObj, objectToSlow);
-            }
+            currentTarget = objectToSlow;
 
-            //Debug.Log("Target Found!");
+            Debug.Log("Target Found!");
             TargetInScope?.Invoke(true);
         }
-        void SlowTarget(SlowMoTarget target)
+        void ActivateTarget()
         {
-            if(target == null) return;
-            if(target.transform == null) return;
-            if (target.timer > 0) return; //Check if already slowing the object
-
-            //Add target to list
-            targets.Add(currentTarget);
-            targetIDs.Add(currentTarget.ID, currentTarget);
-
-            //Slow
-            StartCoroutine(SlowRoutine(target));
-        }
-        void DeSlowTarget(SlowMoTarget target)
-        {
-            //Debug.Log("Trying to DeSlow " + target.transform + " with timer " + target.timer);
-            if (target.timer < 0) return; //Check if already deSlowing the object
-            //Debug.Log("DeSlowing " + target.transform + " with timer " + target.timer);
-
-            //Get Target from List
-            //targetIDs.TryGetValue(target.ID, out target);
-
-            //Update List
-            targets.Remove(target);
-
-            //Update Timer so dictionary doesn't break
-            target.timer = -1f;
-
-            if (target.transform == null)
+            //If there's no target, exit
+            if (currentTarget == null)
             {
-                RemoveDestroyedObject(target);
+                //Restart Charge
+                chargeTimer = 0;
+                return;
             }
 
-            //Update Dictionary
-            targetIDs.Remove(target.ID);
-
-            //Update Target Time
-            target.time.TimeChanged(1);
-
-            //Send event
-            ObjectUnSlowed?.Invoke(target.transform);
-        }
-        void RemoveDestroyedObject(SlowMoTarget target)
-        {
-            //Update Dictionary
-            targetIDs.Remove(target.ID);
-
-            //Update List if existant
-            if (targets.Contains(target))
-            {
-                targets.Remove(target);
-            }
-
-            //Send Event
-            ObjectDestroyed?.Invoke(target.ID);
+            StartCoroutine(SlowRoutine(currentTarget));
         }
         void UpdateTimers()
         {
@@ -246,46 +185,26 @@ namespace TimeDistortion.Gameplay.TimePhys
             if (activating && chargeTimer < 1)
             {
                 chargeTimer += Time.deltaTime / chargeLength;
-            }
-
-            //Run SlowMo Timers from targets
-            if (targets.Count < 1) return;
-            int i = 0;
-            while (i < targets.Count)
-            {
-                //if there is no more target, remove
-                if (targets[i].transform == null)
+                
+                if(chargeTimer >= 1)
                 {
-                    RemoveDestroyedObject(targets[i]);
-                    continue;
+                    activating = false;
                 }
-
-                //If target timer is beyond limit, deslow
-                if (targets[i].timer > 1)
-                {
-                    //Debug.Break();
-                    Debug.Log("DeSlowing " + targets[i].transform + " by time reached!");
-                    DeSlowTarget(targets[i]);
-                    continue;
-                }
-
-                targets[i].timer += Time.deltaTime / 5;
-                i++;
             }
         }
 
         //Routines
-        IEnumerator SlowRoutine(SlowMoTarget target)
+        IEnumerator SlowRoutine(ITimed target)
         {
             yield return new WaitForSecondsRealtime(slowdownDelay);
             
             //Slow target
-            target.time.TimeChanged(slowdownFactor);
+            target.ChangeTime(slowdownFactor);
 
-            //Start Cooldown
+            //Restart Charge
             chargeTimer = 0;
 
-            ObjectSlowed.Invoke(target.transform, target.timer);
+            //ObjectSlowed.Invoke(target.transform, target.timer);
         }
     }
 }

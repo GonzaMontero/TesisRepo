@@ -24,7 +24,7 @@ namespace TimeDistortion.Gameplay.Handler
         PlayerControls inputActions;
         CameraHandler cameraHandler;
         CharacterController characterController;
-        [SerializeField] TimePhys.TimeManager timeManager;
+        [SerializeField] TimePhys.TimeChanger timeChanger;
 
         Vector2 movementDir;
         Vector2 movementInput;
@@ -60,7 +60,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Start()
         {
-            timeManager.ObjectSlowed += OnSlowMo;
+            timeChanger.ObjectSlowed += OnSlowMo;
             cameraHandler = CameraHandler.singleton;
             characterController = GetComponent<CharacterController>();
 

@@ -34,19 +34,19 @@ namespace TimeDistortion.Gameplay.TimePhys
         public void ChangeTime(float newTime)
         {
             if (!slowable) return;
-            if(newTime == localTime) return;
 
             if (newTime == 1)
             {
                 StartCoroutine(ReleaseTimeRoutine());
+                return;
             }
-            else
-            {
-                localTime = newTime * localTimeMod;
-                timer = slowMoDuration;
 
-                TimeChanged?.Invoke();
-            }
+            if (newTime * localTimeMod == localTime) return;
+
+            localTime = newTime * localTimeMod;
+            timer = slowMoDuration;
+
+            TimeChanged?.Invoke();
         }
         IEnumerator ReleaseTimeRoutine()
         {

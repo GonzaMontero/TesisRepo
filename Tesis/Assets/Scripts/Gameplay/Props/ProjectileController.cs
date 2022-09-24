@@ -85,7 +85,7 @@ namespace TimeDistortion.Gameplay.Props
             transform.forward = player.transform.forward;
             Redirected?.Invoke();
         }
-        public void TimeChanged(float newTime)
+        public void ChangeTime(float newTime)
         {
             if (!affectedByTime) return;
             localTime = newTime * (newTime == 1 ? 1 : slowMoMod);

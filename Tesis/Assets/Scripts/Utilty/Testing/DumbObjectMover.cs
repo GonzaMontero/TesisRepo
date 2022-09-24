@@ -26,7 +26,7 @@ namespace TimeDistortion.Testing
         }
 
         //Interface Implementations
-        public void TimeChanged(float newTime)
+        public void ChangeTime(float newTime)
         {
             localTime = newTime;
             //rb.

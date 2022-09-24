@@ -6,7 +6,7 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
-        [SerializeField] TimePhys.TimeManager timeManager;
+        [SerializeField] TimePhys.TimeChanger timeChanger;
         [SerializeField] Animator animator;
         [SerializeField] GameObject swordTrail;
         [SerializeField] float swordTrailTimer;
@@ -20,9 +20,9 @@ namespace TimeDistortion.Gameplay.Characters
             {
                 animator = GetComponentInChildren<Animator>();
             }
-            if (!timeManager)
+            if (!timeChanger)
             {
-                timeManager = TimePhys.TimeManager.Get();
+                timeChanger = TimePhys.TimeChanger.Get();
             }
             if (!controller)
             {
@@ -33,9 +33,9 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Attacked += OnPlayerAttacked;
             controller.Jumped += OnPlayerJumped;
             controller.Moved += OnPlayerMoved;
-            //timeManager.SlowMoReady += ;
-            timeManager.ObjectSlowed += OnObjectSlowed;
-            //timeManager.ObjectUnSlowed +=;
+            //timeChanger.SlowMoReady += ;
+            timeChanger.ObjectSlowed += OnObjectSlowed;
+            //timeChanger.ObjectUnSlowed +=;
         }
         private void Update()
         {

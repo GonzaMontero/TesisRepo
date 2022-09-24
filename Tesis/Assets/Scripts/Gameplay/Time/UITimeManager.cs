@@ -7,7 +7,7 @@ namespace TimeDistortion.Gameplay.TimePhys
     public class UITimeManager : MonoBehaviour
     {
         [Header("Set Values")]
-        [SerializeField] TimeManager manager;
+        [SerializeField] TimeChanger manager;
         [SerializeField] Animator slowMoScopeAnimator;
         [SerializeField] GameObject slowMoScope;
         [SerializeField] List<Image> slowMoScopeParts;
@@ -21,7 +21,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         {
             if (!manager)
             {
-                manager = TimeManager.Get();
+                manager = TimeChanger.Get();
             }
 
             manager.SlowMoReady += OnSlowMoReady;
