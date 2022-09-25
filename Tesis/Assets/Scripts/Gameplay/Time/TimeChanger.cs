@@ -206,6 +206,8 @@ namespace TimeDistortion.Gameplay.TimePhys
         //Routines
         IEnumerator SlowRoutine(ITimed target)
         {
+            ReleasedCharge?.Invoke();
+
             while (chargeTimer > 0)
             {
                 //Update Timer
@@ -221,11 +223,11 @@ namespace TimeDistortion.Gameplay.TimePhys
 
             //Slow target
             target.ChangeTime(slowdownFactor);
-
-            ReleasedCharge?.Invoke();
         }
         IEnumerator CancelRoutine()
         {
+            ReleasedCharge?.Invoke();
+         
             while (chargeTimer > 0)
             {
                 //Update Timer
@@ -238,8 +240,6 @@ namespace TimeDistortion.Gameplay.TimePhys
 
                 yield return null;
             }
-
-            ReleasedCharge?.Invoke();
         }
     }
 }

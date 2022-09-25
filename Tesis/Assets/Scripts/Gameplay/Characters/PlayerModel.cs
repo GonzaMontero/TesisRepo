@@ -33,9 +33,8 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Attacked += OnPlayerAttacked;
             controller.Jumped += OnPlayerJumped;
             controller.Moved += OnPlayerMoved;
-            //timeChanger.SlowMoReady += ;
-            timeChanger.ObjectSlowed += OnObjectSlowed;
-            //timeChanger.ObjectUnSlowed +=;
+            timeChanger.ActivatingCharge += OnTimeCharging;
+            timeChanger.ReleasedCharge += OnTimeReleased;
         }
         private void Update()
         {
@@ -74,9 +73,14 @@ namespace TimeDistortion.Gameplay.Characters
         {
             animator.SetBool("Walking", playerMoved);
         }
-        void OnObjectSlowed(Transform notUsed, float _notUsed)
+        void OnTimeCharging()
         {
-            animator.SetTrigger("StopTime");
+            animator.SetBool("ChargingSlowMo", true);
+        }
+        void OnTimeReleased()
+        {
+            animator.SetBool("SlowMoCharged", timeChanger.publicCharge >= 1);
+            animator.SetBool("ChargingSlowMo", false);
         }
     }
 }
