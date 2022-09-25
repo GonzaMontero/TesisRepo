@@ -2,12 +2,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TimeDistortion.Gameplay
+namespace TimeDistortion.Gameplay.Cameras
 {
     public class LockCameraController : MonoBehaviour
     {
         [Header("Set Values")]
-        [SerializeField] Cinemachine.CinemachineVirtualCamera cam;
+        [SerializeField] Cinemachine.CinemachineVirtualCameraBase cam;
         [SerializeField] Transform mainCam;
         [SerializeField] Transform player;
         [SerializeField] LayerMask lockLayers;
@@ -20,12 +20,12 @@ namespace TimeDistortion.Gameplay
 
         [Header("Runtime Values")]
         [SerializeField] Transform lockTarget;
-        [SerializeField] bool isLocked;
+        [SerializeField] internal bool isLocked;
 
         public System.Action<bool> CameraLocked;
 
         //Unity Events
-        private void Start()
+        internal void Start()
         {
             if (!player)
             {
@@ -67,6 +67,12 @@ namespace TimeDistortion.Gameplay
         {
             if (!context.performed) return;
 
+            UpdateLockOn();
+        }
+
+        //Methods
+        internal virtual void UpdateLockOn()
+        {
             if (isLocked)
             {
                 ClearLock();
@@ -77,8 +83,6 @@ namespace TimeDistortion.Gameplay
                 SetLock();
             }
         }
-
-        //Methods
         void ClearLock()
         {
             cam.LookAt = null;

@@ -22,7 +22,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         private bool jumpInput;
 
-        public bool lockOnFlag { set; private get; }
+        public bool lockOnFlag;// { set; private get; }
         #endregion
 
         #region Rigid System Movement Values
@@ -38,7 +38,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float onAirRotMod = .5f;
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
-        Quaternion targetRotation;
+        [SerializeField] Quaternion targetRotation;
         #endregion
 
         #region Gameplay Actions
@@ -51,7 +51,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region Handler Actions and Stuff
         [SerializeField] float jumpHeight = 1.0f;
-        [SerializeField] float slowMoParalysisTime;
+        [SerializeField] bool usingSlowmo;
         [SerializeField] float fallParalysisTime;
         public float paralysisTimer { set; private get; }
         
@@ -173,15 +173,20 @@ namespace TimeDistortion.Gameplay.Handler
         private void SetNewRotation()
         {
             Vector3 targetDir = Vector3.zero;
-            float moveOverride = moveAmount;
 
             Vector3 camDir = cameraObject.right;
             camDir.y = 0;
-            targetDir = camDir * moveInput.x;
+            targetDir = camDir;
+
+            if (!lockOnFlag)
+                targetDir *= moveInput.x;
 
             camDir = cameraObject.forward;
             camDir.y = 0;
-            targetDir += camDir * moveInput.y;
+            targetDir += camDir;
+
+            if (!lockOnFlag)
+                targetDir *= moveInput.y;
 
             targetDir.Normalize();
             targetDir.y = 0;
@@ -190,8 +195,6 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 targetDir = transform.forward;
             }
-
-            float rs = rotationSpeed;
 
             targetRotation = Quaternion.LookRotation(targetDir);
         }
@@ -402,10 +405,19 @@ namespace TimeDistortion.Gameplay.Handler
         }
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
+            if (paralysisTimer > 0) return;
             if (context.canceled)
-            TimePhys.TimeChanger.Get().Release();
+            {
+                TimePhys.TimeChanger.Get().Release();
+                usingSlowmo = false;
+                lockOnFlag = false;
+            }
             else if (context.started)
+            {
                 TimePhys.TimeChanger.Get().Activate();
+                usingSlowmo = true;
+                lockOnFlag = true;
+            }
         }
         #endregion
 
@@ -414,6 +426,8 @@ namespace TimeDistortion.Gameplay.Handler
         private void HandleAttackInput()
         {
             if (attacking) return; //If player is already attacking, exit
+
+            if (usingSlowmo) return; //If player is using time changer, exit
 
             if (!grounded) return; //If player is on air, exit
 
@@ -438,13 +452,6 @@ namespace TimeDistortion.Gameplay.Handler
                 attackHitBox.SetActive(false);
                 attacking = false;
             }
-        }
-        #endregion
-
-        #region Camera and Slow Motion
-        public void OnSlowMo()
-        {
-            paralysisTimer = slowMoParalysisTime;
         }
         #endregion
     }

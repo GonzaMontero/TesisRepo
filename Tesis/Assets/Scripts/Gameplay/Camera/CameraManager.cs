@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TimeDistortion.Gameplay
+namespace TimeDistortion.Gameplay.Cameras
 {
     public class CameraManager : MonoBehaviour
     {
-        public enum Cameras { free, lockOn,     _count }
+        public enum Cameras { free, lockOn, time,     _count }
 
         [Header("Set Values")]
         [SerializeField] CinemachineVirtualCameraBase freeCamera;
         [SerializeField] CinemachineVirtualCameraBase lockOnCamera;
+        [SerializeField] CinemachineVirtualCameraBase timeCamera;
         [Header("Runtime Values")]
         [SerializeField] CinemachineVirtualCameraBase[] cameras;
         [SerializeField] CinemachineVirtualCameraBase currentCamera;
@@ -36,6 +37,19 @@ namespace TimeDistortion.Gameplay
                 lockController.CameraLocked += OnCameraLockOn;
             }
         }
+        public void OnTimeCharge(InputAction.CallbackContext context)
+        {
+            if (context.canceled)
+            {
+                targetCamera = Cameras.free;
+            }
+            else if (context.started)
+            {
+                targetCamera = Cameras.time;
+            }
+
+            ChangeCamera();
+        }
 
         //Methods
         /// <summary> Set cameras array </summary>
@@ -51,6 +65,9 @@ namespace TimeDistortion.Gameplay
                         break;
                     case Cameras.lockOn:
                         cameras[i] = lockOnCamera;
+                        break;
+                    case Cameras.time:
+                        cameras[i] = timeCamera;
                         break;
                     default:
                         break;
@@ -71,14 +88,18 @@ namespace TimeDistortion.Gameplay
         //Event Receivers
         void OnCameraLockOn(bool isLocked)
         {
-            if (isLocked)
+            switch (targetCamera)
             {
-                if(targetCamera == Cameras.free)
-                    targetCamera = Cameras.lockOn;
-            }
-            else if (targetCamera == Cameras.lockOn)
-            {
-                targetCamera = Cameras.free;
+                case Cameras.free:
+                    if (isLocked)
+                        targetCamera = Cameras.lockOn;
+                    break;
+                case Cameras.lockOn:
+                    if (!isLocked)
+                        targetCamera = Cameras.free;
+                    break;
+                default:
+                    return;
             }
 
             ChangeCamera();
