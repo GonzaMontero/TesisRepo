@@ -6,6 +6,7 @@ using UnityEngine;
 public class SwordHit : MonoBehaviour
 {
     [SerializeField] BoxCollider hitRange;
+    [SerializeField] float hitImpulse;
     [SerializeField] int damage;
 
     public System.Action HittedSomething;
@@ -28,18 +29,23 @@ public class SwordHit : MonoBehaviour
         {
             hit.GetHitted(damage);
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (gameObject.transform.tag == "Player")
-            return;
-
-        IHittable hit;
-        hit = other.gameObject.GetComponent<IHittable>();
-        if (hit != null)
+        Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            hit.GetHitted(damage);
+            rb.AddForce(hitImpulse * transform.forward);
         }
     }
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (gameObject.transform.tag == "Player")
+    //        return;
+
+    //    IHittable hit;
+    //    hit = other.gameObject.GetComponent<IHittable>();
+    //    if (hit != null)
+    //    {
+    //        hit.GetHitted(damage);
+    //    }
+    //}
 }

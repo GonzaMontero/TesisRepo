@@ -867,7 +867,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1431308609916771774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,7 +886,7 @@ MonoBehaviour:
   onAirRotMod: 0.06
   movementSpeed: 8
   rotationSpeed: 18
-  jumpHeight: 5
+  jumpHeight: 5.5
   slowMoParalysisTime: 2
   fallParalysisTime: 0.3
   attackDuration: 1
@@ -908,6 +908,10 @@ MonoBehaviour:
       speed: 0
       health: 0
       damage: 0
+  dashForce: 45
+  dashDuration: 0.2
+  dashCooldown: 0.5
+  dashAirCompleted: 0
 --- !u!114 &8346228347994473318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1230,6 +1234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitRange: {fileID: 2327325528671511378}
+  hitImpulse: 200
   damage: 1
 --- !u!1 &1929439511929931585
 GameObject:
