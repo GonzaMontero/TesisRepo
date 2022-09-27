@@ -201,9 +201,9 @@ GameObject:
   - component: {fileID: 2829887756232805413}
   - component: {fileID: 2236516647201019575}
   - component: {fileID: 2236516647201019568}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Piedra_Der
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -312,9 +312,9 @@ GameObject:
   - component: {fileID: 8159557529821299590}
   - component: {fileID: 8016480036397803406}
   - component: {fileID: 8016480036397803407}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Piedra_Izq
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
