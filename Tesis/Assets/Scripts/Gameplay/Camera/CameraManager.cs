@@ -10,24 +10,28 @@ namespace TimeDistortion.Gameplay.Cameras
         public enum Cameras { free, lockOn, time,     _count }
 
         [Header("Set Values")]
-        [SerializeField] CinemachineVirtualCameraBase freeCamera;
-        [SerializeField] CinemachineVirtualCameraBase lockOnCamera;
-        [SerializeField] CinemachineVirtualCameraBase timeCamera;
+        [SerializeField] CameraController freeCamera;
+        [SerializeField] CameraController lockOnCamera;
+        [SerializeField] CameraController timeCamera;
         [Header("Runtime Values")]
-        [SerializeField] CinemachineVirtualCameraBase[] cameras;
-        [SerializeField] CinemachineVirtualCameraBase currentCamera;
+        [SerializeField] CameraController[] cameras;
+        [SerializeField] CameraController currentCamera;
         [SerializeField] Cameras targetCamera;
 
 
         //Unity Events
         private void Start()
         {
+            //Lock Cursor
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             //Set cameras array
             SetCameras();
 
             //Set current camera
             currentCamera = freeCamera;
-            currentCamera.enabled = true;
+            currentCamera.SetCameraActive(true);
 
             //Link actions
             LockCameraController lockController;
@@ -55,7 +59,7 @@ namespace TimeDistortion.Gameplay.Cameras
         /// <summary> Set cameras array </summary>
         void SetCameras()
         {
-            cameras = new CinemachineVirtualCameraBase[(int)Cameras._count];
+            cameras = new CameraController[(int)Cameras._count];
             for (int i = 0; i < cameras.Length; i++)
             {
                 switch ((Cameras)i)
@@ -72,7 +76,7 @@ namespace TimeDistortion.Gameplay.Cameras
                     default:
                         break;
                 }
-                cameras[i].enabled = false;
+                cameras[i].SetCameraActive(false);
             }
         }
         /// <summary> 
@@ -80,9 +84,9 @@ namespace TimeDistortion.Gameplay.Cameras
         /// </summary>
         void ChangeCamera()
         {
-            currentCamera.enabled = false;
+            currentCamera.SetCameraActive(false);
             currentCamera = cameras[(int)targetCamera];
-            currentCamera.enabled = true;
+            currentCamera.SetCameraActive(true);
         }
 
         //Event Receivers
