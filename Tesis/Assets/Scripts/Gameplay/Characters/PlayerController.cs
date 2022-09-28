@@ -38,7 +38,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float onAirRotMod = .5f;
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
-        Quaternion targetRotation;
+        [SerializeField] Quaternion targetRotation;
         #endregion
 
         #region Gameplay Actions
@@ -123,7 +123,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (lockOnFlag || ShouldMove() || !grounded)
             {
                 ProjectVelocity();
-                SetNewRotation();
+                SetNewRotation(true);
             }
 
             UpdateRigidVelocity();
@@ -173,17 +173,17 @@ namespace TimeDistortion.Gameplay.Handler
         /// <summary> 
         /// Sets a new target rotation, taking in account ref obj forward
         /// </summary>
-        private void SetNewRotation()
+        private void SetNewRotation(bool rotateStill)
         {
             Vector3 targetDir = Vector3.zero;
 
             Vector3 refDir = forwardRefObject.right;
             refDir.y = 0;
-            targetDir = refDir * (lockOnFlag ? 1 : moveInput.x);
+            targetDir = refDir * (rotateStill ? 1 : moveInput.x);
 
             refDir = forwardRefObject.forward;
             refDir.y = 0;
-            targetDir += refDir * (lockOnFlag ? 1 : moveInput.y);
+            targetDir += refDir * (rotateStill ? 1 : moveInput.y);
 
             targetDir.Normalize();
             targetDir.y = 0;
@@ -344,9 +344,11 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnRotateInput(InputAction.CallbackContext context)
         {
+            if (usingSlowmo) return;
+
             //Calculate velocity and rotation after camera moved;
             ProjectVelocity();
-            SetNewRotation();
+            SetNewRotation(false);
         }
 
         public void OnMovementInput(InputAction.CallbackContext context)
@@ -364,7 +366,7 @@ namespace TimeDistortion.Gameplay.Handler
             ProjectVelocity();
             UpdateRigidVelocity();
 
-            SetNewRotation();
+            SetNewRotation(false);
         }
 
         public void OnJumpInput(InputAction.CallbackContext context)
@@ -410,6 +412,8 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else if (context.started)
             {
+                SetNewRotation(true);
+                //transform.localRotation = targetRotation;
                 TimePhys.TimeChanger.Get().Activate();
                 usingSlowmo = true;
             }
