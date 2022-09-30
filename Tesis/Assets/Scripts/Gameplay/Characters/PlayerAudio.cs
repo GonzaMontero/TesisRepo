@@ -48,9 +48,9 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Attacked += OnPlayerAttacked;
             playerHitter.HittedSomething += OnPlayerHittedSomething;
             timeChanger.TargetInScope += OnSlowMoReady;
-            timeChanger.ObjectSlowed += OnObjectSlowed;
-            timeChanger.ObjectUnSlowed += OnObjectUnSlowed;
-            timeChanger.SlowMoFailed += OnSlowMoFailed;
+            //timeChanger.ObjectSlowed += OnObjectSlowed;
+            //timeChanger.ObjectUnSlowed += OnObjectUnSlowed;
+            //timeChanger.SlowMoFailed += OnSlowMoFailed;
         }
         private void Update()
         {

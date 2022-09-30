@@ -24,6 +24,7 @@ namespace TimeDistortion.Gameplay.TimePhys
 
         [Header("Set Values")]
         [SerializeField] TimeChanger controller;
+        [SerializeField] GameObject slowMoRayPrefab;
         [SerializeField] Material slowAuraMaterial;
         [SerializeField] float auraFadeMod;
         [Header("Runtime Values")]
@@ -158,6 +159,10 @@ namespace TimeDistortion.Gameplay.TimePhys
             {
                 RemoveFX(timeableObj.transform); 
             }
+
+            GameObject rayGO = Instantiate(slowMoRayPrefab, transform);
+            TimeRayController ray = rayGO.GetComponent<TimeRayController>();
+            ray.SetRay(controller.publicPlayer, controller.publicTargetTransform);
         }
     }
 }

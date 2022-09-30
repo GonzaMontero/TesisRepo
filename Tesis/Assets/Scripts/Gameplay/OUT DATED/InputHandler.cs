@@ -60,7 +60,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Start()
         {
-            timeChanger.ObjectSlowed += OnSlowMo;
+            //timeChanger.ObjectSlowed += OnSlowMo;
             cameraHandler = CameraHandler.singleton;
             characterController = GetComponent<CharacterController>();
 

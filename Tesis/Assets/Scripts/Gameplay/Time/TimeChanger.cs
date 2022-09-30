@@ -28,15 +28,12 @@ namespace TimeDistortion.Gameplay.TimePhys
         [SerializeField] bool activating;
         ITimed currentTarget;
 
-        public Action<bool> SlowMoReady;
         public Action<bool> TargetInScope;
-        public Action<Transform, float> ObjectSlowed;
-        public Action<Transform> ObjectUnSlowed;
-        public Action<int> ObjectDestroyed;
         public Action ActivatingCharge;
         public Action ReleasedCharge;
-        public Action SlowMoFailed;
 
+        public Transform publicTargetTransform { get; private set; }
+        public Transform publicPlayer { get { return player; } }
         public float publicCharge { get { return chargeTimer; } }
 
         //Unity Events
@@ -170,6 +167,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             if (currentTarget != null) return;
 
             currentTarget = objectToSlow;
+            publicTargetTransform = hittedObj;
 
             Debug.Log("Target Found!");
             TargetInScope?.Invoke(true);
@@ -185,6 +183,9 @@ namespace TimeDistortion.Gameplay.TimePhys
             }
 
             StartCoroutine(SlowRoutine(currentTarget));
+
+            currentTarget = null;
+            publicTargetTransform = null;
         }
         void UpdateTimers()
         {
