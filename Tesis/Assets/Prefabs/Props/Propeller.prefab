@@ -219,6 +219,9 @@ MonoBehaviour:
   - {fileID: 8975682146527778189}
   - {fileID: 8975682146527778189}
   - {fileID: 3964238882621260102}
+  randomDelayLow: 0
+  randomDelayHigh: 0
+  timeBetweenPositionSwap: 0
 --- !u!65 &6138328014082704428
 BoxCollider:
   m_ObjectHideFlags: 0
