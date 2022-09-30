@@ -9,9 +9,12 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] Physic.TimeManager timeManager;
         [SerializeField] Animator animator;
         [SerializeField] GameObject swordTrail;
-        [SerializeField] float swordTrailTimer;
+        [SerializeField] TrailRenderer dashTrail;
+        [SerializeField] float swordTrailTime;
+        [SerializeField] float dashTrailTime;
         [Header("Runtime Values")]
-        [SerializeField] float timer;
+        [SerializeField] float swordTrailTimer;
+        [SerializeField] float dashTrailTimer;
 
         //Unity Events
         private void Start()
@@ -46,11 +49,17 @@ namespace TimeDistortion.Gameplay.Characters
             if (controller.dashing != animator.GetBool("Dashing"))
             {
                 animator.SetBool("Dashing", controller.dashing);
+                UpdateDashTrail();
             }
 
-            if (timer > 0)
+            if (swordTrailTimer > 0)
             {
-                timer -= Time.deltaTime;
+                swordTrailTimer -= Time.deltaTime;
+            }
+            if (!controller.dashing && dashTrailTimer > 0)
+            {
+                dashTrailTimer -= Time.deltaTime;
+                UpdateDashTrail();
             }
             else if(swordTrail.activeSelf)
             {
@@ -59,6 +68,20 @@ namespace TimeDistortion.Gameplay.Characters
         }
 
         //Methods
+        void UpdateDashTrail()
+        {
+            if(controller.dashing)
+            {
+                dashTrail.enabled = true;
+                dashTrailTimer = dashTrailTime;
+            }
+            else if(!(dashTrailTimer > 0))
+            {
+                dashTrail.enabled = false;
+            }
+
+            dashTrail.time = dashTrailTimer / dashTrailTime;
+        }
 
         //Event Receivers
         void OnCameraLocked(bool cameraLocked)
@@ -67,7 +90,7 @@ namespace TimeDistortion.Gameplay.Characters
         void OnPlayerAttacked()
         {
             animator.SetTrigger("Attack");
-            timer = swordTrailTimer;
+            swordTrailTimer = swordTrailTime;
             swordTrail.SetActive(true);
         }
         void OnPlayerJumped()
