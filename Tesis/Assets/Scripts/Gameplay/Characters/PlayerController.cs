@@ -426,7 +426,7 @@ namespace TimeDistortion.Gameplay.Handler
         }
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
-            if (attacking || dashing) return;
+            if (attacking || dashing || !grounded) return;
             if (context.canceled)
             {
                 //SetNewRotation(true);
