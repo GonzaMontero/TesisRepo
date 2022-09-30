@@ -3,30 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TimeDistortion.Gameplay
+namespace TimeDistortion.Gameplay.Cameras
 {
     public class CameraManager : MonoBehaviour
     {
-        public enum Cameras { free, lockOn,     _count }
+        public enum Cameras { free, lockOn, time,     _count }
 
         [Header("Set Values")]
-        [SerializeField] CinemachineVirtualCameraBase freeCamera;
-        [SerializeField] CinemachineVirtualCameraBase lockOnCamera;
+        [SerializeField] CameraController freeCamera;
+        [SerializeField] CameraController lockOnCamera;
+        [SerializeField] CameraController timeCamera;
         [Header("Runtime Values")]
-        [SerializeField] CinemachineVirtualCameraBase[] cameras;
-        [SerializeField] CinemachineVirtualCameraBase currentCamera;
+        [SerializeField] CameraController[] cameras;
+        [SerializeField] CameraController currentCamera;
         [SerializeField] Cameras targetCamera;
 
 
         //Unity Events
         private void Start()
         {
+            //Lock Cursor
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             //Set cameras array
             SetCameras();
 
             //Set current camera
             currentCamera = freeCamera;
-            currentCamera.enabled = true;
+            currentCamera.SetCameraActive(true);
 
             //Link actions
             LockCameraController lockController;
@@ -36,12 +41,25 @@ namespace TimeDistortion.Gameplay
                 lockController.CameraLocked += OnCameraLockOn;
             }
         }
+        public void OnTimeCharge(InputAction.CallbackContext context)
+        {
+            if (context.canceled)
+            {
+                targetCamera = Cameras.free;
+            }
+            else if (context.started)
+            {
+                targetCamera = Cameras.time;
+            }
+
+            ChangeCamera();
+        }
 
         //Methods
         /// <summary> Set cameras array </summary>
         void SetCameras()
         {
-            cameras = new CinemachineVirtualCameraBase[(int)Cameras._count];
+            cameras = new CameraController[(int)Cameras._count];
             for (int i = 0; i < cameras.Length; i++)
             {
                 switch ((Cameras)i)
@@ -52,10 +70,13 @@ namespace TimeDistortion.Gameplay
                     case Cameras.lockOn:
                         cameras[i] = lockOnCamera;
                         break;
+                    case Cameras.time:
+                        cameras[i] = timeCamera;
+                        break;
                     default:
                         break;
                 }
-                cameras[i].enabled = false;
+                cameras[i].SetCameraActive(false);
             }
         }
         /// <summary> 
@@ -63,22 +84,26 @@ namespace TimeDistortion.Gameplay
         /// </summary>
         void ChangeCamera()
         {
-            currentCamera.enabled = false;
+            currentCamera.SetCameraActive(false);
             currentCamera = cameras[(int)targetCamera];
-            currentCamera.enabled = true;
+            currentCamera.SetCameraActive(true);
         }
 
         //Event Receivers
         void OnCameraLockOn(bool isLocked)
         {
-            if (isLocked)
+            switch (targetCamera)
             {
-                if(targetCamera == Cameras.free)
-                    targetCamera = Cameras.lockOn;
-            }
-            else if (targetCamera == Cameras.lockOn)
-            {
-                targetCamera = Cameras.free;
+                case Cameras.free:
+                    if (isLocked)
+                        targetCamera = Cameras.lockOn;
+                    break;
+                case Cameras.lockOn:
+                    if (!isLocked)
+                        targetCamera = Cameras.free;
+                    break;
+                default:
+                    return;
             }
 
             ChangeCamera();

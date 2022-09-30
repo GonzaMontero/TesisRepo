@@ -113,7 +113,7 @@ namespace TimeDistortion.Gameplay.Characters
                 Destroy(gameObject);
             }
         }
-        public void TimeChanged(float newTime)
+        public void ChangeTime(float newTime)
         {
             if (!affectedByTime) return;
 

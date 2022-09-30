@@ -6,7 +6,7 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
-        [SerializeField] Physic.TimeManager timeManager;
+        [SerializeField] TimePhys.TimeChanger timeChanger;
         [SerializeField] Animator animator;
         [SerializeField] GameObject swordTrail;
         [SerializeField] TrailRenderer dashTrail;
@@ -23,9 +23,9 @@ namespace TimeDistortion.Gameplay.Characters
             {
                 animator = GetComponentInChildren<Animator>();
             }
-            if (!timeManager)
+            if (!timeChanger)
             {
-                timeManager = Physic.TimeManager.Get();
+                timeChanger = TimePhys.TimeChanger.Get();
             }
             if (!controller)
             {
@@ -36,9 +36,8 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Attacked += OnPlayerAttacked;
             controller.Jumped += OnPlayerJumped;
             controller.Moved += OnPlayerMoved;
-            //timeManager.SlowMoReady += ;
-            timeManager.ObjectSlowed += OnObjectSlowed;
-            //timeManager.ObjectUnSlowed +=;
+            timeChanger.ActivatingCharge += OnTimeCharging;
+            timeChanger.ReleasedCharge += OnTimeReleased;
         }
         private void Update()
         {
@@ -101,9 +100,14 @@ namespace TimeDistortion.Gameplay.Characters
         {
             animator.SetBool("Walking", playerMoved);
         }
-        void OnObjectSlowed(Transform notUsed, float _notUsed)
+        void OnTimeCharging()
         {
-            animator.SetTrigger("StopTime");
+            animator.SetBool("ChargingSlowMo", true);
+        }
+        void OnTimeReleased()
+        {
+            animator.SetBool("SlowMoCharged", timeChanger.publicCharge >= 1);
+            animator.SetBool("ChargingSlowMo", false);
         }
     }
 }

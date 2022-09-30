@@ -29,7 +29,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region Rigid System Movement Values
         private new Rigidbody rigidbody;
-        Transform cameraObject;
+        [SerializeField] Transform forwardRefObject;
         Vector3 moveDirection;
         Vector3 normalVector;
         Vector3 projectedVelocity;
@@ -40,7 +40,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float onAirRotMod = .5f;
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
-        Quaternion targetRotation;
+        [SerializeField] Quaternion targetRotation;
         #endregion
 
         #region Gameplay Actions
@@ -53,7 +53,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region Handler Actions and Stuff
         [SerializeField] float jumpHeight = 1.0f;
-        [SerializeField] float slowMoParalysisTime;
+        [SerializeField] bool usingSlowmo;
         [SerializeField] float fallParalysisTime;
         public float paralysisTimer { set; private get; }
         
@@ -107,7 +107,10 @@ namespace TimeDistortion.Gameplay.Handler
         private void InitRigidSystem()
         {
             rigidbody = GetComponent<Rigidbody>();
-            cameraObject = Camera.main.transform;           
+            if (forwardRefObject == null)
+            {
+                forwardRefObject = Camera.main.transform;
+            }
 
             grounded = true;
         }
@@ -132,7 +135,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (lockOnFlag || ShouldMove() || !grounded)
             {
                 ProjectVelocity();
-                SetNewRotation();
+                SetNewRotation(true);
             }
 
             UpdateRigidVelocity();
@@ -165,12 +168,12 @@ namespace TimeDistortion.Gameplay.Handler
 
         private Vector3 HandleMovement()
         {
-            Vector3 camDir = cameraObject.forward;
+            Vector3 camDir = forwardRefObject.forward;
             camDir.y = 0;
 
             moveDirection = camDir * moveInput.y;
 
-            camDir = cameraObject.right;
+            camDir = forwardRefObject.right;
             camDir.y = 0;
 
             moveDirection += camDir * moveInput.x;
@@ -183,20 +186,19 @@ namespace TimeDistortion.Gameplay.Handler
         }
 
         /// <summary> 
-        /// Sets a new target rotation, taking in account camera forward
+        /// Sets a new target rotation, taking in account ref obj forward
         /// </summary>
-        private void SetNewRotation()
+        private void SetNewRotation(bool rotateStill)
         {
             Vector3 targetDir = Vector3.zero;
-            float moveOverride = moveAmount;
 
-            Vector3 camDir = cameraObject.right;
-            camDir.y = 0;
-            targetDir = camDir * moveInput.x;
+            Vector3 refDir = forwardRefObject.right;
+            refDir.y = 0;
+            targetDir = refDir * (rotateStill ? 1 : moveInput.x);
 
-            camDir = cameraObject.forward;
-            camDir.y = 0;
-            targetDir += camDir * moveInput.y;
+            refDir = forwardRefObject.forward;
+            refDir.y = 0;
+            targetDir += refDir * (rotateStill ? 1 : moveInput.y);
 
             targetDir.Normalize();
             targetDir.y = 0;
@@ -205,8 +207,6 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 targetDir = transform.forward;
             }
-
-            float rs = rotationSpeed;
 
             targetRotation = Quaternion.LookRotation(targetDir);
         }
@@ -217,7 +217,7 @@ namespace TimeDistortion.Gameplay.Handler
         private void HandleRotation(float delta)
         {
             if (transform.rotation == targetRotation) return;
-
+            if (usingSlowmo) return;
             float frameRot = rotationSpeed * delta;
             
             if(!grounded)
@@ -356,13 +356,16 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnRotateInput(InputAction.CallbackContext context)
         {
+            if (usingSlowmo) return;
+
             //Calculate velocity and rotation after camera moved;
             ProjectVelocity();
-            SetNewRotation();
+            SetNewRotation(false);
         }
 
         public void OnMovementInput(InputAction.CallbackContext context)
         {
+            if (usingSlowmo) return;
             if (context.canceled)
             {
                 if(grounded)
@@ -376,11 +379,12 @@ namespace TimeDistortion.Gameplay.Handler
             ProjectVelocity();
             UpdateRigidVelocity();
 
-            SetNewRotation();
+            SetNewRotation(false);
         }
 
         public void OnJumpInput(InputAction.CallbackContext context)
         {
+            if (usingSlowmo) return;
             if (!context.started)
                 return;
             HandleJumping();
@@ -412,13 +416,33 @@ namespace TimeDistortion.Gameplay.Handler
             if (!context.started) return;
             HandleAttackInput();
         }
+        public void OnSlowMoInput(InputAction.CallbackContext context)
+        {
+            if (attacking || dashing) return;
+            if (context.canceled)
+            {
+                //SetNewRotation(true);
+                transform.localRotation = targetRotation;
+                TimePhys.TimeChanger.Get().Release();
+                usingSlowmo = false;
+            }
+            else if (context.started)
+            {
+                //SetNewRotation(true);
+                transform.localRotation = targetRotation;
+                TimePhys.TimeChanger.Get().Activate();
+                usingSlowmo = true;
+            }
+        }
         #endregion
-        
+
         #region Attacking
 
         private void HandleAttackInput()
         {
             if (attacking) return; //If player is already attacking, exit
+
+            if (usingSlowmo) return; //If player is using time changer, exit
 
             if (!grounded || dashing) return; //If player is on air or dashing, exit
 
@@ -446,16 +470,10 @@ namespace TimeDistortion.Gameplay.Handler
         }
         #endregion
 
-        #region Camera and Slow Motion
-        public void OnSlowMo()
-        {
-            paralysisTimer = slowMoParalysisTime;
-        }
-        #endregion
-
         #region Dash Inputs
         public void OnDashInput(InputAction.CallbackContext context)
         {
+            if (attacking || usingSlowmo) return;
             if (dashCurrent || dashAirCompleted) return;
             StartCoroutine(Dash());
         }
@@ -494,12 +512,12 @@ namespace TimeDistortion.Gameplay.Handler
 
         Vector3 HandleDashInput()
         {
-            Vector3 camDir = cameraObject.forward;
+            Vector3 camDir = forwardRefObject.forward;
             camDir.y = 0;
 
             moveDirection = camDir * moveInput.y;
 
-            camDir = cameraObject.right;
+            camDir = forwardRefObject.right;
             camDir.y = 0;
 
             moveDirection += camDir * moveInput.x;

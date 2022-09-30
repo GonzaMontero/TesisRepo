@@ -1,4 +1,4 @@
 ﻿public interface ITimed
 {
-    void TimeChanged(float newTime);
+    void ChangeTime(float newTime);
 }

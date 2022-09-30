@@ -166,7 +166,18 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: OnMoveCameraInput
+        m_MethodName: OnRotateInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: OnRotateInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -196,7 +207,18 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: OnLockCameraInput
+        m_MethodName: OnLockOnInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: OnLockOnInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -210,8 +232,19 @@ MonoBehaviour:
     m_ActionName: Player/Lock On[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3214866945009428241}
-        m_MethodName: OnReadySlowMo
+      - m_Target: {fileID: 0}
+        m_MethodName: OnSlowMoInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: OnTimeCharge
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -224,18 +257,7 @@ MonoBehaviour:
     m_ActionId: e92dffae-5174-4e8a-9882-02eca75de9a4
     m_ActionName: Player/Ready SlowMo[/Keyboard/leftCtrl]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3214866945009428241}
-        m_MethodName: OnInteract
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 10b0cf13-cc00-4558-a861-0e5a9342ea13
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
@@ -253,6 +275,66 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 05c193ae-fece-4e20-b375-46f41e4a0b76
     m_ActionName: Player/Attack
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnOpenMenuInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c2d36052-2a77-4575-912c-3e811d2a5784
+    m_ActionName: Player/Open Menu[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6713174261186947402}
+        m_MethodName: OnRestartInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 612c79a0-bb86-4637-8544-0648be7571f2
+    m_ActionName: Player/Restart[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnFlyInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5bcf2306-ac73-4ddf-b73e-92651357b8c1
+    m_ActionName: Player/Fly (CHEAT)[/Keyboard/v]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3e5461ff-3c7b-4613-aff5-b9b8eb254da5
+    m_ActionName: Player/Dash[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -333,15 +415,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6713174261281061469}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3214866945009428241 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8193310065279458636, guid: 8c0132c2e2a4b2a4eba790a1ed5ee6eb,
-    type: 3}
-  m_PrefabInstance: {fileID: 6713174261281061469}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 661530cfe55702a499162c0c758a372b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

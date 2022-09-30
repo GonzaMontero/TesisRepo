@@ -30,7 +30,7 @@ namespace TimeDistortion.Gameplay
         internal abstract void Move(Space moveRelativeTo);
 
         //Interface Implementations
-        public void TimeChanged(float newTime)
+        public void ChangeTime(float newTime)
         {
             if (!affectedByTime) return;
             
