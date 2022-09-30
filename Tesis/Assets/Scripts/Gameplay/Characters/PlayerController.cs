@@ -202,7 +202,7 @@ namespace TimeDistortion.Gameplay.Handler
         private void HandleRotation(float delta)
         {
             if (transform.rotation == targetRotation) return;
-
+            if (usingSlowmo) return;
             float frameRot = rotationSpeed * delta;
             
             if(!grounded)
@@ -353,6 +353,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnMovementInput(InputAction.CallbackContext context)
         {
+            if (usingSlowmo) return;
             if (context.canceled)
             {
                 if(grounded)
@@ -407,13 +408,15 @@ namespace TimeDistortion.Gameplay.Handler
             if (paralysisTimer > 0) return;
             if (context.canceled)
             {
+                //SetNewRotation(true);
+                transform.localRotation = targetRotation;
                 TimePhys.TimeChanger.Get().Release();
                 usingSlowmo = false;
             }
             else if (context.started)
             {
-                SetNewRotation(true);
-                //transform.localRotation = targetRotation;
+                //SetNewRotation(true);
+                transform.localRotation = targetRotation;
                 TimePhys.TimeChanger.Get().Activate();
                 usingSlowmo = true;
             }

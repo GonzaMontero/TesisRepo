@@ -26,11 +26,11 @@ namespace TimeDistortion.Gameplay.Cameras
 
             Vector2 input = context.ReadValue<Vector2>();
 
-            if (Mathf.Pow(input.y, 2) > 0)
+            if (rotationSpeeds.y > 0 && Mathf.Pow(input.y, 2) > 0)
             {
                 RotateVertical(input.y);
             }
-            if (Mathf.Pow(input.x, 2) > 0)
+            if (rotationSpeeds.x > 0 && Mathf.Pow(input.x, 2) > 0)
             {
                 RotateHorizontal(input.x);
             }
