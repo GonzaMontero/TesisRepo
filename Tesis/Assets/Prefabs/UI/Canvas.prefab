@@ -513,28 +513,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'TEMPOMANCY CONTROLS
-
-
-    W A S D - Move
-
-    Space - Jump
-
-    Cursor
-    - Camera
-
-    L Click - Attack
-
-    R Click - Slow Motion
-
-    F - Lock On
-
-    L
-    Shift - Dash
-
-    Esc - Exit
-
-'
+  m_text: "TEMPOMANCY CONTROLS\n-------------------------------------\nMove\nW A
+    S D | L Stick\n\nJump\nSpace | South Button\n\nAttack\nL Click | Right Shoulder
+    \n\nSlow Motion\nR Click | Right Trigger (Hold) \n\nDash\nL Shift | West Button\n\nCamera\nCursor
+    | R Stick \n\nLock On\nF - Lock On | Left Trigger\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -561,8 +543,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34
-  m_fontSizeBase: 34
+  m_fontSize: 21
+  m_fontSizeBase: 21
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -573,7 +555,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -23.74
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

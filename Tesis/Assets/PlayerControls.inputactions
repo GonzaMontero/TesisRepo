@@ -240,6 +240,17 @@
                 },
                 {
                     "name": "",
+                    "id": "67bf9bce-7956-4f74-becd-2953d9c2f167",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Open Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a6190af2-9c4c-4764-baab-dc1614bc02b7",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -307,7 +318,7 @@
                 {
                     "name": "",
                     "id": "ed14f802-256c-40cc-b10c-c18340f3acca",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -329,7 +340,7 @@
                 {
                     "name": "",
                     "id": "42fd83ac-0a27-4286-b5de-8fbf55f18e4f",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
