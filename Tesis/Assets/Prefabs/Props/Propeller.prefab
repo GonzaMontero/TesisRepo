@@ -169,6 +169,8 @@ GameObject:
   - component: {fileID: 8200864518253593819}
   - component: {fileID: 3747152478210955319}
   - component: {fileID: 6138328014082704428}
+  - component: {fileID: 4646614321577282368}
+  - component: {fileID: 5691122858847119195}
   m_Layer: 0
   m_Name: Wind Area
   m_TagString: Untagged
@@ -208,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ed0373b89571b47ad42f4972356212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeController: {fileID: 0}
   windLocation: {fileID: 3735850866175416808}
   windArea: {fileID: 6138328014082704428}
   windForce: 0.05
@@ -235,6 +238,41 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 14.083432, y: 8.636936, z: 8.987718}
   m_Center: {x: 6.541716, y: -0.15067673, z: 0.4373803}
+--- !u!114 &4646614321577282368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3700067307593401970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82510fb104b858b4eb2d8667fba849b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localTimeMod: 1
+  slowMoDuration: 0
+  slowMoDelay: 0
+  slowable: 1
+  localTime: 1
+  timer: 0
+--- !u!114 &5691122858847119195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3700067307593401970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b89640b227613c49a340fd8cac795e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 4646614321577282368}
+  slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
+  auraFadeMod: 1
+  models: []
+  currentFX: {fileID: 0}
 --- !u!1 &3735850865904167164
 GameObject:
   m_ObjectHideFlags: 0

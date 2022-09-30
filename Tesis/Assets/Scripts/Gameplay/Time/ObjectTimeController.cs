@@ -6,8 +6,8 @@ namespace TimeDistortion.Gameplay.TimePhys
     public class ObjectTimeController : MonoBehaviour
     {
         [Header("Set Values")]
-        [SerializeField] float localTimeMod;
-        [SerializeField] float slowMoDuration;
+        [SerializeField] float localTimeMod = 1;
+        [SerializeField] float slowMoDuration = 1;
         [SerializeField] float slowMoDelay;
         [SerializeField] bool slowable = true;
         [Header("Runtime Values")]

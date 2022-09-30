@@ -6,6 +6,7 @@ namespace TimeDistortion.Gameplay.Props
     public class ProjectileController : MonoBehaviour, IHittable, ITimed
     {
         [Header("Set Values")]
+        [SerializeField] TimePhys.ObjectTimeController timeController;
         [SerializeField] float selfDestroyTime;
         [SerializeField] float speed;
         [SerializeField] float slowMoMod = 1;
@@ -26,6 +27,10 @@ namespace TimeDistortion.Gameplay.Props
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
             destroyTimer = selfDestroyTime;
+            if (timeController == null)
+            {
+                timeController = GetComponent<TimePhys.ObjectTimeController>();
+            }
         }
         void Update()
         {
@@ -87,8 +92,7 @@ namespace TimeDistortion.Gameplay.Props
         }
         public void ChangeTime(float newTime)
         {
-            if (!affectedByTime) return;
-            localTime = newTime * (newTime == 1 ? 1 : slowMoMod);
+            timeController.ChangeTime(newTime);
         }
     }
 }

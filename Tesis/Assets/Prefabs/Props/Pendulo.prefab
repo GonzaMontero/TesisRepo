@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1226286727106294173}
   - component: {fileID: 5682944736582783492}
+  - component: {fileID: 8937401195158775564}
   m_Layer: 0
   m_Name: PendCol
   m_TagString: Untagged
@@ -45,6 +46,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &8937401195158775564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597814828662863640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 761630a99b1ad9441a9f77cd67980888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3170822468644619230
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,9 +192,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8136860718350571037}
   - component: {fileID: 2027023422805218663}
-  - component: {fileID: 4324736317474573828}
   - component: {fileID: 6498438166428308904}
   - component: {fileID: 1493527236}
+  - component: {fileID: 3555054213751572358}
+  - component: {fileID: 2718119456708342392}
   m_Layer: 0
   m_Name: Pendulo
   m_TagString: Untagged
@@ -227,20 +241,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4324736317474573828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7127236200519915107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02eb039341c839c4c81da6f2a56c52ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockOnTransform: {fileID: 1226286727106294173}
-  isFollowed: 0
 --- !u!136 &6498438166428308904
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -267,8 +267,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd8b18a609d9b5489c00558d5dff3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeController: {fileID: 0}
   animator: {fileID: 0}
   affectedByTime: 1
+--- !u!114 &3555054213751572358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127236200519915107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82510fb104b858b4eb2d8667fba849b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localTimeMod: 1
+  slowMoDuration: 1
+  slowMoDelay: 0
+  slowable: 1
+  localTime: 1
+  timer: 0
+--- !u!114 &2718119456708342392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127236200519915107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b89640b227613c49a340fd8cac795e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 3555054213751572358}
+  slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
+  auraFadeMod: 1
+  models: []
+  currentFX: {fileID: 0}
 --- !u!1 &8068604836950221595
 GameObject:
   m_ObjectHideFlags: 0
