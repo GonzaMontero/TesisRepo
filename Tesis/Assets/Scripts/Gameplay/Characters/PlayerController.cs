@@ -92,7 +92,7 @@ namespace TimeDistortion.Gameplay.Handler
         public float dashDuration;
         public float dashCooldown;
         private float dashTime;
-        private bool dashing;
+        public bool dashing { get; private set; }
         private bool dashCurrent;
         [SerializeField] private bool dashAirCompleted = false;
         #endregion
@@ -420,7 +420,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (attacking) return; //If player is already attacking, exit
 
-            if (!grounded) return; //If player is on air, exit
+            if (!grounded || dashing) return; //If player is on air or dashing, exit
 
             if (attackHitBox.activeSelf) return; //If hit box is on (player is attacking), exit
 

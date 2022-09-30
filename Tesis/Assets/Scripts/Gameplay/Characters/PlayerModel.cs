@@ -43,6 +43,10 @@ namespace TimeDistortion.Gameplay.Characters
             {
                 animator.SetBool("OnAir", !controller.grounded);
             }
+            if (controller.dashing != animator.GetBool("Dashing"))
+            {
+                animator.SetBool("Dashing", controller.dashing);
+            }
 
             if (timer > 0)
             {
