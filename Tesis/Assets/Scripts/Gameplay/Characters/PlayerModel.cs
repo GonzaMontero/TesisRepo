@@ -106,7 +106,8 @@ namespace TimeDistortion.Gameplay.Characters
         }
         void OnTimeReleased()
         {
-            animator.SetBool("SlowMoCharged", timeChanger.publicCharge >= 1);
+            bool timeChanged = timeChanger.publicCharge >= 1 && timeChanger.publicTargetTransform;
+            animator.SetBool("SlowMoCharged", timeChanged);
             animator.SetBool("ChargingSlowMo", false);
         }
     }

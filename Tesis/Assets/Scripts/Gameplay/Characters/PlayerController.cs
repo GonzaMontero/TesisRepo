@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
@@ -11,6 +10,7 @@ namespace TimeDistortion.Gameplay.Handler
     {
         #region Components and Controls
         [SerializeField] GameObject attackHitBox;
+        [SerializeField] Cameras.CameraManager cameraManager;
         #endregion
 
         #region Movement Values
@@ -308,6 +308,14 @@ namespace TimeDistortion.Gameplay.Handler
             //Invoke action
             Moved?.Invoke(false);
         }
+        /// <summary>  
+        /// Stops the rigidbody movement and clears input
+        /// </summary>
+        private void ClearMovement()
+        {
+            StopRigidMovement();
+            moveInput = Vector2.zero;
+        }
 
         /// <summary>  
         /// Checks if move input is in use, but projected velocity is 0
@@ -422,16 +430,19 @@ namespace TimeDistortion.Gameplay.Handler
             if (context.canceled)
             {
                 //SetNewRotation(true);
-                transform.localRotation = targetRotation;
+                //transform.localRotation = targetRotation;
                 TimePhys.TimeChanger.Get().Release();
                 usingSlowmo = false;
+                cameraManager.OnTimeCharge(context);
             }
             else if (context.started)
             {
                 //SetNewRotation(true);
-                transform.localRotation = targetRotation;
+                //transform.localRotation = targetRotation;
+                ClearMovement();
                 TimePhys.TimeChanger.Get().Activate();
                 usingSlowmo = true;
+                cameraManager.OnTimeCharge(context);
             }
         }
         #endregion
