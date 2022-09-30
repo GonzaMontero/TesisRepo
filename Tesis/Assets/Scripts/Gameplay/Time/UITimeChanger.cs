@@ -10,6 +10,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         [SerializeField] TimeChanger controller;
         [SerializeField] Animator slowMoScopeAnimator;
         [SerializeField] GameObject slowMoScope;
+        [SerializeField] float minChargeMod;
         [Header("Runtime Values")]
         [SerializeField] bool charging;
 
@@ -29,7 +30,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         {
             if(charging)
             {
-                slowMoScope.SetActive(controller.publicCharge >= 1);
+                slowMoScope.SetActive(controller.publicCharge >= minChargeMod);
             }
         }
 

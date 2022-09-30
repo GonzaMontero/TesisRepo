@@ -1191,6 +1191,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   slowMoScopeAnimator: {fileID: 2499175627798808803}
   slowMoScope: {fileID: 2499175627798808813}
+  minChargeMod: 0.65
   charging: 0
 --- !u!1 &2499175629388097672
 GameObject:
