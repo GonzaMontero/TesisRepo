@@ -1141,7 +1141,7 @@ MonoBehaviour:
     m_Bits: 257
   IgnoreTag: 
   AimDistance: 200
-  AimTargetReticle: {fileID: 0}
+  AimTargetReticle: {fileID: 1733476637}
 --- !u!114 &417088970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 2
+    m_Style: 0
     m_Time: 2
     m_CustomCurve:
       serializedVersion: 2
@@ -1442,7 +1442,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 612897551}
-  m_LocalRotation: {x: 0.19094531, y: 0.038549304, z: -0.007504607, w: 0.9808148}
+  m_LocalRotation: {x: 0.19094563, y: 0.038508795, z: -0.0074967584, w: 0.98081636}
   m_LocalPosition: {x: 0, y: 2.3470001, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1675,7 +1675,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671650103}
-  m_LocalRotation: {x: -0.00000006047459, y: 0.00909456, z: -0.00000008466997, w: 0.9999587}
+  m_LocalRotation: {x: 0.000000029284422, y: 0.009094567, z: -0.00000004636916, w: 0.9999587}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2050,7 +2050,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2499175629238168255, guid: 5fe54c831b72f614490912f64cf6c46f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5fe54c831b72f614490912f64cf6c46f, type: 3}
 --- !u!114 &945846272 stripped
 MonoBehaviour:
@@ -2822,7 +2823,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497470435}
-  m_LocalRotation: {x: -0.0018871491, y: -0.0273455, z: 0.01467703, w: 0.9995165}
+  m_LocalRotation: {x: -0.0018872591, y: -0.027307194, z: 0.014661664, w: 0.9995178}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2896,7 +2897,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549610129}
-  m_LocalRotation: {x: -0.038193323, y: -0.02786059, z: 0.013674018, w: 0.99878836}
+  m_LocalRotation: {x: -0.038193446, y: -0.027821783, z: 0.013660063, w: 0.99878955}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2904,6 +2905,24 @@ Transform:
   m_Father: {fileID: 65112803}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1733476636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2499175627798808813, guid: 5fe54c831b72f614490912f64cf6c46f,
+    type: 3}
+  m_PrefabInstance: {fileID: 945846271}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1733476637 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2499175627798808812, guid: 5fe54c831b72f614490912f64cf6c46f,
+    type: 3}
+  m_PrefabInstance: {fileID: 945846271}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1733476638 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2499175627798808803, guid: 5fe54c831b72f614490912f64cf6c46f,
+    type: 3}
+  m_PrefabInstance: {fileID: 945846271}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1845989406
 GameObject:
   m_ObjectHideFlags: 3
@@ -3069,6 +3088,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5895336923634531731}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2143859993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2499175629238168231, guid: 5fe54c831b72f614490912f64cf6c46f,
+    type: 3}
+  m_PrefabInstance: {fileID: 945846271}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2143859996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143859993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82c79b311eeb0048b4c1bdafca33ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1883826986}
+  slowMoScopeAnimator: {fileID: 1733476638}
+  slowMoScope: {fileID: 1733476636}
+  charging: 0
 --- !u!114 &4759590306485559341 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1431308609916771774, guid: 370f9360db4d6f54ab94285a5169fd1a,
