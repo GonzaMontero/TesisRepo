@@ -7,7 +7,7 @@ namespace TimeDistortion.Gameplay.TimePhys
     {
         [Header("Set Values")]
         [SerializeField] float localTimeMod = 1;
-        [SerializeField] float slowMoDuration = 1;
+        [SerializeField] float slowMoDuration = 5;
         [SerializeField] float slowMoDelay;
         [SerializeField] bool slowable = true;
         [Header("Runtime Values")]

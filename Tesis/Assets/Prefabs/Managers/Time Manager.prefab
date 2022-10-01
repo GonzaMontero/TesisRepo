@@ -47,7 +47,7 @@ MonoBehaviour:
   player: {fileID: 0}
   slowableLayers:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 8449
   slowdownDelay: 1
   cancelDelay: 0.5
   slowdownRange: 20

@@ -40,7 +40,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2597814828662863640}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
@@ -177,7 +177,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 4052823151001879201}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.06130886
   m_Height: 4.2071686
   m_Direction: 1
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 2718119456708342392}
   m_Layer: 0
   m_Name: Pendulo
-  m_TagString: Untagged
+  m_TagString: Props
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -267,9 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd8b18a609d9b5489c00558d5dff3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeController: {fileID: 0}
-  animator: {fileID: 0}
-  affectedByTime: 1
+  timeController: {fileID: 3555054213751572358}
 --- !u!114 &3555054213751572358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localTimeMod: 1
-  slowMoDuration: 1
+  slowMoDuration: 5
   slowMoDelay: 0
   slowable: 1
   localTime: 1
@@ -301,10 +299,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 3555054213751572358}
+  animator: {fileID: 2027023422805218663}
   slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
   auraFadeMod: 1
   models: []
   currentFX: {fileID: 0}
+  animatorHasTime: 0
 --- !u!1 &8068604836950221595
 GameObject:
   m_ObjectHideFlags: 0

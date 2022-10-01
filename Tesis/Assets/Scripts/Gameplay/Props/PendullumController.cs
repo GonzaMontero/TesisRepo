@@ -6,16 +6,10 @@ namespace TimeDistortion.Gameplay.Props
     {
         [Header("Set Values")]
         [SerializeField] TimePhys.ObjectTimeController timeController;
-        [SerializeField] Animator animator;
-        [SerializeField] bool affectedByTime = true;
 
         //Unity Events
         private void Start()
         {
-            if (animator == null)
-            {
-                animator = GetComponent<Animator>();
-            }
             if (timeController == null)
             {
                 timeController = GetComponent<TimePhys.ObjectTimeController>();
