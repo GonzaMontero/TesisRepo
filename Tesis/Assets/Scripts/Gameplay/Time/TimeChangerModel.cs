@@ -143,6 +143,13 @@ namespace TimeDistortion.Gameplay.TimePhys
                 SetSlowAura(renderer, false);
             }
         }
+        void SetTimeRay(TimeRayController rayController)
+        {
+            Transform player = controller.publicPlayer;
+            Transform target = controller.publicTargetTransform;
+            Vector3 hitPos = controller.publicHitPos;
+            rayController.SetRay(player, target, hitPos);
+        }
 
         //Event Receivers
         void OnActivatingCharge()
@@ -165,7 +172,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             
             GameObject rayGO = Instantiate(slowMoRayPrefab, transform);
             TimeRayController ray = rayGO.GetComponent<TimeRayController>();
-            ray.SetRay(controller.publicPlayer, controller.publicTargetTransform);
+            SetTimeRay(ray);
         }
     }
 }

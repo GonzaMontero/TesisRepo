@@ -18,16 +18,13 @@ namespace TimeDistortion.Gameplay.TimePhys
             }
         }
 
-        [Header("Set Values")] [SerializeField]
-        ObjectTimeController controller;
-
+        [Header("Set Values")]
+        [SerializeField] ObjectTimeController controller;
         [SerializeField] Animator animator;
         [SerializeField] Material slowAuraMaterial;
         [SerializeField] float auraFadeMod = 1;
-
-        [Header("Runtime Values")] [SerializeField]
-        List<ModelWithFX> models;
-
+        [Header("Runtime Values")] 
+        [SerializeField] List<ModelWithFX> models;
         [SerializeField] Material currentFX;
         [SerializeField] bool animatorHasTime = false;
         Dictionary<int, ModelWithFX> modelsByID;
@@ -166,7 +163,8 @@ namespace TimeDistortion.Gameplay.TimePhys
             foreach (var renderer in transform.GetComponentsInChildren<MeshRenderer>())
             {
                 //if renderer is from parent object, skip
-                if (renderer.GetInstanceID() == model.GetInstanceID()) continue;
+                if(model)
+                    if (renderer.GetInstanceID() == model.GetInstanceID()) continue;
                 UpdateAura(renderer);
             }
         }

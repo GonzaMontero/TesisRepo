@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1226286727106294173}
   - component: {fileID: 5682944736582783492}
   - component: {fileID: 8937401195158775564}
-  - component: {fileID: 3247953421114157401}
-  - component: {fileID: 5209725715065750340}
+  - component: {fileID: 2178020220583461313}
+  - component: {fileID: 2565174444321967944}
   m_Layer: 0
   m_Name: PendCol
   m_TagString: Untagged
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761630a99b1ad9441a9f77cd67980888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3247953421114157401
+--- !u!114 &2178020220583461313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,8 +72,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd8b18a609d9b5489c00558d5dff3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeController: {fileID: 5209725715065750340}
---- !u!114 &5209725715065750340
+  timeController: {fileID: 2565174444321967944}
+--- !u!114 &2565174444321967944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b89640b227613c49a340fd8cac795e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 5209725715065750340}
+  controller: {fileID: 2565174444321967944}
   animator: {fileID: 2027023422805218663}
   slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
   auraFadeMod: 1

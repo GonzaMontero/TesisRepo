@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Security.Cryptography;
+using UnityEngine;
 
 namespace TimeDistortion.Gameplay.TimePhys
 {
@@ -8,7 +9,9 @@ namespace TimeDistortion.Gameplay.TimePhys
         [SerializeField] float timeToTarget;
         [Header("Runtime Values")]
         [SerializeField] Transform target;
+        [SerializeField] Vector3 offset;
         [SerializeField] float speed;
+        [SerializeField] float timer;
         [SerializeField] float distanceToTarget;
 
 
@@ -16,26 +19,32 @@ namespace TimeDistortion.Gameplay.TimePhys
         private void Update()
         {
             Move();
-        }
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.transform.GetInstanceID() != target.GetInstanceID()) return;
+            
+            timer -= Time.deltaTime;
+            
+            if(timer > 0) return;
             Destroy(gameObject);
         }
 
         //Methods
-        public void SetRay(Transform source, Transform target)
+        public void SetRay(Transform source, Transform target, Vector3 hitPos)
         {
+            //Set position and target
             transform.position = source.position;
             this.target = target;
+            offset = hitPos - target.position;
+
+            //Set Destroy timer
+            timer = timeToTarget;
 
             //Calculate speed needed to get to target in time
-            distanceToTarget = Vector3.Distance(transform.position, target.position);
+            distanceToTarget = Vector3.Distance(transform.position, hitPos);
             speed = distanceToTarget / timeToTarget;
         }
         void Move()
         {
-            Vector3 dir = (target.position - transform.position).normalized;
+            Vector3 updatedPos = target.position + offset;
+            Vector3 dir = (updatedPos - transform.position).normalized;
 
             transform.Translate(dir * speed * Time.deltaTime);
         }

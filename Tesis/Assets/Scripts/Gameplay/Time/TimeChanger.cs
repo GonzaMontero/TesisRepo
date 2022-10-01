@@ -32,6 +32,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         public Action ActivatingCharge;
         public Action ReleasedCharge;
 
+        public Vector3 publicHitPos { get; private set; }
         public Transform publicTargetTransform { get; private set; }
         public Transform publicPlayer { get { return player; } }
         public float publicCharge { get { return chargeTimer; } }
@@ -76,8 +77,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             if (chargeTimer < 1)
             {
                 StartCoroutine(CancelRoutine());
-                currentTarget = null;
-                publicTargetTransform = null;
+                ClearTarget();
                 TargetInScope?.Invoke(false);
 
                 return;
@@ -86,7 +86,6 @@ namespace TimeDistortion.Gameplay.TimePhys
             //If charge was complete, slow obj
             ActivateTarget();
 
-            currentTarget = null;
             TargetInScope?.Invoke(false);
         }
         void DEBUGDrawRays()
@@ -130,6 +129,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             hits = Physics.RaycastAll(ray.origin, ray.direction, slowdownRange, slowableLayers);
 
             ITimed objectToSlow = null;
+            Vector3 hitpos = Vector3.zero;
 
             //Search for target even between old targets
             foreach (var hit in hits)
@@ -152,13 +152,14 @@ namespace TimeDistortion.Gameplay.TimePhys
                         continue;
                     }
 
+                hitpos = hit.point;
+                
                 break;
             }
 
             if (objectToSlow == null)
             {
-                currentTarget = null;
-                publicTargetTransform = null;
+                ClearTarget();
                 TargetInScope?.Invoke(false);
                 return;
             }
@@ -170,6 +171,7 @@ namespace TimeDistortion.Gameplay.TimePhys
 
             currentTarget = objectToSlow;
             publicTargetTransform = hittedObj;
+            publicHitPos = hitpos;
 
             //Debug.Log("Target Found!");
             TargetInScope?.Invoke(true);
@@ -184,10 +186,13 @@ namespace TimeDistortion.Gameplay.TimePhys
                 return;
             }
 
-            StartCoroutine(SlowRoutine(currentTarget));
-
-            currentTarget = null;
+            StartCoroutine(SlowRoutine());
+        }
+        void ClearTarget()
+        {
+            publicHitPos = Vector3.zero;
             publicTargetTransform = null;
+            currentTarget = null;
         }
         void UpdateTimers()
         {
@@ -207,10 +212,13 @@ namespace TimeDistortion.Gameplay.TimePhys
         }
 
         //Routines
-        IEnumerator SlowRoutine(ITimed target)
+        IEnumerator SlowRoutine()
         {
             ReleasedCharge?.Invoke();
-
+            
+            ITimed target = currentTarget;
+            ClearTarget();
+            
             while (chargeTimer > 0)
             {
                 //Update Timer
