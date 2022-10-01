@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace TimeDistortion.Gameplay.TimePhys
@@ -19,13 +18,18 @@ namespace TimeDistortion.Gameplay.TimePhys
             }
         }
 
-        [Header("Set Values")]
-        [SerializeField] ObjectTimeController controller;
+        [Header("Set Values")] [SerializeField]
+        ObjectTimeController controller;
+
+        [SerializeField] Animator animator;
         [SerializeField] Material slowAuraMaterial;
         [SerializeField] float auraFadeMod = 1;
-        [Header("Runtime Values")]
-        [SerializeField] List<ModelWithFX> models;
+
+        [Header("Runtime Values")] [SerializeField]
+        List<ModelWithFX> models;
+
         [SerializeField] Material currentFX;
+        [SerializeField] bool animatorHasTime = false;
         Dictionary<int, ModelWithFX> modelsByID;
 
 
@@ -36,12 +40,25 @@ namespace TimeDistortion.Gameplay.TimePhys
             {
                 controller = GetComponent<ObjectTimeController>();
             }
+            if (!animator)
+            {
+                animator = GetComponent<Animator>();
+            }
 
             models = new List<ModelWithFX>();
             modelsByID = new Dictionary<int, ModelWithFX>();
 
             controller.TimeChanged += OnTimeChanged;
+
+            //Check in animator has Time parameter
+            foreach (var animParameter in animator.parameters)
+            {
+                if (animParameter.name != "Time") continue;
+                animatorHasTime = true;
+                break;
+            }
         }
+
         private void Update()
         {
             if (!(controller.slowMoLeft > 0)) return;
@@ -80,6 +97,7 @@ namespace TimeDistortion.Gameplay.TimePhys
                 target.material = model.materials[matIndex];
             }
         }
+
         void ApplyAura(MeshRenderer model, List<Material> materials, Material aura)
         {
             //Add SlowMoFX
@@ -91,6 +109,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             models.Add(target);
             modelsByID.Add(target.modelID, target);
         }
+
         void RemoveAura(MeshRenderer model, List<Material> materials)
         {
             ModelWithFX target;
@@ -106,16 +125,17 @@ namespace TimeDistortion.Gameplay.TimePhys
             //Update SlowedObjectsFX list
             models.Remove(target);
         }
-        void ApplyFX(Material FX)
+
+        void ApplyFX(Material fx)
         {
             if (models.Count > 0) return;
-            currentFX = FX;
+            currentFX = fx;
 
             //Apply SlowFX to Transform
             MeshRenderer model = transform.GetComponent<MeshRenderer>();
             if (model != null)
             {
-                UpdateAura(model, FX);
+                UpdateAura(model, fx);
             }
 
             //Apply SlowFX to Children
@@ -124,9 +144,10 @@ namespace TimeDistortion.Gameplay.TimePhys
             {
                 //if renderer is from parent object, skip
                 if (renderer.GetInstanceID() == model.GetInstanceID()) continue;
-                UpdateAura(renderer, FX);
+                UpdateAura(renderer, fx);
             }
         }
+
         void RemoveFX()
         {
             currentFX = null;
@@ -134,7 +155,7 @@ namespace TimeDistortion.Gameplay.TimePhys
 
             //UnApply SlowFX to Transform
             MeshRenderer model = transform.GetComponent<MeshRenderer>();
-            if (model != null)
+            if (model)
             {
                 UpdateAura(model);
             }
@@ -152,10 +173,13 @@ namespace TimeDistortion.Gameplay.TimePhys
         //Event Receivers
         void OnTimeChanged()
         {
-            if(controller.slowMoLeft > 0)
-            ApplyFX(slowAuraMaterial);
+            if (controller.slowMoLeft > 0)
+                ApplyFX(slowAuraMaterial);
             else
-            RemoveFX();
+                RemoveFX();
+
+            if (!animatorHasTime) return;
+            animator.SetFloat("Time", controller.publicTime);
         }
     }
 }

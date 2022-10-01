@@ -16,6 +16,7 @@ namespace TimeDistortion.Gameplay.TimePhys
 
         public System.Action TimeChanged;
 
+        public float publicTime { get { return localTime; } }
         public float delta { get { return Time.deltaTime * localTime; } }
         public float slowMoLeft { get { return timer / slowMoDuration; } }
 

@@ -163,7 +163,7 @@ namespace TimeDistortion.Gameplay.TimePhys
                 return;
             }
 
-            Debug.Log("Valid Target");
+            //Debug.Log("Valid Target");
 
             //If already targetting a valid object, exit
             if (currentTarget != null) return;
@@ -171,7 +171,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             currentTarget = objectToSlow;
             publicTargetTransform = hittedObj;
 
-            Debug.Log("Target Found!");
+            //Debug.Log("Target Found!");
             TargetInScope?.Invoke(true);
         }
         void ActivateTarget()
