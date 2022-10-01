@@ -53,7 +53,7 @@ MonoBehaviour:
   slowdownRange: 20
   slowdownFactor: 0.1
   chargeLength: 1
-  chargeSlowdown: 1
+  chargeSlowdown: 0.5
   maxTargets: 1
   mainCam: {fileID: 0}
   centerOfScreen: {x: 0, y: 0}

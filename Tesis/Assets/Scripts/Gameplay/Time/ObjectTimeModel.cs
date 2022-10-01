@@ -143,7 +143,8 @@ namespace TimeDistortion.Gameplay.TimePhys
             foreach (var renderer in transform.GetComponentsInChildren<MeshRenderer>())
             {
                 //if renderer is from parent object, skip
-                if (renderer.GetInstanceID() == model.GetInstanceID()) continue;
+                if(model)
+                    if (renderer.GetInstanceID() == model.GetInstanceID()) continue;
                 UpdateAura(renderer, fx);
             }
         }
