@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace TimeDistortion.Gameplay.Props
 {
-    public class TurbineWindArea : MonoBehaviour, ITimed
+    public class TurbineWindArea : MonoBehaviour
     {
-        [SerializeField] TimePhys.ObjectTimeController timeController;
         [SerializeField] Transform windLocation;
         [SerializeField] Collider windArea;
         [SerializeField] float windForce;
@@ -34,20 +33,11 @@ namespace TimeDistortion.Gameplay.Props
             {
                 StartCoroutine(SpawnParticleSystems());
             }
-
-            if (timeController == null)
-            {
-                timeController = GetComponent<TimePhys.ObjectTimeController>();
-            }
         }
 
         IEnumerator SpawnParticleSystems()
         {
             yield return new WaitForSeconds(timeBetweenPositionSwap);
-            while (timeController.slowMoLeft > 0)
-            {
-                yield return null;
-            }
 
             DisableParticles();
 
@@ -107,7 +97,6 @@ namespace TimeDistortion.Gameplay.Props
 
         private void OnTriggerStay(Collider other)
         {
-            if(timeController.slowMoLeft > 0) return;
             if (other.CompareTag("Player"))
             {
                 other.attachedRigidbody.AddForce(windArea.transform.right * windForce);
@@ -115,10 +104,5 @@ namespace TimeDistortion.Gameplay.Props
         }
 
         #endregion
-
-        public void ChangeTime(float newTime)
-        {
-            timeController.ChangeTime(newTime);
-        }
     }
 }
