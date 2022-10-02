@@ -347,6 +347,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6713174261186947403}
     m_Modifications:
+    - target: {fileID: 6098916640010640047, guid: 8c0132c2e2a4b2a4eba790a1ed5ee6eb,
+        type: 3}
+      propertyPath: slowdownDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098916640010640047, guid: 8c0132c2e2a4b2a4eba790a1ed5ee6eb,
+        type: 3}
+      propertyPath: slowdownRange
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8193310065279458633, guid: 8c0132c2e2a4b2a4eba790a1ed5ee6eb,
         type: 3}
       propertyPath: m_Name

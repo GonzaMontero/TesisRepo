@@ -213,7 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803467dfe98ba7f49887cd415c8bbade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToTarget: 0.75
+  timeToTarget: 0.1
   target: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
   speed: 0
+  timer: 0
   distanceToTarget: 0

@@ -97,6 +97,8 @@ namespace TimeDistortion.Gameplay.Props
 
         private void OnTriggerStay(Collider other)
         {
+            if (!this.enabled)
+                return;
             if (other.CompareTag("Player"))
             {
                 other.attachedRigidbody.AddForce(windArea.transform.right * windForce);

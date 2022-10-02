@@ -223,7 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windLocation: {fileID: 3735850866175416808}
   windArea: {fileID: 6138328014082704428}
-  windForce: 0.05
+  windForce: 200
   particleSystem1:
   - {fileID: 1020752324488827394}
   - {fileID: 8372534865920011034}
@@ -232,9 +232,9 @@ MonoBehaviour:
   - {fileID: 8975682146527778189}
   - {fileID: 8975682146527778189}
   - {fileID: 3964238882621260102}
-  randomDelayLow: 0
-  randomDelayHigh: 0
-  timeBetweenPositionSwap: 0
+  randomDelayLow: 2
+  randomDelayHigh: 5
+  timeBetweenPositionSwap: 20
 --- !u!1 &3735850865904167164
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,8 +382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82510fb104b858b4eb2d8667fba849b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTimeMod: 1
-  slowMoDuration: 5
+  localTimeMod: 0.2
+  slowMoDuration: 10
   slowMoDelay: 0
   slowable: 1
   localTime: 1

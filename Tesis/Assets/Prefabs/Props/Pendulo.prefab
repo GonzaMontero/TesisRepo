@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localTimeMod: 1
-  slowMoDuration: 5
+  slowMoDuration: 10
   slowMoDelay: 0
   slowable: 1
   localTime: 1
