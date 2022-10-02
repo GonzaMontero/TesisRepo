@@ -981,34 +981,27 @@ MonoBehaviour:
       Data3: 848738475
       Data4: -585421837
     Path: event:/SFX/Characters/Main/Attacks/Attack Contact
-  setSlowMoAudio:
+  hitStoneAudio:
     Guid:
-      Data1: 1858378122
-      Data2: 1150905932
-      Data3: -452890482
-      Data4: -1192852268
-    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Charged
-  activateSlowMoAudio:
+      Data1: -245695399
+      Data2: 1137521901
+      Data3: 1366617506
+      Data4: -1432291621
+    Path: event:/SFX/Characters/Main/Attacks/Impacts On Objects/Impact On Wall
+  castSlowMoAudio:
     Guid:
       Data1: 873110011
       Data2: 1308998843
       Data3: 725968025
       Data4: -506881069
     Path: event:/SFX/Characters/Main/Habilities/SlowMo/Spell Launch
-  slowMoChargeAudio:
+  slowMoChargedAudio:
     Guid:
-      Data1: 79954564
-      Data2: 1312304696
-      Data3: -1972240250
-      Data4: -1099311744
-    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
-  slowMoAudio:
-    Guid:
-      Data1: 79954564
-      Data2: 1312304696
-      Data3: -1972240250
-      Data4: -1099311744
-    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
+      Data1: 1858378122
+      Data2: 1150905932
+      Data3: -452890482
+      Data4: -1192852268
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Charged
   slowMoFailedAudio:
     Guid:
       Data1: 604599526
@@ -1025,7 +1018,6 @@ MonoBehaviour:
     Path: event:/SFX/Characters/Main/Motions/Dash
   playerOnAir: 0
   playerWalking: 0
-  slowMoReady: 0
 --- !u!1 &1431308610248082017
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class SwordHit : MonoBehaviour
     [SerializeField] int damage;
 
     public System.Action HittedSomething;
+    public System.Action HittedStone;
 
     private void Awake()
     {
@@ -20,14 +21,17 @@ public class SwordHit : MonoBehaviour
     {
         if (gameObject.transform.tag == "Player")
             return;
-
-            HittedSomething?.Invoke();
         
         IHittable hit;
         hit = other.gameObject.GetComponent<IHittable>();
         if (hit != null)
         {
             hit.GetHitted(damage);
+            HittedSomething?.Invoke();
+        }
+        else
+        {
+            HittedStone?.Invoke();
         }
         Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
         if (rb != null)

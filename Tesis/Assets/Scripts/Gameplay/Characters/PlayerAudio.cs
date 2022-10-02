@@ -13,19 +13,17 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] FMODUnity.EventReference landAudio;
         [SerializeField] FMODUnity.EventReference attackAudio;
         [SerializeField] FMODUnity.EventReference hitAudio;
-        [SerializeField] FMODUnity.EventReference setSlowMoAudio;
-        [SerializeField] FMODUnity.EventReference activateSlowMoAudio;
-        [SerializeField] FMODUnity.EventReference slowMoChargeAudio;
-        [SerializeField] FMODUnity.EventReference slowMoAudio;
+        [SerializeField] FMODUnity.EventReference hitStoneAudio;
+        [SerializeField] FMODUnity.EventReference castSlowMoAudio;
+        [SerializeField] FMODUnity.EventReference slowMoChargedAudio;
         [SerializeField] FMODUnity.EventReference slowMoFailedAudio;
         [SerializeField] FMODUnity.EventReference dashAudio;
         [Header("Runtime Values")]
         [SerializeField] bool playerOnAir;
         [SerializeField] bool playerWalking;
-        [SerializeField] bool slowMoReady;
+        [SerializeField] bool slowMoCharged;
         FMOD.Studio.EventInstance walkAudioInstance;
-        FMOD.Studio.EventInstance slowMoReadyAudioInstance;
-        FMOD.Studio.EventInstance slowMoAudioInstance;
+        FMOD.Studio.EventInstance slowMoChargedAudioInstance;
 
         //Unity Events
         private void Start()
@@ -50,12 +48,26 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Attacked += OnPlayerAttacked;
             controller.Dashed += OnPlayerDashed;
             playerHitter.HittedSomething += OnPlayerHittedSomething;
-            timeChanger.TargetInScope += OnSlowMoTargetting;
+            playerHitter.HittedStone += OnPlayerHittedStone;
+            //timeChanger.TargetInScope += OnSlowMoTargetting;
             timeChanger.ReleasedCharge += OnSlowMoReleased;
-            timeChanger.ActivatingCharge += OnSlowMoCharging;
+            //timeChanger.ActivatingCharge += OnSlowMoCharging;
         }
         private void Update()
         {
+            if (timeChanger.publicCharge >= 1)
+            {
+                if (!slowMoCharged)
+                {
+                    slowMoCharged = true;
+                    OnSlowMoCharged();
+                }
+            }
+            else if (slowMoCharged)
+            {
+                slowMoCharged = false;
+            }
+            
             if (controller.grounded != playerOnAir) return;
             playerOnAir = !controller.grounded;
 
@@ -73,7 +85,7 @@ namespace TimeDistortion.Gameplay.Characters
         {
             FMODUnity.RuntimeManager.GetBus("Bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
             walkAudioInstance.release();
-            slowMoReadyAudioInstance.release();
+            //slowMoReadyAudioInstance.release();
         }
 
         //Event Receivers
@@ -84,6 +96,10 @@ namespace TimeDistortion.Gameplay.Characters
         void OnPlayerHittedSomething()
         {
             FMODUnity.RuntimeManager.PlayOneShot(hitAudio);
+        }
+        void OnPlayerHittedStone()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(hitStoneAudio);
         }
         void OnPlayerJumped()
         {
@@ -119,12 +135,38 @@ namespace TimeDistortion.Gameplay.Characters
             //Update value
             playerWalking = playerMoved;
         }
-
         void OnPlayerDashed()
         {
             FMODUnity.RuntimeManager.PlayOneShot(dashAudio);
         }
-        void OnSlowMoTargetting(bool isReady)
+        void OnSlowMoCharged()
+        {
+            slowMoChargedAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoChargedAudio);
+            slowMoChargedAudioInstance.start();
+            //FMODUnity.RuntimeManager.PlayOneShot(slowMoChargedAudio);
+        }
+        void OnSlowMoReleased()
+        {
+            if (timeChanger.publicTargetTransform)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(castSlowMoAudio);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(slowMoFailedAudio);
+            }
+
+            //DIRTY, AVISARLE A MATI QUE AGREGE EL EVENTO A SLOWMOFAILED
+            slowMoChargedAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            slowMoChargedAudioInstance.release();
+            
+            //FMODUnity.RuntimeManager.PlayOneShot(slowMoAudio);
+            //slowMoAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoAudio);
+            //slowMoAudioInstance.start();
+        }
+
+        #region DEPRECATED
+        /*void OnSlowMoTargetting(bool isReady)
         {
             //If already using right audio, exit
             if (slowMoReady == isReady) return;
@@ -132,7 +174,7 @@ namespace TimeDistortion.Gameplay.Characters
             //If moving play loop, else stop
             if (isReady)
             {
-                slowMoReadyAudioInstance = FMODUnity.RuntimeManager.CreateInstance(setSlowMoAudio);
+                //slowMoReadyAudioInstance = FMODUnity.RuntimeManager.CreateInstance(setSlowMoAudio);
                 slowMoReadyAudioInstance.start();
             }
             else
@@ -143,27 +185,14 @@ namespace TimeDistortion.Gameplay.Characters
 
             //Update value
             slowMoReady = isReady;
-        }
-        void OnSlowMoReleased()
-        {
-            if (timeChanger.publicTargetTransform)
-            {
-                FMODUnity.RuntimeManager.PlayOneShot(activateSlowMoAudio);
-            }
-            else
-            {
-                FMODUnity.RuntimeManager.PlayOneShot(slowMoFailedAudio);
-            }
-            
-            //FMODUnity.RuntimeManager.PlayOneShot(slowMoAudio);
-            //slowMoAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoAudio);
-            //slowMoAudioInstance.start();
-        }
-        void OnSlowMoCharging()
+        }*/
+        
+        /*void OnSlowMoCharging()
         {
             //FMODUnity.RuntimeManager.PlayOneShot(slowMoChargeAudio);
             //slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             //slowMoAudioInstance.release(); 
-        }
+        }*/
+        #endregion
     }
 }
