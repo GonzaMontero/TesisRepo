@@ -145,7 +145,7 @@ namespace TimeDistortion.Gameplay.Handler
             grounded = IsOnGround();
             if (!wasOnGround && grounded)
             {
-                OnGroundCollision();
+                CollideWithGround();
             }
             
             // if (cameraHandler != null)
@@ -278,7 +278,6 @@ namespace TimeDistortion.Gameplay.Handler
             if (grounded)
             {
                 rigidbody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
-                grounded = false;
                 Jumped?.Invoke();
             }
         }
@@ -399,13 +398,13 @@ namespace TimeDistortion.Gameplay.Handler
             return isOnGround;
         }
 
-        void OnGroundCollision()
+        void CollideWithGround()
         {
             dashAirCompleted = false;
-            if (ShouldStop())
-            {
-                StopRigidMovement();
-            }
+            // if (ShouldStop())
+            // {
+            //     StopRigidMovement();
+            // }
 
             paralysisTimer = fallParalysisTime;
         }
