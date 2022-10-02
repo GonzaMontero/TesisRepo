@@ -9,11 +9,17 @@ namespace TimeDistortion.Gameplay.Handler
     public class PlayerController : MonoBehaviour
     {
         #region Components and Controls
+
         [SerializeField] GameObject attackHitBox;
         [SerializeField] Cameras.CameraManager cameraManager;
+        [SerializeField] CapsuleCollider coll;
+
         #endregion
 
         #region Movement Values
+
+        [SerializeField] LayerMask steppableLayers;
+        [SerializeField] float groundCheckSizeMod;
         Vector2 moveInput;
         private float deltaTime;
         private float horizontal;
@@ -21,13 +27,14 @@ namespace TimeDistortion.Gameplay.Handler
         private float moveAmount;
         private float mouseX;
         private float mouseY;
-
         private bool jumpInput;
 
         public bool lockOnFlag { set; private get; }
+
         #endregion
 
         #region Rigid System Movement Values
+
         private new Rigidbody rigidbody;
         [SerializeField] Transform forwardRefObject;
         Vector3 moveDirection;
@@ -40,32 +47,41 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float onAirRotMod = .5f;
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
-        [SerializeField] Quaternion targetRotation;
+        Quaternion targetRotation;
+
         #endregion
 
         #region Gameplay Actions
+
         public Action<bool> Moved;
         public Action Jumped;
         public Action Attacked;
         public Action Died;
         public Action Hitted;
+
         #endregion
 
         #region Handler Actions and Stuff
+
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] bool usingSlowmo;
         [SerializeField] float fallParalysisTime;
         public float paralysisTimer { set; private get; }
-        
+
         [SerializeField] float attackDuration;
         [SerializeField] float attackStartUp;
         private bool attacking = false;
+
         #endregion
 
         #region Stats and UI Refs
+
         [SerializeField] CharacterData data;
 
-        public CharacterData publicData { get { return data; } }
+        public CharacterData publicData
+        {
+            get { return data; }
+        }
 
         //Unity Events
         private void Awake()
@@ -85,9 +101,11 @@ namespace TimeDistortion.Gameplay.Handler
             data.currentStats.health = 0;
             //Died?.Invoke();
         }
+
         #endregion
 
         #region Dash Variables
+
         public float dashForce;
         public float dashDuration;
         public float dashCooldown;
@@ -95,12 +113,17 @@ namespace TimeDistortion.Gameplay.Handler
         public bool dashing { get; private set; }
         private bool dashCurrent;
         [SerializeField] private bool dashAirCompleted = false;
+
         #endregion
 
         private void Start()
         {
             //cameraHandler = CameraHandler.singleton;
 
+            if (!coll)
+            {
+                coll = GetComponent<CapsuleCollider>();
+            }
             InitRigidSystem();
         }
 
@@ -118,13 +141,19 @@ namespace TimeDistortion.Gameplay.Handler
         private void Update()
         {
             deltaTime = Time.deltaTime;
-
+            bool wasOnGround = grounded;
+            grounded = IsOnGround();
+            if (!wasOnGround && grounded)
+            {
+                OnGroundCollision();
+            }
+            
             // if (cameraHandler != null)
             // {
             //     cameraHandler.FollowTarget(deltaTime);
             // }
 
-            if(paralysisTimer > 0)
+            if (paralysisTimer > 0)
             {
                 paralysisTimer -= Time.deltaTime;
                 if (projectedVelocity.sqrMagnitude > 0)
@@ -149,6 +178,18 @@ namespace TimeDistortion.Gameplay.Handler
         {
             jumpInput = false;
         }
+
+#if UNITY_EDITOR
+        [ExecuteInEditMode]
+        void OnDrawGizmos()
+        {
+            //Draw Ground Check Capsule Collider
+            Vector3 bottom = coll.bounds.center + coll.bounds.extents.y * Vector3.down * 1.01f;
+            float radius = coll.bounds.extents.x * groundCheckSizeMod;
+            Gizmos.color = grounded ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(bottom, radius);
+        }   
+#endif
 
         #region Movement Calculations
 
@@ -182,7 +223,7 @@ namespace TimeDistortion.Gameplay.Handler
             float speed = movementSpeed;
             moveDirection *= speed;
 
-            return Vector3.ProjectOnPlane(moveDirection, normalVector);            
+            return Vector3.ProjectOnPlane(moveDirection, normalVector);
         }
 
         /// <summary> 
@@ -219,8 +260,8 @@ namespace TimeDistortion.Gameplay.Handler
             if (transform.rotation == targetRotation) return;
             if (usingSlowmo) return;
             float frameRot = rotationSpeed * delta;
-            
-            if(!grounded)
+
+            if (!grounded)
             {
                 frameRot *= onAirRotMod;
             }
@@ -280,12 +321,12 @@ namespace TimeDistortion.Gameplay.Handler
 
             projectedVelocity.y = rigidbody.velocity.y;
             rigidbody.velocity = projectedVelocity;
-            
-            if(!grounded)
+
+            if (!grounded)
             {
                 rigidbody.velocity += projectedAirVelocity;
             }
-            
+
             Moved?.Invoke(true);
         }
 
@@ -301,13 +342,14 @@ namespace TimeDistortion.Gameplay.Handler
             //Update rigid velocity (without modifying Y)
             projectedVelocity.y = rigidbody.velocity.y;
             rigidbody.velocity = projectedVelocity;
-            
+
             //Clear again projected V, so it stays in 0
             projectedVelocity = Vector3.zero;
-         
+
             //Invoke action
             Moved?.Invoke(false);
         }
+
         /// <summary>  
         /// Stops the rigidbody movement and clears input
         /// </summary>
@@ -333,31 +375,55 @@ namespace TimeDistortion.Gameplay.Handler
             return projectedVelocity.sqrMagnitude > 0 && moveInput.sqrMagnitude < 0.01f;
         }
 
-        private void OnCollisionEnter(Collision collision)
+        /// <summary>  
+        /// Returns if player is colliding against the floor
+        /// </summary>
+        bool IsOnGround()
         {
-            if (collision.gameObject.transform.tag == "Ground")
-            {
-                if (grounded) return;
+            //Set bool
+            bool isOnGround = false;
 
-                grounded = true;
-                dashAirCompleted = false;
-                if(ShouldStop())
-                {
-                    StopRigidMovement();
-                }
+            //Get size and pos
+            Vector3 top = coll.bounds.center + Vector3.up * (coll.bounds.extents.y * 0.99f);
+            Vector3 bottom = coll.bounds.center + Vector3.down * (coll.bounds.extents.y * 1.01f);
+            //a capsule is the same in x & z, only y is different
+            float radius = coll.bounds.extents.x * groundCheckSizeMod; 
+            
+            //Check for collisions
+            Collider[] hits;
+            hits = Physics.OverlapCapsule(top, bottom, radius, steppableLayers);
 
-                paralysisTimer = fallParalysisTime;
-            }
+            //Update bool
+            isOnGround = hits.Length > 0;
+            
+            return isOnGround;
         }
-        private void OnCollisionStay(Collision collision) //CLEAN LATER
-        {
-            if (collision.gameObject.transform.tag == "Ground") return;
-            if (grounded) return;
 
-            StopRigidMovement();//good
+        void OnGroundCollision()
+        {
+            dashAirCompleted = false;
+            if (ShouldStop())
+            {
+                StopRigidMovement();
+            }
+
+            paralysisTimer = fallParalysisTime;
+        }
+
+        void OnAir()
+        {
+            StopRigidMovement(); //good
             projectedAirVelocity = Vector3.zero; //MESSY
             moveInput = Vector2.zero; //MESSY
         }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            if (grounded) return;
+            if(collision.gameObject.CompareTag("Ground")) return;
+            OnAir();
+        }
+
         #endregion
 
         #region On Inputs
@@ -376,7 +442,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (usingSlowmo) return;
             if (context.canceled)
             {
-                if(grounded)
+                if (grounded)
                     StopRigidMovement();
                 moveInput = Vector2.zero;
                 return;
@@ -424,6 +490,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (!context.started) return;
             HandleAttackInput();
         }
+
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
             if (attacking || dashing || !grounded) return;
@@ -445,6 +512,7 @@ namespace TimeDistortion.Gameplay.Handler
                 cameraManager.OnTimeCharge(context);
             }
         }
+
         #endregion
 
         #region Attacking
@@ -479,9 +547,11 @@ namespace TimeDistortion.Gameplay.Handler
                 attacking = false;
             }
         }
+
         #endregion
 
         #region Dash Inputs
+
         public void OnDashInput(InputAction.CallbackContext context)
         {
             if (attacking || usingSlowmo) return;
@@ -497,14 +567,16 @@ namespace TimeDistortion.Gameplay.Handler
             if (!grounded)
                 dashAirCompleted = true;
             //VelocityChange ignores mass, contrary to ForceMode.Impulse
-            if(moveInput.sqrMagnitude > 0)
+            if (moveInput.sqrMagnitude > 0)
             {
                 rigidbody.AddForce(HandleDashInput() * dashForce, ForceMode.VelocityChange);
             }
             else
             {
-                rigidbody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange); //TOUCH THIS AND YOU WILL PERISH UNDER THE WEIGH OF YOUR ARROGANCE
-            }            
+                rigidbody.AddForce(transform.forward * dashForce,
+                    ForceMode.VelocityChange); //TOUCH THIS AND YOU WILL PERISH UNDER THE WEIGH OF YOUR ARROGANCE
+            }
+
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
             projectedAirVelocity = Vector3.zero;
             projectedVelocity = Vector3.zero;
@@ -536,6 +608,7 @@ namespace TimeDistortion.Gameplay.Handler
 
             return Vector3.ProjectOnPlane(moveDirection, normalVector);
         }
+
         #endregion
     }
 }
