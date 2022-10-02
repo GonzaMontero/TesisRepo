@@ -56,6 +56,7 @@ namespace TimeDistortion.Gameplay.Handler
         public Action<bool> Moved;
         public Action Jumped;
         public Action Attacked;
+        public Action Dashed;
         public Action Died;
         public Action Hitted;
 
@@ -562,6 +563,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             dashTime = dashCooldown;
             dashing = true;
+            Dashed?.Invoke();
             dashCurrent = true;
             if (!grounded)
                 dashAirCompleted = true;

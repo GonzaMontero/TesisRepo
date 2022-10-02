@@ -987,21 +987,28 @@ MonoBehaviour:
       Data2: 1150905932
       Data3: -452890482
       Data4: -1192852268
-    Path: event:/SFX/Characters/Main/Habilities/SlowMotion - Mirilla
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Charged
   activateSlowMoAudio:
     Guid:
-      Data1: -1419224528
-      Data2: 1111086804
-      Data3: 309088400
-      Data4: -527307311
-    Path: event:/SFX/Characters/Main/Habilities/SlowMotion - General
+      Data1: 873110011
+      Data2: 1308998843
+      Data3: 725968025
+      Data4: -506881069
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Spell Launch
+  slowMoChargeAudio:
+    Guid:
+      Data1: 79954564
+      Data2: 1312304696
+      Data3: -1972240250
+      Data4: -1099311744
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
   slowMoAudio:
     Guid:
       Data1: 79954564
       Data2: 1312304696
       Data3: -1972240250
       Data4: -1099311744
-    Path: event:/SFX/Characters/Main/Habilities/During Slowmo
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
   slowMoFailedAudio:
     Guid:
       Data1: 604599526
@@ -1009,6 +1016,13 @@ MonoBehaviour:
       Data3: -384268359
       Data4: -2036734355
     Path: event:/SFX/UI/SlowMotion - Unavailable
+  dashAudio:
+    Guid:
+      Data1: -1283890262
+      Data2: 1114221397
+      Data3: -873047891
+      Data4: -727602387
+    Path: event:/SFX/Characters/Main/Motions/Dash
   playerOnAir: 0
   playerWalking: 0
   slowMoReady: 0

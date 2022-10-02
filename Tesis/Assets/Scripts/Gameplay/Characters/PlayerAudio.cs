@@ -15,8 +15,10 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] FMODUnity.EventReference hitAudio;
         [SerializeField] FMODUnity.EventReference setSlowMoAudio;
         [SerializeField] FMODUnity.EventReference activateSlowMoAudio;
+        [SerializeField] FMODUnity.EventReference slowMoChargeAudio;
         [SerializeField] FMODUnity.EventReference slowMoAudio;
         [SerializeField] FMODUnity.EventReference slowMoFailedAudio;
+        [SerializeField] FMODUnity.EventReference dashAudio;
         [Header("Runtime Values")]
         [SerializeField] bool playerOnAir;
         [SerializeField] bool playerWalking;
@@ -46,11 +48,11 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Jumped += OnPlayerJumped;
             controller.Moved += OnPlayerMoved;
             controller.Attacked += OnPlayerAttacked;
+            controller.Dashed += OnPlayerDashed;
             playerHitter.HittedSomething += OnPlayerHittedSomething;
-            timeChanger.TargetInScope += OnSlowMoReady;
-            //timeChanger.ObjectSlowed += OnObjectSlowed;
-            //timeChanger.ObjectUnSlowed += OnObjectUnSlowed;
-            //timeChanger.SlowMoFailed += OnSlowMoFailed;
+            timeChanger.TargetInScope += OnSlowMoTargetting;
+            timeChanger.ReleasedCharge += OnSlowMoReleased;
+            timeChanger.ActivatingCharge += OnSlowMoCharging;
         }
         private void Update()
         {
@@ -117,7 +119,12 @@ namespace TimeDistortion.Gameplay.Characters
             //Update value
             playerWalking = playerMoved;
         }
-        void OnSlowMoReady(bool isReady)
+
+        void OnPlayerDashed()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(dashAudio);
+        }
+        void OnSlowMoTargetting(bool isReady)
         {
             //If already using right audio, exit
             if (slowMoReady == isReady) return;
@@ -137,21 +144,26 @@ namespace TimeDistortion.Gameplay.Characters
             //Update value
             slowMoReady = isReady;
         }
-        void OnObjectSlowed(Transform notUsed, float _notUsed)
+        void OnSlowMoReleased()
         {
-            FMODUnity.RuntimeManager.PlayOneShot(activateSlowMoAudio);
-            FMODUnity.RuntimeManager.PlayOneShot(slowMoAudio);
+            if (timeChanger.publicTargetTransform)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(activateSlowMoAudio);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(slowMoFailedAudio);
+            }
+            
+            //FMODUnity.RuntimeManager.PlayOneShot(slowMoAudio);
             //slowMoAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoAudio);
             //slowMoAudioInstance.start();
         }
-        void OnObjectUnSlowed(Transform notUsed)
+        void OnSlowMoCharging()
         {
+            //FMODUnity.RuntimeManager.PlayOneShot(slowMoChargeAudio);
             //slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             //slowMoAudioInstance.release(); 
-        }
-        void OnSlowMoFailed()
-        {
-            FMODUnity.RuntimeManager.PlayOneShot(slowMoFailedAudio);
         }
     }
 }
