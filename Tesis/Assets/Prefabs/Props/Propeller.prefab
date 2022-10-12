@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9017925077383741274}
   - component: {fileID: 1735431735895772082}
   - component: {fileID: 7110470056168813710}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Raices
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 864907182844342115}
   - component: {fileID: 3235915596786913958}
   - component: {fileID: 3911378308106093269}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Helices
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 8200864518253593819}
   - component: {fileID: 6138328014082704428}
   - component: {fileID: 2405330140041928690}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wind Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 3735850865904167166}
   - component: {fileID: 3735850865904167165}
   - component: {fileID: 8331839951262549351}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PropellerGraphs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 4654331939432497936}
   - component: {fileID: 263021796120543826}
   - component: {fileID: 8801117579265230642}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Propeller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,6 +455,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WindRect
       objectReference: {fileID: 0}
+    - target: {fileID: 6339004756505128601, guid: 3a59114f8c1003146bce99c8261bc476,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a59114f8c1003146bce99c8261bc476, type: 3}
 --- !u!4 &8975682146527778190 stripped
@@ -535,6 +540,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wind (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556377934270233501, guid: 5471a7ee2351f0c48bc0df3893b5af68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5471a7ee2351f0c48bc0df3893b5af68, type: 3}
@@ -617,6 +627,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wind (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6556377934270233501, guid: 5471a7ee2351f0c48bc0df3893b5af68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5471a7ee2351f0c48bc0df3893b5af68, type: 3}
 --- !u!4 &1974199138307329671 stripped
@@ -697,6 +712,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wind
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556377934270233501, guid: 5471a7ee2351f0c48bc0df3893b5af68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5471a7ee2351f0c48bc0df3893b5af68, type: 3}
@@ -779,6 +799,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WindRect (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6339004756505128601, guid: 3a59114f8c1003146bce99c8261bc476,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a59114f8c1003146bce99c8261bc476, type: 3}
 --- !u!4 &3964238882621260101 stripped
@@ -859,6 +884,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WindRect (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339004756505128601, guid: 3a59114f8c1003146bce99c8261bc476,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a59114f8c1003146bce99c8261bc476, type: 3}

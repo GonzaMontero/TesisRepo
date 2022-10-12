@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 720560807093831344}
   - component: {fileID: 495263410049430745}
   - component: {fileID: 1407518910828745378}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Piedra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 367848971762599627}
   - component: {fileID: 6323423690821375384}
   - component: {fileID: 6437394793927075942}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Blocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8282797172299083191}
   - component: {fileID: 2030911895518119481}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BlockerHitable
   m_TagString: Untagged
   m_Icon: {fileID: 0}

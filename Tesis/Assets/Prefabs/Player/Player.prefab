@@ -886,8 +886,8 @@ MonoBehaviour:
   coll: {fileID: 1431308609916771772}
   steppableLayers:
     serializedVersion: 2
-    m_Bits: 4096
-  groundCheckSizeMod: 0.8
+    m_Bits: 4608
+  groundCheckSizeMod: 1.5
   stepRayUpper: {fileID: 3543425573091240077}
   stepRayLower: {fileID: 2200564826544138606}
   stepHeight: 0.2
