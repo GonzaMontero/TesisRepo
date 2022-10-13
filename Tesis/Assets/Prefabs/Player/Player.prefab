@@ -887,7 +887,7 @@ MonoBehaviour:
   steppableLayers:
     serializedVersion: 2
     m_Bits: 4608
-  groundCheckSizeMod: 1.5
+  groundCheckSizeMod: 1.6
   stepRayUpper: {fileID: 3543425573091240077}
   stepRayLower: {fileID: 2200564826544138606}
   stepHeight: 0.2
@@ -901,7 +901,7 @@ MonoBehaviour:
   jumpHeight: 5.5
   usingSlowmo: 0
   fallParalysisTime: 0.3
-  attackDuration: 1
+  attackDuration: 0.35
   attackStartUp: 0.5
   data:
     baseStats:
@@ -1075,7 +1075,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1294284738371021749, guid: 7a7cd29ec5257b149997f6eb8c97d4ab, type: 3}
+  - {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1329,8 +1329,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.8169899, y: 1.4971051, z: 1.7531319}
-  m_Center: {x: 0.050722122, y: 0.09343195, z: -0.7942314}
+  m_Size: {x: 0.31812048, y: 0.42883807, z: 1.1115029}
+  m_Center: {x: 0.31209722, y: 0.123342425, z: -0.7238974}
 --- !u!54 &6684238502523377153
 Rigidbody:
   m_ObjectHideFlags: 0
