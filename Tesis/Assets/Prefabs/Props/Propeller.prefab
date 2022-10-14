@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 3735850866175416808}
   - component: {fileID: 4654331939432497936}
   - component: {fileID: 263021796120543826}
+  - component: {fileID: 4201495695744358322}
   - component: {fileID: 8801117579265230642}
   m_Layer: 13
   m_Name: Propeller
@@ -370,6 +371,26 @@ MonoBehaviour:
   timeController: {fileID: 8801117579265230642}
   windArea: {fileID: 2405330140041928690}
   coll: {fileID: 4654331939432497936}
+--- !u!114 &4201495695744358322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3735850866175416823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1b4afb29c45234abacf1f5039ef5e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 263021796120543826}
+  windAudio:
+    Guid:
+      Data1: 773567876
+      Data2: 1233444960
+      Data3: 1270197405
+      Data4: -1306747093
+    Path: event:/SFX/Environment/Objects (3D)/Propeller
 --- !u!114 &8801117579265230642
 MonoBehaviour:
   m_ObjectHideFlags: 0
