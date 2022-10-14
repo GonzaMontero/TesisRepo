@@ -132,7 +132,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
             InitRigidSystem();
             
-            stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
+            //stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
         }
 
         private void InitRigidSystem()
@@ -187,10 +187,10 @@ namespace TimeDistortion.Gameplay.Handler
             jumpInput = false;
         }
         
-        private void FixedUpdate()
-        {
-            StepClimb();
-        }
+   //     private void FixedUpdate()
+  //      {
+ //           StepClimb();
+//        }
 
 #if UNITY_EDITOR
         [ExecuteInEditMode]
