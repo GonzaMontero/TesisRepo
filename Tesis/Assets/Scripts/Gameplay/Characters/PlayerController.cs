@@ -169,7 +169,7 @@ namespace TimeDistortion.Gameplay.Handler
                 return;
             }
 
-            if (lockOnFlag || ShouldMove() || !grounded)
+            if (lockOnFlag ||ShouldMove() || !grounded)
             {
                 ProjectVelocity();
                 SetNewRotation(true);
@@ -246,9 +246,12 @@ namespace TimeDistortion.Gameplay.Handler
         {
             Vector3 targetDir = Vector3.zero;
 
-            Vector3 refDir = forwardRefObject.right;
+            Vector3 refDir;
+            
+            refDir = forwardRefObject.right;
+            //refDir = (rotateStill) ? transform.right : forwardRefObject.right;
             refDir.y = 0;
-            targetDir = refDir * (rotateStill ? 1 : moveInput.x);
+            targetDir = refDir * (rotateStill ? 0 : moveInput.x);
 
             refDir = forwardRefObject.forward;
             refDir.y = 0;
@@ -540,6 +543,8 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnAttackInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
+            SetNewRotation(true);
+            transform.localRotation = targetRotation;
             HandleAttackInput();
         }
 
@@ -556,8 +561,8 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else if (context.started)
             {
-                //SetNewRotation(true);
-                //transform.localRotation = targetRotation;
+                SetNewRotation(true);
+                transform.localRotation = targetRotation;
                 ClearMovement();
                 TimePhys.TimeChanger.Get().Activate();
                 usingSlowmo = true;

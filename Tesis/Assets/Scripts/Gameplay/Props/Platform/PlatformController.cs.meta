@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 2bbe58d0d1ba3594884739bb13d06f0e
+labels:
+- Prop
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

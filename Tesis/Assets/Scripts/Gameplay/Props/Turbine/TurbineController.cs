@@ -10,6 +10,8 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] Collider coll;
         //[Header("Runtime Values")]
 
+        public System.Action<bool> Slowed;
+
         //Unity Events
         private void Start()
         {
@@ -28,8 +30,10 @@ namespace TimeDistortion.Gameplay.Props
         //Event Receivers
         void OnTimeChanged()
         {
-            windArea.enabled = !(timeController.slowMoLeft > 0);
-            coll.enabled = !(timeController.slowMoLeft > 0);
+            bool isSlowMoOn = timeController.slowMoLeft > 0;
+            windArea.enabled = !isSlowMoOn;
+            coll.enabled = !isSlowMoOn;
+            Slowed.Invoke(isSlowMoOn);
         }
         
         //Interface implementations
