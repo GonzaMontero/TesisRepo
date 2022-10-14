@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8937401195158775564}
   - component: {fileID: 2178020220583461313}
   - component: {fileID: 2565174444321967944}
+  - component: {fileID: 5579407273458474592}
   m_Layer: 13
   m_Name: PendCol
   m_TagString: Untagged
@@ -91,6 +92,27 @@ MonoBehaviour:
   slowable: 1
   localTime: 1
   timer: 0
+--- !u!114 &5579407273458474592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597814828662863640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b29db0b51ec5b243bb9298cbb01b6e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 2565174444321967944}
+  loopAudio:
+    Guid:
+      Data1: 79954564
+      Data2: 1312304696
+      Data3: -1972240250
+      Data4: -1099311744
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
+  playingLoop: 0
 --- !u!1 &3170822468644619230
 GameObject:
   m_ObjectHideFlags: 0
