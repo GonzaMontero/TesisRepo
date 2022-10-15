@@ -64,6 +64,7 @@ namespace TimeDistortion.Gameplay.Handler
         public Action Dashed;
         public Action Died;
         public Action Hitted;
+        public Action Regenarated;
 
         #endregion
 
@@ -72,6 +73,9 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] bool usingSlowmo;
         [SerializeField] float fallParalysisTime;
+        [SerializeField] float hittedParalysisTime;
+        [SerializeField] float hittedInvulnerabilityTime;
+        [SerializeField] float invulnerabilityTimer;
         public float paralysisTimer { set; private get; }
 
         [SerializeField] float attackDuration;
@@ -663,6 +667,9 @@ namespace TimeDistortion.Gameplay.Handler
         #region HP
         public void GetHitted(int damage)
         {
+            invulnerabilityTimer = hittedInvulnerabilityTime;
+            paralysisTimer = hittedParalysisTime;
+            
             data.currentStats.health -= damage;
             Hitted?.Invoke();
 

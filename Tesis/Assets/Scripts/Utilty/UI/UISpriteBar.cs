@@ -8,6 +8,7 @@ namespace Universal.UI
     {
         [Header("Set Values")] 
         [SerializeField] GameObject spritePrefab;
+        [SerializeField] GameObject emptiedVFX;
         [SerializeField] RectTransform rectT;
         [SerializeField] Sprite filledImage;
         [SerializeField] Sprite emptyImage;
@@ -105,9 +106,41 @@ namespace Universal.UI
         }
         void UpdateSprites()
         {
+            //If all sprites are full or empty, just set all images equally & skip vfx
+            if (filledSprites < 1)
+            {
+                for (int i = 0; i < spriteQuantity; i++)
+                {
+                    sprites[i].sprite = emptyImage;
+                }
+                return;
+            }
+            else if (filledSprites == spriteQuantity)
+            {
+                for (int i = 0; i < spriteQuantity; i++)
+                {
+                    sprites[i].sprite = filledImage;
+                }
+                return;
+            }
+            
+            bool isAnySpriteEmpty = false;
             for (int i = 0; i < spriteQuantity; i++)
             {
-                sprites[i].sprite = i < filledSprites ? filledImage : emptyImage;
+                if (i < filledSprites)
+                {
+                    sprites[i].sprite = filledImage;
+                }
+                else
+                {
+                    if (!isAnySpriteEmpty)
+                    {
+                        Instantiate(emptiedVFX, sprites[i].rectTransform);
+                        isAnySpriteEmpty = true;
+                    }
+                    
+                    sprites[i].sprite = emptyImage;
+                }
             }
         }
     }
