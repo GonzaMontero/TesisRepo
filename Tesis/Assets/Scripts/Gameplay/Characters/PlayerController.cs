@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace TimeDistortion.Gameplay.Handler
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IHittable
     {
         #region Components and Controls
 
@@ -97,16 +97,6 @@ namespace TimeDistortion.Gameplay.Handler
 
         //Methods
 
-        //Interface Implementations
-        public void GetHitted(int damage)
-        {
-            data.currentStats.health -= damage;
-            Hitted?.Invoke();
-
-            if (data.currentStats.health > 0) return;
-            data.currentStats.health = 0;
-            //Died?.Invoke();
-        }
 
         #endregion
 
@@ -187,10 +177,10 @@ namespace TimeDistortion.Gameplay.Handler
             jumpInput = false;
         }
         
-   //     private void FixedUpdate()
-  //      {
- //           StepClimb();
-//        }
+        // private void FixedUpdate()
+        // {
+        //     StepClimb();
+        // }
 
 #if UNITY_EDITOR
         [ExecuteInEditMode]
@@ -667,6 +657,19 @@ namespace TimeDistortion.Gameplay.Handler
             return Vector3.ProjectOnPlane(moveDirection, normalVector);
         }
 
+        #endregion
+
+        //Interface Implementations
+        #region HP
+        public void GetHitted(int damage)
+        {
+            data.currentStats.health -= damage;
+            Hitted?.Invoke();
+
+            if (data.currentStats.health > 0) return;
+            data.currentStats.health = 0;
+            Died?.Invoke();
+        }
         #endregion
     }
 }
