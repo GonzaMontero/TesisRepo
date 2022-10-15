@@ -667,15 +667,21 @@ namespace TimeDistortion.Gameplay.Handler
         #region HP
         public void GetHitted(int damage)
         {
+            //Start timers
             invulnerabilityTimer = hittedInvulnerabilityTime;
             paralysisTimer = hittedParalysisTime;
             
+            //Reduce health and send event
             data.currentStats.health -= damage;
             Hitted?.Invoke();
 
+            //If died, send event
             if (data.currentStats.health > 0) return;
             data.currentStats.health = 0;
             Died?.Invoke();
+
+            //If died disable controller
+            Destroy(this);
         }
         #endregion
     }
