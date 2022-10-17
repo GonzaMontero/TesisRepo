@@ -17,6 +17,7 @@ namespace Universal.UI
         [Header("Runtime Values")]
         [SerializeField] List<Image> sprites;
         [SerializeField] int filledSprites;
+        [SerializeField] int oldFilledSprites;
         [Header("Editor Values")]
         [SerializeField] bool runOnEditMode;
         [SerializeField] bool resetSprites;
@@ -71,6 +72,7 @@ namespace Universal.UI
                 SetImage(i, spriteWidth, rectT.rect.xMin);
             }
             
+            oldFilledSprites = filledSprites;
             UpdateSprites();
         }
         void SetImage(int imageIndex, float width, float rectLeft)
@@ -133,15 +135,20 @@ namespace Universal.UI
                 }
                 else
                 {
+                    sprites[i].sprite = emptyImage;
+                    
                     if (!isAnySpriteEmpty)
                     {
+                        //If there are more filled sprites than before, don't use emptying vfx
+                        if(oldFilledSprites < filledSprites) continue;
+                        
                         Instantiate(emptiedVFX, sprites[i].rectTransform);
                         isAnySpriteEmpty = true;
                     }
-                    
-                    sprites[i].sprite = emptyImage;
                 }
             }
+
+            oldFilledSprites = filledSprites;
         }
     }
 }

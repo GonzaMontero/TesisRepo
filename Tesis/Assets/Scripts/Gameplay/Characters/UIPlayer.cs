@@ -29,7 +29,7 @@ namespace TimeDistortion.Gameplay.Characters
             //Set UI Values
             baseHealth = controller.publicData.baseStats.health;
             healthBar.publicSpriteQuantity = baseHealth;
-            OnLifeChanged(0);
+            OnLifeChanged(1);
         }
 
         private void OnDestroy()
@@ -48,7 +48,8 @@ namespace TimeDistortion.Gameplay.Characters
         void UpdateHealthRegenText()
         {
             if (!healthRegenText) return;
-            healthRegenText.text = currentHealth + "/" + baseHealth;
+            //healthRegenText.text = currentHealth + "/" + baseHealth;
+            healthRegenText.text = controller.regenerators.ToString();
         }
 
         //Event Receivers

@@ -677,8 +677,9 @@ namespace TimeDistortion.Gameplay.Handler
         #region HP
         void Regenerate()
         {
-            if(regenerators < 0) return;
+            if(regenerators < 1) return;
             if(regenerateTimer > 0) return;
+            if(data.currentStats.health >= data.baseStats.health) return;
             
             data.currentStats.health += 1;
 
