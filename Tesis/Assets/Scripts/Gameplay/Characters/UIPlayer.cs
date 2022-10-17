@@ -23,13 +23,13 @@ namespace TimeDistortion.Gameplay.Characters
             }
 
             //Link Actions
-            controller.Hitted += OnHitted;
-            controller.Died += OnHitted;
+            controller.LifeChanged += OnLifeChanged;
+            //controller.Died += OnLifeChanged;
 
             //Set UI Values
             baseHealth = controller.publicData.baseStats.health;
             healthBar.publicSpriteQuantity = baseHealth;
-            OnHitted();
+            OnLifeChanged(0);
         }
 
         private void OnDestroy()
@@ -47,20 +47,20 @@ namespace TimeDistortion.Gameplay.Characters
         }
         void UpdateHealthRegenText()
         {
-            if (healthRegenText == null) return;
+            if (!healthRegenText) return;
             healthRegenText.text = currentHealth + "/" + baseHealth;
         }
 
         //Event Receivers
-        void OnHitted()
+        void OnLifeChanged(int healthDifference)
         {
             currentHealth = controller.publicData.currentStats.health;
             UpdateHealthBar();
-        }
-        void OnRegenerated()
-        {
-            UpdateHealthBar();
-            UpdateHealthRegenText();
+
+            if (healthDifference > 0)
+            {
+                UpdateHealthRegenText();
+            }
         }
     }
 }

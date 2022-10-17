@@ -63,8 +63,7 @@ namespace TimeDistortion.Gameplay.Handler
         public Action Attacked;
         public Action Dashed;
         public Action Died;
-        public Action Hitted;
-        public Action Regenarated;
+        public Action<int> LifeChanged;
 
         #endregion
 
@@ -76,6 +75,9 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float hittedParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
         [SerializeField] float invulnerabilityTimer;
+        [SerializeField] float regenerateCooldown;
+        [SerializeField] float regenerateTimer;
+        public int regenerators;
         public float paralysisTimer { set; private get; }
 
         [SerializeField] float attackDuration;
@@ -174,6 +176,8 @@ namespace TimeDistortion.Gameplay.Handler
 
             if (dashTime > 0)
                 dashTime -= Time.deltaTime;
+            if(regenerateTimer > 0)
+                regenerateTimer -= Time.deltaTime;
         }
 
         private void LateUpdate()
@@ -542,6 +546,12 @@ namespace TimeDistortion.Gameplay.Handler
             HandleAttackInput();
         }
 
+        public void OnRegenerateInput(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            Regenerate();
+        }
+        
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
             if (attacking || dashing || !grounded) return;
@@ -665,6 +675,18 @@ namespace TimeDistortion.Gameplay.Handler
 
         //Interface Implementations
         #region HP
+        void Regenerate()
+        {
+            if(regenerators < 0) return;
+            if(regenerateTimer > 0) return;
+            
+            data.currentStats.health += 1;
+
+            regenerateTimer = regenerateCooldown;
+            regenerators--;
+            
+            LifeChanged?.Invoke(1);
+        }
         public void GetHitted(int damage)
         {
             //Start timers
@@ -673,7 +695,7 @@ namespace TimeDistortion.Gameplay.Handler
             
             //Reduce health and send event
             data.currentStats.health -= damage;
-            Hitted?.Invoke();
+            LifeChanged?.Invoke(-damage);
 
             //If died, send event
             if (data.currentStats.health > 0) return;
