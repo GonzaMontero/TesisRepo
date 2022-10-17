@@ -75,7 +75,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float hittedParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
         [SerializeField] float invulnerabilityTimer;
-        [SerializeField] float regenerateCooldown;
+        [SerializeField] float regenerateDelay;
         [SerializeField] float regenerateTimer;
         public int regenerators;
         public float paralysisTimer { set; private get; }
@@ -151,12 +151,16 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 CollideWithGround();
             }
-            
-            // if (cameraHandler != null)
-            // {
-            //     cameraHandler.FollowTarget(deltaTime);
-            // }
 
+            //Advance Timers
+            if (dashTime > 0)
+                dashTime -= Time.deltaTime;
+            
+            if(regenerateTimer > 0)
+                regenerateTimer -= Time.deltaTime;
+            else if (regenerateTimer > -1)
+                Regenerate();
+            
             if (paralysisTimer > 0)
             {
                 paralysisTimer -= Time.deltaTime;
@@ -173,11 +177,6 @@ namespace TimeDistortion.Gameplay.Handler
 
             UpdateRigidVelocity();
             HandleRotation(deltaTime);
-
-            if (dashTime > 0)
-                dashTime -= Time.deltaTime;
-            if(regenerateTimer > 0)
-                regenerateTimer -= Time.deltaTime;
         }
 
         private void LateUpdate()
@@ -507,14 +506,21 @@ namespace TimeDistortion.Gameplay.Handler
             UpdateRigidVelocity();
 
             SetNewRotation(false);
+
+            //If moving, cancel regen
+            CancelRegeneration();
         }
 
         public void OnJumpInput(InputAction.CallbackContext context)
         {
+            if (paralysisTimer > 0) return;
             if (usingSlowmo) return;
             if (!context.started)
                 return;
             HandleJumping();
+            
+            //If jumping, cancel regen
+            CancelRegeneration();
 
             //if (!context.started)
             //{
@@ -535,25 +541,30 @@ namespace TimeDistortion.Gameplay.Handler
             //    characterController.Move(playerVelocity * deltaTime);
             //    groundedPlayer = false;
             //    PlayerJumped?.Invoke();
-            //}
+            //}            
         }
 
         public void OnAttackInput(InputAction.CallbackContext context)
         {
+            if (paralysisTimer > 0) return;
             if (!context.started) return;
             SetNewRotation(true);
             transform.localRotation = targetRotation;
             HandleAttackInput();
+            
+            //If attacking, cancel regen
+            CancelRegeneration();
         }
 
         public void OnRegenerateInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
-            Regenerate();
+            regenerateTimer = regenerateDelay;
         }
         
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
+            if (paralysisTimer > 0) return;
             if (attacking || dashing || !grounded) return;
             if (context.canceled)
             {
@@ -572,6 +583,9 @@ namespace TimeDistortion.Gameplay.Handler
                 usingSlowmo = true;
                 cameraManager.OnTimeCharge(context);
             }
+            
+            //If slowing, cancel regen
+            CancelRegeneration();
         }
 
         #endregion
@@ -615,9 +629,13 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnDashInput(InputAction.CallbackContext context)
         {
+            if (paralysisTimer > 0) return;
             if (attacking || usingSlowmo) return;
             if (dashCurrent || dashAirCompleted) return;
             StartCoroutine(Dash());
+            
+            //If dashing, cancel regen
+            CancelRegeneration();
         }
 
         private IEnumerator Dash()
@@ -644,14 +662,26 @@ namespace TimeDistortion.Gameplay.Handler
             projectedVelocity = Vector3.zero;
             rigidbody.useGravity = false;
 
-            yield return new WaitForSeconds(dashDuration);
+            float dashTimer = dashDuration;
+
+            while (dashTimer > 0 || !(paralysisTimer > 0))
+            {
+                dashTimer -= Time.deltaTime;
+                yield return null;
+            }
 
             rigidbody.velocity = Vector3.zero;
             rigidbody.useGravity = true;
             dashing = false;
 
-            yield return new WaitForSeconds(dashCooldown);
+            dashTimer = dashCooldown;
 
+            while (dashTimer > 0)
+            {
+                dashTimer -= Time.deltaTime;
+                yield return null;
+            }
+            
             dashCurrent = false;
         }
 
@@ -683,10 +713,15 @@ namespace TimeDistortion.Gameplay.Handler
             
             data.currentStats.health += 1;
 
-            regenerateTimer = regenerateCooldown;
+            regenerateTimer = -1;
             regenerators--;
             
             LifeChanged?.Invoke(1);
+        }
+
+        void CancelRegeneration()
+        {
+            regenerateTimer = -1;
         }
         public void GetHitted(int damage)
         {
