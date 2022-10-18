@@ -110,5 +110,12 @@ namespace TimeDistortion.Gameplay.Characters
             animator.SetBool("SlowMoCharged", timeChanged);
             animator.SetBool("ChargingSlowMo", false);
         }
+        void OnLifeChanged(int healthChange)
+        {
+            if (healthChange < 0)
+            {
+                
+            }
+        }
     }
 }

@@ -71,6 +71,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] bool usingSlowmo;
+        [SerializeField] float spawnParalysisTime;
         [SerializeField] float fallParalysisTime;
         [SerializeField] float hittedParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
@@ -81,7 +82,8 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float regenTimer = -1;
         [SerializeField] bool regenerating;
         public int regenerators;
-        public float paralysisTimer { set; private get; }
+        public bool isRegenerating { get { return regenerating; } }
+        public float paralysisTimer;
 
         [SerializeField] float attackDuration;
         [SerializeField] float attackStartUp;
@@ -132,6 +134,7 @@ namespace TimeDistortion.Gameplay.Handler
             InitRigidSystem();
             
             //stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
+            paralysisTimer = spawnParalysisTime;
         }
 
         private void InitRigidSystem()
