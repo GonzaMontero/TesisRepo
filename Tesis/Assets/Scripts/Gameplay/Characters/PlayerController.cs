@@ -75,8 +75,11 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float hittedParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
         [SerializeField] float invulnerabilityTimer;
-        [SerializeField] float regenerateDelay;
-        [SerializeField] float regenerateTimer;
+        [SerializeField] float regenDelay;
+        [SerializeField] float regenDuration;
+        [SerializeField] float regenMoveMod;
+        [SerializeField] float regenTimer = -1;
+        [SerializeField] bool regenerating;
         public int regenerators;
         public float paralysisTimer { set; private get; }
 
@@ -156,10 +159,10 @@ namespace TimeDistortion.Gameplay.Handler
             if (dashTime > 0)
                 dashTime -= Time.deltaTime;
             
-            if(regenerateTimer > 0)
-                regenerateTimer -= Time.deltaTime;
-            else if (regenerateTimer > -1)
-                Regenerate();
+            if(regenTimer > 0)
+                regenTimer -= Time.deltaTime;
+            else if (regenTimer > -1)
+                UpdateRegeneration();
             
             if (paralysisTimer > 0)
             {
@@ -332,7 +335,17 @@ namespace TimeDistortion.Gameplay.Handler
             }
 
             projectedVelocity.y = rigidbody.velocity.y;
-            rigidbody.velocity = projectedVelocity;
+            
+            Vector3 localProjVel = projectedVelocity;
+            
+            //If regenerating, multiply x / z velocity by regen Mod
+            if (regenTimer > 0)
+            {
+                localProjVel.x *= regenMoveMod;
+                localProjVel.z *= regenMoveMod;
+            }
+            
+            rigidbody.velocity = localProjVel;
 
             if (!grounded)
             {
@@ -514,7 +527,7 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnJumpInput(InputAction.CallbackContext context)
         {
             if (paralysisTimer > 0) return;
-            if (usingSlowmo) return;
+            if (usingSlowmo || regenerating || attacking) return;
             if (!context.started)
                 return;
             HandleJumping();
@@ -546,7 +559,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnAttackInput(InputAction.CallbackContext context)
         {
-            if (paralysisTimer > 0) return;
+            if (regenerating || paralysisTimer > 0) return;
             if (!context.started) return;
             SetNewRotation(true);
             transform.localRotation = targetRotation;
@@ -559,13 +572,15 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnRegenerateInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
-            regenerateTimer = regenerateDelay;
+            if(!grounded) return;
+            if(regenTimer > 0) return;
+            UpdateRegeneration();
         }
         
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
             if (paralysisTimer > 0) return;
-            if (attacking || dashing || !grounded) return;
+            if (attacking || dashing || regenerating || !grounded) return;
             if (context.canceled)
             {
                 //SetNewRotation(true);
@@ -630,7 +645,7 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnDashInput(InputAction.CallbackContext context)
         {
             if (paralysisTimer > 0) return;
-            if (attacking || usingSlowmo) return;
+            if (attacking || usingSlowmo || regenerating) return;
             if (dashCurrent || dashAirCompleted) return;
             StartCoroutine(Dash());
             
@@ -664,7 +679,7 @@ namespace TimeDistortion.Gameplay.Handler
 
             float dashTimer = dashDuration;
 
-            while (dashTimer > 0 || !(paralysisTimer > 0))
+            while (dashTimer > 0 && !(paralysisTimer > 0))
             {
                 dashTimer -= Time.deltaTime;
                 yield return null;
@@ -708,20 +723,37 @@ namespace TimeDistortion.Gameplay.Handler
         void Regenerate()
         {
             if(regenerators < 1) return;
-            if(regenerateTimer > 0) return;
+            if(regenTimer > 0) return;
             if(data.currentStats.health >= data.baseStats.health) return;
             
             data.currentStats.health += 1;
 
-            regenerateTimer = -1;
+            regenerating = true;
             regenerators--;
             
             LifeChanged?.Invoke(1);
         }
-
         void CancelRegeneration()
         {
-            regenerateTimer = -1;
+            if(regenerating) return;
+            regenTimer = -1;
+        }
+        void UpdateRegeneration()
+        {
+            if (regenTimer == -1)
+            {
+                regenTimer = regenDelay;
+            }
+            else if (!regenerating)
+            {
+                Regenerate();
+                regenTimer = regenerating ? regenDuration : -1;
+            }
+            else
+            {
+                regenerating = false;
+                regenTimer = -1;
+            }
         }
         public void GetHitted(int damage)
         {
