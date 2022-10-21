@@ -52,6 +52,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float onAirRotMod = .5f;
         [SerializeField] float movementSpeed = 5;
         [SerializeField] float rotationSpeed = 10;
+        [SerializeField] float maxMoveSpeed = 20;
         Quaternion targetRotation;
 
         #endregion
@@ -326,6 +327,7 @@ namespace TimeDistortion.Gameplay.Handler
         private void UpdateRigidVelocity()
         {
             if (dashing) return;
+            if (moveInput.sqrMagnitude < 0.1)  return;
 
             //Check if player is paralyzed OR if it is still while ond the ground
             if ((projectedVelocity.sqrMagnitude < 1 && grounded) || paralysisTimer > 0)
