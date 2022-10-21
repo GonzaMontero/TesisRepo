@@ -12,9 +12,11 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] TrailRenderer dashTrail;
         [SerializeField] float swordTrailTime;
         [SerializeField] float dashTrailTime;
+        [SerializeField] int minHeavyDmg;
         [Header("Runtime Values")]
         [SerializeField] float swordTrailTimer;
         [SerializeField] float dashTrailTimer;
+        [SerializeField] bool spawned;
 
         //Unity Events
         private void Start()
@@ -36,11 +38,18 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Attacked += OnPlayerAttacked;
             controller.Jumped += OnPlayerJumped;
             controller.Moved += OnPlayerMoved;
+            controller.LifeChanged += OnLifeChanged;
+            controller.Died += OnDied;
             timeChanger.ActivatingCharge += OnTimeCharging;
             timeChanger.ReleasedCharge += OnTimeReleased;
         }
         private void Update()
         {
+            if (!spawned && !controller.isSpawning)
+            {
+                spawned = true;
+                animator.SetTrigger("Spawned");
+            }
             if (controller.grounded == animator.GetBool("OnAir"))
             {
                 animator.SetBool("OnAir", !controller.grounded);
@@ -112,10 +121,18 @@ namespace TimeDistortion.Gameplay.Characters
         }
         void OnLifeChanged(int healthChange)
         {
-            if (healthChange < 0)
+            if (healthChange > minHeavyDmg)
             {
-                
+                animator.SetTrigger("LightlyHitted");
             }
+            else
+            {
+                animator.SetTrigger("HeavilyHitted");
+            }
+        }
+        void OnDied()
+        {
+            animator.SetTrigger("Died");
         }
     }
 }

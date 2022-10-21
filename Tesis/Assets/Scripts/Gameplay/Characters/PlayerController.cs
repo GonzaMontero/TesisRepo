@@ -72,8 +72,12 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] bool usingSlowmo;
         [SerializeField] float spawnParalysisTime;
+        [SerializeField] bool spawning = true;
         [SerializeField] float fallParalysisTime;
-        [SerializeField] float hittedParalysisTime;
+        [Tooltip("How much damage is needed for heavy threshold")]
+        [SerializeField] int minHeavyDamage;
+        [SerializeField] float hittedLightParalysisTime;
+        [SerializeField] float hittedHeavyParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
         [SerializeField] float invulnerabilityTimer;
         [SerializeField] float regenDelay;
@@ -82,6 +86,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float regenTimer = -1;
         [SerializeField] bool regenerating;
         public int regenerators;
+        public bool isSpawning { get { return spawning; } }
         public bool isRegenerating { get { return regenerating; } }
         public float paralysisTimer;
 
@@ -134,7 +139,7 @@ namespace TimeDistortion.Gameplay.Handler
             InitRigidSystem();
             
             //stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
-            paralysisTimer = spawnParalysisTime;
+            paralysisTimer += spawnParalysisTime;
         }
 
         private void InitRigidSystem()
@@ -173,6 +178,10 @@ namespace TimeDistortion.Gameplay.Handler
                 if (projectedVelocity.sqrMagnitude > 0)
                     StopRigidMovement();
                 return;
+            }
+            else if (spawning)
+            {
+                spawning = false;
             }
 
             if (lockOnFlag ||ShouldMove() || !grounded)
@@ -435,7 +444,7 @@ namespace TimeDistortion.Gameplay.Handler
             //     StopRigidMovement();
             // }
 
-            paralysisTimer = fallParalysisTime;
+            paralysisTimer += fallParalysisTime;
         }
 
         void OnAir()
@@ -620,7 +629,7 @@ namespace TimeDistortion.Gameplay.Handler
 
             if (attackHitBox.activeSelf) return; //If hit box is on (player is attacking), exit
 
-            paralysisTimer = attackDuration + attackStartUp;
+            paralysisTimer += attackDuration + attackStartUp;
             attacking = true;
             Invoke("StartLightAttack", attackStartUp * Time.timeScale);
             Attacked?.Invoke();
@@ -762,7 +771,14 @@ namespace TimeDistortion.Gameplay.Handler
         {
             //Start timers
             invulnerabilityTimer = hittedInvulnerabilityTime;
-            paralysisTimer = hittedParalysisTime;
+            if (damage > minHeavyDamage)
+            {
+                paralysisTimer += hittedLightParalysisTime;
+            }
+            else
+            {
+                paralysisTimer += hittedHeavyParalysisTime;
+            }
             
             //Reduce health and send event
             data.currentStats.health -= damage;
