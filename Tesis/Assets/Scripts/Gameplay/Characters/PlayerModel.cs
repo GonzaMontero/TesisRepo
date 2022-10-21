@@ -40,6 +40,7 @@ namespace TimeDistortion.Gameplay.Characters
             controller.Moved += OnPlayerMoved;
             controller.LifeChanged += OnLifeChanged;
             controller.Died += OnDied;
+            controller.Healing += OnHealing;
             timeChanger.ActivatingCharge += OnTimeCharging;
             timeChanger.ReleasedCharge += OnTimeReleased;
         }
@@ -133,6 +134,10 @@ namespace TimeDistortion.Gameplay.Characters
         void OnDied()
         {
             animator.SetTrigger("Died");
+        }
+        void OnHealing()
+        {
+            animator.SetTrigger("Heal");
         }
     }
 }

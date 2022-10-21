@@ -63,6 +63,7 @@ namespace TimeDistortion.Gameplay.Handler
         public Action Attacked;
         public Action Dashed;
         public Action Died;
+        public Action Healing;
         public Action<int> LifeChanged;
 
         #endregion
@@ -519,7 +520,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnMovementInput(InputAction.CallbackContext context)
         {
-            if (usingSlowmo) return;
+            if (usingSlowmo || regenerating) return;
             if (context.canceled)
             {
                 if (grounded)
@@ -757,6 +758,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (regenTimer == -1)
             {
+                Healing?.Invoke();
                 regenTimer = regenDelay;
             }
             else if (!regenerating)
