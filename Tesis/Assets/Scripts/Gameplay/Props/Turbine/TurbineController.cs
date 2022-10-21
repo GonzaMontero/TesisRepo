@@ -29,7 +29,7 @@ namespace TimeDistortion.Gameplay.Props
             timeController.TimeChanged += OnTimeChanged;
         }
 
-        void OnCollisionEnter(Collision collision)
+        void OnCollisionStay(Collision collision)
         {
             IHittable hittable = collision.gameObject.GetComponent<IHittable>();
             

@@ -167,6 +167,9 @@ namespace TimeDistortion.Gameplay.Handler
             if (dashTime > 0)
                 dashTime -= Time.deltaTime;
             
+            if (invulnerabilityTimer > 0)
+                invulnerabilityTimer -= Time.deltaTime;
+            
             if(regenTimer > 0)
                 regenTimer -= Time.deltaTime;
             else if (regenTimer > -1)
@@ -769,6 +772,8 @@ namespace TimeDistortion.Gameplay.Handler
         }
         public void GetHitted(int damage)
         {
+            if(invulnerabilityTimer > 0) return;
+            
             //Start timers
             invulnerabilityTimer = hittedInvulnerabilityTime;
             if (damage > minHeavyDamage)
