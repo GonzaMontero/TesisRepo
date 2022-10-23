@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 864907182844342115}
   - component: {fileID: 3235915596786913958}
   - component: {fileID: 3911378308106093269}
+  - component: {fileID: 63781046348612375}
   m_Layer: 13
   m_Name: Helices
   m_TagString: Untagged
@@ -158,6 +159,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &63781046348612375
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277855820439507537}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8479150194928020419, guid: 447a98da8b04a5c49aa11f428cfcee0e, type: 3}
 --- !u!1 &3700067307593401970
 GameObject:
   m_ObjectHideFlags: 0
