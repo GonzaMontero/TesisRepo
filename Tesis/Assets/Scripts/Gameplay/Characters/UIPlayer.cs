@@ -1,6 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Universal.UI;
 
 namespace TimeDistortion.Gameplay.Characters
 {
@@ -8,8 +8,8 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
-        [SerializeField] Slider healthBar;
-        [SerializeField] TextMeshProUGUI healthText;
+        [SerializeField] UISpriteBar healthBar;
+        [SerializeField] TextMeshProUGUI healthRegenText;
         [Header("Runtime Values")]
         [SerializeField] int baseHealth;
         [SerializeField] int currentHealth;
@@ -23,12 +23,13 @@ namespace TimeDistortion.Gameplay.Characters
             }
 
             //Link Actions
-            controller.Hitted += OnHitted;
-            controller.Died += OnHitted;
+            controller.LifeChanged += OnLifeChanged;
+            //controller.Died += OnLifeChanged;
 
             //Set UI Values
             baseHealth = controller.publicData.baseStats.health;
-            OnHitted();
+            healthBar.publicSpriteQuantity = baseHealth;
+            OnLifeChanged(1);
         }
 
         private void OnDestroy()
@@ -41,22 +42,26 @@ namespace TimeDistortion.Gameplay.Characters
         //Methods
         void UpdateHealthBar()
         {
-            if (healthBar == null) return;
-            healthBar.value = (float)currentHealth / (float)baseHealth;
+            if (!healthBar) return;
+            healthBar.publicFilledSprites = currentHealth;
         }
-
-        void UpdateHealthText()
+        void UpdateHealthRegenText()
         {
-            if (healthText == null) return;
-            healthText.text = currentHealth + "/" + baseHealth;
+            if (!healthRegenText) return;
+            //healthRegenText.text = currentHealth + "/" + baseHealth;
+            healthRegenText.text = controller.regenerators.ToString();
         }
 
         //Event Receivers
-        void OnHitted()
+        void OnLifeChanged(int healthDifference)
         {
             currentHealth = controller.publicData.currentStats.health;
             UpdateHealthBar();
-            UpdateHealthText();
+
+            if (healthDifference > 0)
+            {
+                UpdateHealthRegenText();
+            }
         }
     }
 }

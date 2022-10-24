@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TimeDistortion.Gameplay.Props
 {
@@ -8,6 +9,7 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] TimePhys.ObjectTimeController timeController;
         [SerializeField] TurbineWindArea windArea;
         [SerializeField] Collider coll;
+        [SerializeField] int damage;
         //[Header("Runtime Values")]
 
         public System.Action<bool> Slowed;
@@ -25,6 +27,15 @@ namespace TimeDistortion.Gameplay.Props
             }
 
             timeController.TimeChanged += OnTimeChanged;
+        }
+
+        void OnCollisionStay(Collision collision)
+        {
+            IHittable hittable = collision.gameObject.GetComponent<IHittable>();
+            
+            if(hittable == null) return;
+            
+            hittable.GetHitted(damage);
         }
 
         //Event Receivers

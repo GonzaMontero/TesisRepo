@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace TimeDistortion.Gameplay
 {
@@ -13,10 +15,15 @@ namespace TimeDistortion.Gameplay
         //[SerializeField] GameObject inGameUI;
         //[SerializeField] GameObject pauseUI;
         [SerializeField] GameObject gameOverUI;
-
-
+        [SerializeField] Image fadeToBlackImage;
+        [Tooltip("Seconds needed for the black image to disappear")]
+        [SerializeField] float fadeInTime;
+        [Tooltip("Seconds needed for the black image to appear")]
+        [SerializeField] float fadeOutTime;
         [Header("Runtime Values")]
         [SerializeField] GameplayScreens currentState = GameplayScreens.inGame;
+        [SerializeField] float fadeTimer;
+        [SerializeField] bool fadingIn;
 
         //Unity Events
         private void Start()
@@ -27,9 +34,20 @@ namespace TimeDistortion.Gameplay
                 manager = GameplayManager.Get();
             }
 
+            fadingIn = true;
+            fadeTimer = fadeInTime;
+            UpdateFade();
+
             //Link action
             manager.GameEnded += OnGameEnded;
             //manager.GamePaused += OnPause;
+            //manager.PlayerSpawned += OnPlayerSpawned;
+        }
+
+        void Update()
+        {
+            if(fadeTimer > 0)
+               UpdateFade();
         }
         //private void OnDestroy()
         //{
@@ -46,10 +64,26 @@ namespace TimeDistortion.Gameplay
         //    currentState = pause ? GameplayScreens.pause : GameplayScreens.inGame;
         //    SwitchUIStage();
         //}
+        void UpdateFade()
+        {
+            fadeTimer -= Time.deltaTime;
+
+            Color fadeColor = fadeToBlackImage.color;
+            
+            if(fadingIn)
+                fadeColor.a = Mathf.Lerp(0, 1, fadeTimer / fadeInTime);
+            else
+                fadeColor.a = Mathf.Lerp(1, 0, fadeTimer / fadeOutTime);
+
+            fadeToBlackImage.color = fadeColor;
+        }
         void SetGameOver()
         {
             //GameManager.Get().SetPause(true);
 
+            fadingIn = false;
+            fadeTimer = fadeOutTime;
+            
             currentState = GameplayScreens.gameOver;
             SwitchUIStage();
         }
@@ -79,13 +113,17 @@ namespace TimeDistortion.Gameplay
         }
 
         //Event receivers
-        //void OnPause()
-        //{
-        //    SetPause(manager.publicPause);
-        //}
         void OnGameEnded(bool playerWon)
         {
             SetGameOver();
         }
+        // void OnPlayerSpawned()
+        // {
+        //     
+        // }
+        //void OnPause()
+        //{
+        //    SetPause(manager.publicPause);
+        //}
     }
 }
