@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6713174261186947403}
   - component: {fileID: 6713174261186947402}
-  - component: {fileID: 4927895021811589345}
-  - component: {fileID: 8082442678020104340}
-  - component: {fileID: 1432488763150037904}
+  - component: {fileID: 4417939724522703916}
   m_Layer: 0
   m_Name: Gameplay Manager
   m_TagString: Untagged
@@ -50,7 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   stone: {fileID: 0}
---- !u!114 &4927895021811589345
+  playerSpawnTime: 2.2
+  playerSpawnTimer: 0
+  gameOver: 0
+  playerSpawned: 0
+--- !u!114 &4417939724522703916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,69 +61,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 6713174261186947404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c754f2d694ac14284ea424e1ab5440, type: 3}
+  m_Script: {fileID: 11500000, guid: c74a09889e337df48aed71121c2ce39a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8082442678020104340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6713174261186947404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
+  controller: {fileID: 6713174261186947402}
+  ambienceAudio:
     Guid:
       Data1: 1365349514
       Data2: 1132453810
       Data3: -1205427546
       Data4: -2113414015
     Path: event:/SFX/Environment/2D ambients/Ambient catacomb
-  Event: 
-  PlayEvent: 1
-  StopEvent: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
---- !u!114 &1432488763150037904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6713174261186947404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
+  musicAudio:
     Guid:
       Data1: 903414636
       Data2: 1269357184
       Data3: 1690228632
       Data4: -955124878
     Path: event:/Music/Music Catacomb
-  Event: 
-  PlayEvent: 1
-  StopEvent: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  debrisAudio:
+    Guid:
+      Data1: -77370789
+      Data2: 1258232112
+      Data3: -101940856
+      Data4: -1794451622
+    Path: event:/SFX/Environment/Scatterer Events/Rock Debris
+  reverb:
+    Guid:
+      Data1: 494688447
+      Data2: 1298864885
+      Data3: -1859744107
+      Data4: 1214873360
+    Path: event:/Game Syncs/Snapshots/Reverbs/Generic Reverb
+  musicVolume: 0.75
+  ambienceVolume: 1
+  setMusicVolume: 0
+  setAmbienceVolume: 0
 --- !u!1 &6713174261210398464
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,17 +223,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: OnLockOnInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_ActionId: 78e02fe1-d03b-4cd0-8114-59d7aed3a321
     m_ActionName: Player/Lock On[/Keyboard/f]
   - m_PersistentCalls:
@@ -274,8 +238,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_ActionId: e92dffae-5174-4e8a-9882-02eca75de9a4
+    m_ActionName: Player/Ready SlowMo[/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: OnTimeCharge
+        m_MethodName: OnRegenerateInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -285,10 +253,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: e92dffae-5174-4e8a-9882-02eca75de9a4
-    m_ActionName: Player/Ready SlowMo[/Keyboard/leftCtrl]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 10b0cf13-cc00-4558-a861-0e5a9342ea13
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
@@ -339,7 +303,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: OnFlyInput
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

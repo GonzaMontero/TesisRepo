@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 864907182844342115}
   - component: {fileID: 3235915596786913958}
   - component: {fileID: 3911378308106093269}
+  - component: {fileID: 63781046348612375}
   m_Layer: 13
   m_Name: Helices
   m_TagString: Untagged
@@ -158,6 +159,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &63781046348612375
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277855820439507537}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8479150194928020419, guid: 447a98da8b04a5c49aa11f428cfcee0e, type: 3}
 --- !u!1 &3700067307593401970
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,6 +184,7 @@ GameObject:
   - component: {fileID: 8200864518253593819}
   - component: {fileID: 6138328014082704428}
   - component: {fileID: 2405330140041928690}
+  - component: {fileID: 2213622960407869455}
   m_Layer: 13
   m_Name: Wind Area
   m_TagString: Untagged
@@ -235,6 +251,27 @@ MonoBehaviour:
   randomDelayLow: 2
   randomDelayHigh: 5
   timeBetweenPositionSwap: 20
+--- !u!114 &2213622960407869455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3700067307593401970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1b4afb29c45234abacf1f5039ef5e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 263021796120543826}
+  windAudio:
+    Guid:
+      Data1: 773567876
+      Data2: 1233444960
+      Data3: 1270197405
+      Data4: -1306747093
+    Path: event:/SFX/Environment/Objects (3D)/Propeller
+  playingWind: 0
 --- !u!1 &3735850865904167164
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +355,6 @@ GameObject:
   - component: {fileID: 3735850866175416808}
   - component: {fileID: 4654331939432497936}
   - component: {fileID: 263021796120543826}
-  - component: {fileID: 4201495695744358322}
   - component: {fileID: 8801117579265230642}
   - component: {fileID: 1080554657915291609}
   m_Layer: 13
@@ -355,8 +391,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 8.636936, z: 8.987718}
-  m_Center: {x: 0, y: -0.15067649, z: 0.4373803}
+  m_Size: {x: 1.0862517, y: 8.636936, z: 8.987718}
+  m_Center: {x: 0.043125868, y: -0.15067673, z: 0.4373803}
 --- !u!114 &263021796120543826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,27 +408,7 @@ MonoBehaviour:
   timeController: {fileID: 8801117579265230642}
   windArea: {fileID: 2405330140041928690}
   coll: {fileID: 4654331939432497936}
---- !u!114 &4201495695744358322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3735850866175416823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f1b4afb29c45234abacf1f5039ef5e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 263021796120543826}
-  windAudio:
-    Guid:
-      Data1: 773567876
-      Data2: 1233444960
-      Data3: 1270197405
-      Data4: -1306747093
-    Path: event:/SFX/Environment/Objects (3D)/Propeller
-  playingWind: 0
+  damage: 2
 --- !u!114 &8801117579265230642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +434,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3735850866175416823}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b29db0b51ec5b243bb9298cbb01b6e0, type: 3}
   m_Name: 

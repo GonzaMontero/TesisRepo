@@ -12,9 +12,10 @@ namespace TimeDistortion.Gameplay
         [SerializeField] Handler.PlayerController player;
         [SerializeField] Props.BreakableStone stone;
         [SerializeField] float playerSpawnTime;
-        [Header("Set Values")]
+        [Header("Runtime Values")]
         [SerializeField] float playerSpawnTimer;
-        private bool gameOver = false;
+        [SerializeField] bool gameOver = false;
+        [SerializeField] bool playerSpawned = false;
 
         public Action<bool> GameEnded; //bool = playerWon
         //public Action PlayerSpawned;
@@ -22,16 +23,16 @@ namespace TimeDistortion.Gameplay
         //Unity Events
         private void Start()
         {
-            stone.StoneBroke += OnStoneBroke;
             if (!player)
             {
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<Handler.PlayerController>();
             }
 
             player.gameObject.SetActive(false);
+            playerSpawnTimer = playerSpawnTime;
             
             player.Died += OnPlayerDied;
-            playerSpawnTimer = playerSpawnTime;
+            stone.StoneBroke += OnStoneBroke;
         }
 
         void Update()
@@ -39,14 +40,12 @@ namespace TimeDistortion.Gameplay
             if (playerSpawnTimer > 0)
             {
                 playerSpawnTimer -= Time.deltaTime;
-                return;
             }
-            player.gameObject.SetActive(true);
-        }
-
-        private void OnDestroy()
-        {
-            //player.Died -= OnPlayerDied;
+            else if (!playerSpawned)
+            {
+                player.gameObject.SetActive(true);
+                playerSpawned = true;
+            }
         }
 
         //Methods
@@ -59,8 +58,7 @@ namespace TimeDistortion.Gameplay
 
         public void OnRestartInput(InputAction.CallbackContext context)
         {
-            if(!gameOver)
-                return;
+            if(!gameOver) return;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 

@@ -16,7 +16,7 @@ namespace TimeDistortion.Gameplay.Characters
         [Header("Runtime Values")]
         [SerializeField] float swordTrailTimer;
         [SerializeField] float dashTrailTimer;
-        [SerializeField] bool spawned;
+        //[SerializeField] bool spawned;
 
         //Unity Events
         private void Start()
@@ -46,11 +46,11 @@ namespace TimeDistortion.Gameplay.Characters
         }
         private void Update()
         {
-            if (!spawned && !controller.isSpawning)
-            {
-                spawned = true;
-                animator.SetTrigger("Spawned");
-            }
+            // if (!spawned && !controller.isSpawning)
+            // {
+            //     spawned = true;
+            //     animator.SetTrigger("Spawned");
+            // }
             if (controller.grounded == animator.GetBool("OnAir"))
             {
                 animator.SetBool("OnAir", !controller.grounded);
@@ -122,6 +122,8 @@ namespace TimeDistortion.Gameplay.Characters
         }
         void OnLifeChanged(int healthChange)
         {
+            if(healthChange > -1) return;
+            
             if (healthChange > minHeavyDmg)
             {
                 animator.SetTrigger("LightlyHitted");
