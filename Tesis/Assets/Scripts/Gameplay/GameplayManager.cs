@@ -11,9 +11,13 @@ namespace TimeDistortion.Gameplay
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController player;
         [SerializeField] Props.BreakableStone stone;
+        [SerializeField] float playerSpawnTime;
+        [Header("Set Values")]
+        [SerializeField] float playerSpawnTimer;
         private bool gameOver = false;
 
         public Action<bool> GameEnded; //bool = playerWon
+        //public Action PlayerSpawned;
 
         //Unity Events
         private void Start()
@@ -24,8 +28,22 @@ namespace TimeDistortion.Gameplay
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<Handler.PlayerController>();
             }
 
+            player.gameObject.SetActive(false);
+            
             player.Died += OnPlayerDied;
+            playerSpawnTimer = playerSpawnTime;
         }
+
+        void Update()
+        {
+            if (playerSpawnTimer > 0)
+            {
+                playerSpawnTimer -= Time.deltaTime;
+                return;
+            }
+            player.gameObject.SetActive(true);
+        }
+
         private void OnDestroy()
         {
             //player.Died -= OnPlayerDied;
@@ -35,6 +53,7 @@ namespace TimeDistortion.Gameplay
         public void GameOver(bool playerWon)
         {
             GameEnded?.Invoke(playerWon);
+            player.enabled = false;
             gameOver = true;
         }
 
