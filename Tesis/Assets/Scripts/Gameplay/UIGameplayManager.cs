@@ -20,8 +20,12 @@ namespace TimeDistortion.Gameplay
         [SerializeField] float fadeInTime;
         [Tooltip("Seconds needed for the black image to appear")]
         [SerializeField] float fadeOutTime;
+        [Tooltip("Seconds needed for game over UI activation")]
+        [SerializeField] float gameOverDelay;
         [Header("Runtime Values")]
         [SerializeField] GameplayScreens currentState = GameplayScreens.inGame;
+        [SerializeField] GameplayScreens targetState = GameplayScreens.inGame;
+        [SerializeField] float delayTimer;
         [SerializeField] float fadeTimer;
         [SerializeField] bool fadingIn;
 
@@ -46,6 +50,31 @@ namespace TimeDistortion.Gameplay
 
         void Update()
         {
+            if (delayTimer > 0)
+            {
+                delayTimer -= Time.deltaTime;
+                
+                if (!(delayTimer > 0))
+                {
+                    if(currentState == GameplayScreens.gameOver)
+                    {
+                    }
+                }
+            }
+            else if (currentState != targetState)
+            {
+                currentState = targetState;
+
+                switch (currentState)
+                {
+                    case GameplayScreens.gameOver:
+                        SetGameOver();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
             if(fadeTimer > 0)
                UpdateFade();
         }
@@ -84,7 +113,6 @@ namespace TimeDistortion.Gameplay
             fadingIn = false;
             fadeTimer = fadeOutTime;
             
-            currentState = GameplayScreens.gameOver;
             SwitchUIStage();
         }
         void SwitchUIStage()
@@ -115,7 +143,8 @@ namespace TimeDistortion.Gameplay
         //Event receivers
         void OnGameEnded(bool playerWon)
         {
-            SetGameOver();
+            delayTimer = gameOverDelay;
+            targetState = GameplayScreens.gameOver;
         }
         // void OnPlayerSpawned()
         // {
