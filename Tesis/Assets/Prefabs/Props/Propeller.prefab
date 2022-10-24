@@ -391,8 +391,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 8.636936, z: 8.987718}
-  m_Center: {x: 0, y: -0.15067649, z: 0.4373803}
+  m_Size: {x: 1.0862517, y: 8.636936, z: 8.987718}
+  m_Center: {x: 0.043125868, y: -0.15067673, z: 0.4373803}
 --- !u!114 &263021796120543826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +408,7 @@ MonoBehaviour:
   timeController: {fileID: 8801117579265230642}
   windArea: {fileID: 2405330140041928690}
   coll: {fileID: 4654331939432497936}
+  damage: 2
 --- !u!114 &8801117579265230642
 MonoBehaviour:
   m_ObjectHideFlags: 0
