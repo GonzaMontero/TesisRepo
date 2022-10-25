@@ -45,7 +45,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!65 &244449327445158251
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90,15 +90,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8552cc93b6a0946b07957532428710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeController: {fileID: 0}
+  selfDestroyTime: 0
   speed: 25
   slowMoMod: 0.2
   damage: 5
   affectedByTime: 1
+  useLocalSelfDestroy: 0
   player: {fileID: 0}
-  speedDelta: 0
+  delta: 0
   localTime: 1
-  turnSmoothVelocity: 1
-  turnSmoothTime: 0
+  destroyTimer: 0
 --- !u!114 &4672589818524557016
 MonoBehaviour:
   m_ObjectHideFlags: 0
