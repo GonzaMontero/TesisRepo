@@ -71,6 +71,7 @@ MonoBehaviour:
   destroyTime: 0.8
   timer: 0
   destroying: 0
+  destroyed: 0
 --- !u!114 &8310345678719084091
 MonoBehaviour:
   m_ObjectHideFlags: 0
