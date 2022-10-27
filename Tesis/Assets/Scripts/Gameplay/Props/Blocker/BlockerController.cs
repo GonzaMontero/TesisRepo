@@ -30,7 +30,7 @@ namespace TimeDistortion.Gameplay.Props
         }
         
         //Methods
-        void DestroyRock()
+        internal virtual void DestroyRock()
         {
             foreach (var stone in stones)
             {
