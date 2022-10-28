@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace TimeDistortion.Gameplay.Handler
 {
@@ -71,6 +72,11 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region Handler Actions and Stuff
 
+        [SerializeField] Vector3 interactCheckOffset = Vector3.forward;
+        [SerializeField] Vector3 interactCheckSize = Vector3.one;
+        [SerializeField] LayerMask interactableLayers;
+        List<IInteractable> interactables;
+        [SerializeField] [Tooltip("THIS IS RUNTIME")] bool canInteract;
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] bool usingSlowmo;
         [SerializeField] float spawnParalysisTime;
@@ -88,6 +94,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float regenTimer = -1;
         [SerializeField] bool regenerating;
         public int regenerators;
+        public bool publicCanInteract { get { return canInteract; } }
         public bool isSpawning { get { return spawning; } }
         public bool isRegenerating { get { return regenerating; } }
         public float paralysisTimer;
@@ -132,6 +139,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Start()
         {
+            interactables = new List<IInteractable>();
             //cameraHandler = CameraHandler.singleton;
 
             if (!coll)
@@ -165,6 +173,9 @@ namespace TimeDistortion.Gameplay.Handler
                 CollideWithGround();
             }
 
+            //Check for interactables
+            CanInteract();
+            
             //Advance Timers
             if (dashTime > 0)
                 dashTime -= Time.deltaTime;
@@ -218,6 +229,12 @@ namespace TimeDistortion.Gameplay.Handler
             float radius = coll.bounds.extents.x * groundCheckSizeMod;
             Gizmos.color = grounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(bottom, radius);
+            
+            //Draw Interactable Check Box Collider
+            Color color = canInteract ? Color.green : Color.red;
+            color.a = 0.5f;
+            Gizmos.color = color;
+            Gizmos.DrawCube(transform.position + interactCheckOffset, interactCheckSize);
         }   
 #endif
 
@@ -738,7 +755,6 @@ namespace TimeDistortion.Gameplay.Handler
 
         #endregion
 
-        //Interface Implementations
         #region HP
         void Regenerate()
         {
@@ -805,6 +821,33 @@ namespace TimeDistortion.Gameplay.Handler
             this.enabled = false;
             //Destroy(this);
         }
+        #endregion
+
+        #region Interact
+
+        void CanInteract() //ALL OF THIS REALLY DIRTY, RETHINK
+        {
+            canInteract = false;
+            interactables.Clear();
+            
+            Vector3 pos = transform.position + interactCheckOffset;
+            Quaternion rot = transform.rotation;
+            
+            Collider[] cols = Physics.OverlapBox(pos, interactCheckSize / 2, rot, interactableLayers);
+            
+            IInteractable interactable;
+            for (int i = 0; i < cols.Length; i++)
+            {
+                interactable = cols[i].GetComponent<IInteractable>();
+
+                if (interactable != null)
+                {
+                    canInteract = true;
+                    interactables.Add(interactable);
+                }  
+            }
+        }
+
         #endregion
     }
 }

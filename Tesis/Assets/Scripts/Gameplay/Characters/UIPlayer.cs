@@ -11,6 +11,7 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] Handler.PlayerController controller;
         [SerializeField] UISpriteBar healthBar;
         [SerializeField] TextMeshProUGUI healthRegenText;
+        [SerializeField] GameObject interactPopUp;
         [Header("Runtime Values")]
         [SerializeField] int baseHealth;
         [SerializeField] int currentHealth;
@@ -36,10 +37,15 @@ namespace TimeDistortion.Gameplay.Characters
 
         public void Update()
         {
-            //Set health bar only after the player spawned
+            //Set player UI only after the player spawned
             if (spawned) return;
             if(controller.isSpawning) return;
+
+            //Set health bar
             healthBar.Set();
+
+            //Set interact pop up
+            interactPopUp.SetActive(controller.publicCanInteract);
         }
 
         private void OnDestroy()
