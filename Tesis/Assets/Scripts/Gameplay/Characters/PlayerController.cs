@@ -64,7 +64,7 @@ namespace TimeDistortion.Gameplay.Handler
         public Action Attacked;
         public Action Dashed;
         public Action Died;
-        public Action Healing;
+        public Action<bool> Healing;
         public Action<int> LifeChanged;
 
         #endregion
@@ -750,17 +750,19 @@ namespace TimeDistortion.Gameplay.Handler
             regenerators--;
             
             LifeChanged?.Invoke(1);
+            Healing?.Invoke(false);
         }
         void CancelRegeneration()
         {
             if(regenerating) return;
+                Healing?.Invoke(false);
             regenTimer = -1;
         }
         void UpdateRegeneration()
         {
             if (regenTimer == -1)
             {
-                Healing?.Invoke();
+                Healing?.Invoke(true);
                 regenTimer = regenDelay;
             }
             else if (!regenerating)
@@ -770,6 +772,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else
             {
+                Healing?.Invoke(false);
                 regenerating = false;
                 regenTimer = -1;
             }
