@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TMPro;
 using UnityEngine;
 using Universal.UI;
@@ -32,6 +32,7 @@ namespace TimeDistortion.Gameplay.Characters
             //Set UI Values
             baseHealth = controller.publicData.baseStats.health;
             healthBar.publicSpriteQuantity = baseHealth;
+            healthBar.Set();
             OnLifeChanged(1);
         }
 
@@ -41,11 +42,11 @@ namespace TimeDistortion.Gameplay.Characters
             if (spawned) return;
             if(controller.isSpawning) return;
 
-            //Set health bar
-            healthBar.Set();
-
             //Set interact pop up
-            interactPopUp.SetActive(controller.publicCanInteract);
+            if (controller.publicCanInteract)
+                SetInteractText();
+            else
+                ClearInteractText();
         }
 
         private void OnDestroy()
