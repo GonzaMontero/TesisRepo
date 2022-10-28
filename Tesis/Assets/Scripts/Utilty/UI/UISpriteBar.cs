@@ -26,15 +26,6 @@ namespace Universal.UI
         public int publicSpriteQuantity { set { spriteQuantity = value; ResetImages(); } }
 
         //Unity Events
-        void Start()
-        {
-            if (!rectT)
-            {
-                rectT = GetComponent<RectTransform>();
-            }
-
-            SetImages();
-        }
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
@@ -49,6 +40,15 @@ namespace Universal.UI
 #endif
         
         //Methods
+        public void Set()
+        {
+            if (!rectT)
+            {
+                rectT = GetComponent<RectTransform>();
+            }
+            
+            ResetImages();
+        }
         void SetImages()
         {
             //Instantiate Sprites

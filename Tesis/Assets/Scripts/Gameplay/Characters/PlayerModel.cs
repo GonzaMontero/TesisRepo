@@ -7,8 +7,9 @@ namespace TimeDistortion.Gameplay.Characters
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
         [SerializeField] TimePhys.TimeChanger timeChanger;
-        [SerializeField] Animator animator;
         [SerializeField] GameObject swordTrail;
+        [SerializeField] Animator animator;
+        [SerializeField] Animator healOrbAnimator;
         [SerializeField] TrailRenderer dashTrail;
         [SerializeField] float swordTrailTime;
         [SerializeField] float dashTrailTime;
@@ -137,9 +138,17 @@ namespace TimeDistortion.Gameplay.Characters
         {
             animator.SetTrigger("Died");
         }
-        void OnHealing()
+        void OnHealing(bool healing)
         {
-            animator.SetTrigger("Heal");
+            if (healing)
+            {
+                animator.SetTrigger("Heal");
+                healOrbAnimator.SetTrigger("Appear");
+            }
+            else
+            {
+                healOrbAnimator.SetTrigger("Disappear");
+            }
         }
     }
 }

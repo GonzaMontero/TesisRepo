@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using Universal.UI;
 
@@ -13,6 +14,7 @@ namespace TimeDistortion.Gameplay.Characters
         [Header("Runtime Values")]
         [SerializeField] int baseHealth;
         [SerializeField] int currentHealth;
+        [SerializeField] bool spawned;
 
         //Unity Events
         private void Start()
@@ -30,6 +32,14 @@ namespace TimeDistortion.Gameplay.Characters
             baseHealth = controller.publicData.baseStats.health;
             healthBar.publicSpriteQuantity = baseHealth;
             OnLifeChanged(1);
+        }
+
+        public void Update()
+        {
+            //Set health bar only after the player spawned
+            if (spawned) return;
+            if(controller.isSpawning) return;
+            healthBar.Set();
         }
 
         private void OnDestroy()
