@@ -100,6 +100,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Regenerate"",
+                    ""type"": ""Button"",
+                    ""id"": ""02b08dfa-8878-4f73-a87e-1da94ee78bc4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Open Menu"",
                     ""type"": ""Button"",
                     ""id"": ""c2d36052-2a77-4575-912c-3e811d2a5784"",
@@ -391,6 +400,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Use SlowMo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""983e5128-9bcb-44f7-9cc0-253a12302546"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Regenerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b5d102d-eac5-4900-9d43-1a545f84f705"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Regenerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -407,6 +438,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
         m_Player_LockOn = m_Player.FindAction("Lock On", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Regenerate = m_Player.FindAction("Regenerate", throwIfNotFound: true);
         m_Player_OpenMenu = m_Player.FindAction("Open Menu", throwIfNotFound: true);
         m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
         m_Player_FlyCHEAT = m_Player.FindAction("Fly (CHEAT)", throwIfNotFound: true);
@@ -477,6 +509,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Camera;
     private readonly InputAction m_Player_LockOn;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Regenerate;
     private readonly InputAction m_Player_OpenMenu;
     private readonly InputAction m_Player_Restart;
     private readonly InputAction m_Player_FlyCHEAT;
@@ -492,6 +525,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Camera => m_Wrapper.m_Player_Camera;
         public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Regenerate => m_Wrapper.m_Player_Regenerate;
         public InputAction @OpenMenu => m_Wrapper.m_Player_OpenMenu;
         public InputAction @Restart => m_Wrapper.m_Player_Restart;
         public InputAction @FlyCHEAT => m_Wrapper.m_Player_FlyCHEAT;
@@ -528,6 +562,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Regenerate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRegenerate;
+                @Regenerate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRegenerate;
+                @Regenerate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRegenerate;
                 @OpenMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
                 @OpenMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
                 @OpenMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenMenu;
@@ -565,6 +602,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Regenerate.started += instance.OnRegenerate;
+                @Regenerate.performed += instance.OnRegenerate;
+                @Regenerate.canceled += instance.OnRegenerate;
                 @OpenMenu.started += instance.OnOpenMenu;
                 @OpenMenu.performed += instance.OnOpenMenu;
                 @OpenMenu.canceled += instance.OnOpenMenu;
@@ -588,6 +628,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnCamera(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnRegenerate(InputAction.CallbackContext context);
         void OnOpenMenu(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
         void OnFlyCHEAT(InputAction.CallbackContext context);

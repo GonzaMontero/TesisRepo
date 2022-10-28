@@ -34,7 +34,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] GameObject stepRayLower;
         [SerializeField] float stepHeight = 0.3f;
         [SerializeField] float stepSmooth = 2f;
-        
+
         public bool lockOnFlag { set; private get; }
 
         #endregion
@@ -76,14 +76,19 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] Vector3 interactCheckSize = Vector3.one;
         [SerializeField] LayerMask interactableLayers;
         List<IInteractable> interactables;
-        [SerializeField] [Tooltip("THIS IS RUNTIME")] bool canInteract;
+
+        [SerializeField] [Tooltip("THIS IS RUNTIME")]
+        bool canInteract;
+
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] bool usingSlowmo;
         [SerializeField] float spawnParalysisTime;
         [SerializeField] bool spawning = true;
         [SerializeField] float fallParalysisTime;
-        [Tooltip("How much damage is needed for heavy threshold")]
-        [SerializeField] int minHeavyDamage;
+
+        [Tooltip("How much damage is needed for heavy threshold")] [SerializeField]
+        int minHeavyDamage;
+
         [SerializeField] float hittedLightParalysisTime;
         [SerializeField] float hittedHeavyParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
@@ -93,10 +98,29 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float regenMoveMod;
         [SerializeField] float regenTimer = -1;
         [SerializeField] bool regenerating;
-        public int regenerators;
-        public bool publicCanInteract { get { return canInteract; } }
-        public bool isSpawning { get { return spawning; } }
-        public bool isRegenerating { get { return regenerating; } }
+        [SerializeField] int baseRegens;
+        [SerializeField] int currentRegens;
+
+        public int regenerators
+        {
+            get { return currentRegens; }
+        }
+
+        public bool publicCanInteract
+        {
+            get { return canInteract; }
+        }
+
+        public bool isSpawning
+        {
+            get { return spawning; }
+        }
+
+        public bool isRegenerating
+        {
+            get { return regenerating; }
+        }
+
         public float paralysisTimer;
 
         [SerializeField] float attackDuration;
@@ -117,11 +141,10 @@ namespace TimeDistortion.Gameplay.Handler
         //Unity Events
         private void Awake()
         {
-            data.currentStats = data.baseStats;
+            data.Set();
         }
 
         //Methods
-
 
         #endregion
 
@@ -146,8 +169,9 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 coll = GetComponent<CapsuleCollider>();
             }
+
             InitRigidSystem();
-            
+
             //stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
             paralysisTimer += spawnParalysisTime;
         }
@@ -175,19 +199,19 @@ namespace TimeDistortion.Gameplay.Handler
 
             //Check for interactables
             CanInteract();
-            
+
             //Advance Timers
             if (dashTime > 0)
                 dashTime -= Time.deltaTime;
-            
+
             if (invulnerabilityTimer > 0)
                 invulnerabilityTimer -= Time.deltaTime;
-            
-            if(regenTimer > 0)
+
+            if (regenTimer > 0)
                 regenTimer -= Time.deltaTime;
             else if (regenTimer > -1)
                 UpdateRegeneration();
-            
+
             if (paralysisTimer > 0)
             {
                 paralysisTimer -= Time.deltaTime;
@@ -200,7 +224,7 @@ namespace TimeDistortion.Gameplay.Handler
                 spawning = false;
             }
 
-            if (lockOnFlag ||ShouldMove() || !grounded)
+            if (lockOnFlag || ShouldMove() || !grounded)
             {
                 ProjectVelocity();
                 SetNewRotation(true);
@@ -214,7 +238,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             jumpInput = false;
         }
-        
+
         // private void FixedUpdate()
         // {
         //     StepClimb();
@@ -229,13 +253,13 @@ namespace TimeDistortion.Gameplay.Handler
             float radius = coll.bounds.extents.x * groundCheckSizeMod;
             Gizmos.color = grounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(bottom, radius);
-            
+
             //Draw Interactable Check Box Collider
             Color color = canInteract ? Color.green : Color.red;
             color.a = 0.5f;
             Gizmos.color = color;
             Gizmos.DrawCube(transform.position + interactCheckOffset, interactCheckSize);
-        }   
+        }
 #endif
 
         #region Movement Calculations
@@ -281,7 +305,7 @@ namespace TimeDistortion.Gameplay.Handler
             Vector3 targetDir = Vector3.zero;
 
             Vector3 refDir;
-            
+
             refDir = forwardRefObject.right;
             //refDir = (rotateStill) ? transform.right : forwardRefObject.right;
             refDir.y = 0;
@@ -360,7 +384,7 @@ namespace TimeDistortion.Gameplay.Handler
         private void UpdateRigidVelocity()
         {
             if (dashing) return;
-            if (moveInput.sqrMagnitude < 0.1)  return;
+            if (moveInput.sqrMagnitude < 0.1) return;
 
             //Check if player is paralyzed OR if it is still while ond the ground
             if ((projectedVelocity.sqrMagnitude < 1 && grounded) || paralysisTimer > 0)
@@ -370,16 +394,16 @@ namespace TimeDistortion.Gameplay.Handler
             }
 
             projectedVelocity.y = rigidbody.velocity.y;
-            
+
             Vector3 localProjVel = projectedVelocity;
-            
+
             //If regenerating, multiply x / z velocity by regen Mod
             if (regenTimer > 0)
             {
                 localProjVel.x *= regenMoveMod;
                 localProjVel.z *= regenMoveMod;
             }
-            
+
             rigidbody.velocity = localProjVel;
 
             if (!grounded)
@@ -447,15 +471,15 @@ namespace TimeDistortion.Gameplay.Handler
             Vector3 top = coll.bounds.center + Vector3.up * (coll.bounds.extents.y * 0.99f);
             Vector3 bottom = coll.bounds.center + Vector3.down * (coll.bounds.extents.y * 1.01f);
             //a capsule is the same in x & z, only y is different
-            float radius = coll.bounds.extents.x * groundCheckSizeMod; 
-            
+            float radius = coll.bounds.extents.x * groundCheckSizeMod;
+
             //Check for collisions
             Collider[] hits;
             hits = Physics.OverlapCapsule(top, bottom, radius, steppableLayers);
 
             //Update bool
             isOnGround = hits.Length > 0;
-            
+
             return isOnGround;
         }
 
@@ -480,7 +504,7 @@ namespace TimeDistortion.Gameplay.Handler
         void OnCollisionEnter(Collision collision)
         {
             if (grounded) return;
-            if(collision.gameObject.CompareTag("Ground")) return;
+            if (collision.gameObject.CompareTag("Ground")) return;
             OnAir();
         }
 
@@ -566,7 +590,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (!context.started)
                 return;
             HandleJumping();
-            
+
             //If jumping, cancel regen
             CancelRegeneration();
 
@@ -599,21 +623,31 @@ namespace TimeDistortion.Gameplay.Handler
             SetNewRotation(true);
             transform.localRotation = targetRotation;
             HandleAttackInput();
-            
+
             //If attacking, cancel regen
             CancelRegeneration();
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            if (!canInteract) return;
+            for (int i = 0; i < interactables.Count; i++)
+            {
+                interactables[i].GetInteracted();
+            }
         }
 
         public void OnRegenerateInput(InputAction.CallbackContext context)
         {
             if (!context.started) return;
-            if(!grounded) return;
-            if(regenTimer > 0) return;
-            if(regenerators < 1) return;
-            if(data.currentStats.health >= data.baseStats.health) return;
+            if (!grounded) return;
+            if (regenTimer > 0) return;
+            if (regenerators < 1) return;
+            if (data.currentStats.health >= data.baseStats.health) return;
             UpdateRegeneration();
         }
-        
+
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
             if (paralysisTimer > 0) return;
@@ -635,7 +669,7 @@ namespace TimeDistortion.Gameplay.Handler
                 usingSlowmo = true;
                 cameraManager.OnTimeCharge(context);
             }
-            
+
             //If slowing, cancel regen
             CancelRegeneration();
         }
@@ -685,7 +719,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (attacking || usingSlowmo || regenerating) return;
             if (dashCurrent || dashAirCompleted) return;
             StartCoroutine(Dash());
-            
+
             //If dashing, cancel regen
             CancelRegeneration();
         }
@@ -733,7 +767,7 @@ namespace TimeDistortion.Gameplay.Handler
                 dashTimer -= Time.deltaTime;
                 yield return null;
             }
-            
+
             dashCurrent = false;
         }
 
@@ -756,24 +790,49 @@ namespace TimeDistortion.Gameplay.Handler
         #endregion
 
         #region HP
+
+        public void EnableRegen()
+        {
+            Healing?.Invoke(true);
+            currentRegens = baseRegens;
+            StartCoroutine(RegenerateAll());
+        }
+
+        IEnumerator RegenerateAll()
+        {
+            Healing?.Invoke(true);
+            float missingHP = data.baseStats.health - data.currentStats.health;
+            while (data.currentStats.health < data.baseStats.health && regenerators > 0)
+            {
+                data.currentStats.health += 1;
+                currentRegens--;
+                LifeChanged?.Invoke(1);
+                yield return new WaitForSeconds(regenDuration / missingHP);
+            }
+
+            Healing?.Invoke(false);
+        }
+
         void Regenerate()
         {
-            if(regenTimer > 0) return;
-            
+            if (regenTimer > 0) return;
+
             data.currentStats.health += 1;
 
             regenerating = true;
-            regenerators--;
-            
+            currentRegens--;
+
             LifeChanged?.Invoke(1);
             Healing?.Invoke(false);
         }
+
         void CancelRegeneration()
         {
-            if(regenerating) return;
-                Healing?.Invoke(false);
+            if (regenerating) return;
+            Healing?.Invoke(false);
             regenTimer = -1;
         }
+
         void UpdateRegeneration()
         {
             if (regenTimer == -1)
@@ -793,10 +852,11 @@ namespace TimeDistortion.Gameplay.Handler
                 regenTimer = -1;
             }
         }
+
         public void GetHitted(int damage)
         {
-            if(invulnerabilityTimer > 0) return;
-            
+            if (invulnerabilityTimer > 0) return;
+
             //Start timers
             invulnerabilityTimer = hittedInvulnerabilityTime;
             if (damage > minHeavyDamage)
@@ -807,7 +867,7 @@ namespace TimeDistortion.Gameplay.Handler
             {
                 paralysisTimer += hittedHeavyParalysisTime;
             }
-            
+
             //Reduce health and send event
             data.currentStats.health -= damage;
             LifeChanged?.Invoke(-damage);
@@ -821,6 +881,7 @@ namespace TimeDistortion.Gameplay.Handler
             this.enabled = false;
             //Destroy(this);
         }
+
         #endregion
 
         #region Interact
@@ -829,12 +890,12 @@ namespace TimeDistortion.Gameplay.Handler
         {
             canInteract = false;
             interactables.Clear();
-            
+
             Vector3 pos = transform.position + interactCheckOffset;
             Quaternion rot = transform.rotation;
-            
+
             Collider[] cols = Physics.OverlapBox(pos, interactCheckSize / 2, rot, interactableLayers);
-            
+
             IInteractable interactable;
             for (int i = 0; i < cols.Length; i++)
             {
@@ -844,7 +905,7 @@ namespace TimeDistortion.Gameplay.Handler
                 {
                     canInteract = true;
                     interactables.Add(interactable);
-                }  
+                }
             }
         }
 

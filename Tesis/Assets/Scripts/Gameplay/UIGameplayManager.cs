@@ -15,6 +15,7 @@ namespace TimeDistortion.Gameplay
         //[SerializeField] GameObject inGameUI;
         //[SerializeField] GameObject pauseUI;
         [SerializeField] GameObject gameOverUI;
+        [SerializeField] GameObject healthRegen;
         [SerializeField] Image fadeToBlackImage;
         [Tooltip("Seconds needed for the black image to disappear")]
         [SerializeField] float fadeInTime;
@@ -46,6 +47,7 @@ namespace TimeDistortion.Gameplay
             manager.GameEnded += OnGameEnded;
             //manager.GamePaused += OnPause;
             //manager.PlayerSpawned += OnPlayerSpawned;
+            manager.PlayerRegenEnabled += OnPlayerRegenEnabled;
         }
 
         void Update()
@@ -154,5 +156,9 @@ namespace TimeDistortion.Gameplay
         //{
         //    SetPause(manager.publicPause);
         //}
+        void OnPlayerRegenEnabled()
+        {
+            healthRegen.SetActive(true);
+        }
     }
 }
