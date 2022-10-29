@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using Universal.UI;
@@ -11,8 +11,11 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] Handler.PlayerController controller;
         [SerializeField] UISpriteBar healthBar;
         [SerializeField] TextMeshProUGUI healthRegenText;
+        [SerializeField] TextMeshProUGUI interactText;
         [SerializeField] GameObject interactPopUp;
         [Header("Runtime Values")]
+        [SerializeField] string originalInteractText;
+        [SerializeField] string interactMessage;
         [SerializeField] int baseHealth;
         [SerializeField] int currentHealth;
         [SerializeField] bool spawned;
@@ -34,6 +37,7 @@ namespace TimeDistortion.Gameplay.Characters
             healthBar.publicSpriteQuantity = baseHealth;
             healthBar.Set();
             OnLifeChanged(1);
+            originalInteractText = interactText.text;
         }
 
         public void Update()
@@ -67,6 +71,31 @@ namespace TimeDistortion.Gameplay.Characters
             if (!healthRegenText) return;
             //healthRegenText.text = currentHealth + "/" + baseHealth;
             healthRegenText.text = controller.regenerators.ToString();
+        }
+        void SetInteractText()
+        {
+            //if message is already writen, exit
+            if (interactMessage == controller.publicInteractable.interactedMessage) return;
+            
+            //Get interact message
+            interactMessage = controller.publicInteractable.interactedMessage;
+            
+            //Set interact text
+            //interactText.text = originalInteractText + "\n" + interactMessage;
+            
+            interactPopUp.SetActive(true);
+        }
+        void ClearInteractText()
+        {
+            if (!interactPopUp.activeSelf) return;
+
+            interactPopUp.SetActive(false);
+            
+            //Reset interact message
+            interactMessage = "";
+
+            //Reset interact text
+            //interactText.text = originalInteractText;
         }
 
         //Event Receivers

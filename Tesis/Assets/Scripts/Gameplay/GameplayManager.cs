@@ -75,8 +75,7 @@ namespace TimeDistortion.Gameplay
         {
             GameOver(true);
         }
-
-        void OnRegenPickedUp()
+        void OnRegenPickedUp(string notUsed)
         {
             player.EnableRegen();
             PlayerRegenEnabled?.Invoke();

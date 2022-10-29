@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeDistortion.Gameplay.Characters;
 using System.Collections;
-using System.Collections.Generic;
+using TimeDistortion.Gameplay.Props;
 
 namespace TimeDistortion.Gameplay.Handler
 {
@@ -75,20 +75,15 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] Vector3 interactCheckOffset = Vector3.forward;
         [SerializeField] Vector3 interactCheckSize = Vector3.one;
         [SerializeField] LayerMask interactableLayers;
-        List<IInteractable> interactables;
-
-        [SerializeField] [Tooltip("THIS IS RUNTIME")]
-        bool canInteract;
-
+        [SerializeField] InteractableController interactable;
+        [SerializeField] [Tooltip("THIS IS RUNTIME")] bool canInteract;
         [SerializeField] float jumpHeight = 1.0f;
         [SerializeField] bool usingSlowmo;
         [SerializeField] float spawnParalysisTime;
         [SerializeField] bool spawning = true;
         [SerializeField] float fallParalysisTime;
-
-        [Tooltip("How much damage is needed for heavy threshold")] [SerializeField]
-        int minHeavyDamage;
-
+        [Tooltip("How much damage is needed for heavy threshold")] 
+        [SerializeField] int minHeavyDamage;
         [SerializeField] float hittedLightParalysisTime;
         [SerializeField] float hittedHeavyParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
@@ -101,6 +96,8 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] int baseRegens;
         [SerializeField] int currentRegens;
 
+        public InteractableController publicInteractable { get { return interactable; } }
+        
         public int regenerators
         {
             get { return currentRegens; }
@@ -162,7 +159,6 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void Start()
         {
-            interactables = new List<IInteractable>();
             //cameraHandler = CameraHandler.singleton;
 
             if (!coll)
@@ -632,10 +628,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (!context.started) return;
             if (!canInteract) return;
-            for (int i = 0; i < interactables.Count; i++)
-            {
-                interactables[i].GetInteracted();
-            }
+            interactable.GetInteracted();
         }
 
         public void OnRegenerateInput(InputAction.CallbackContext context)
@@ -793,9 +786,9 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void EnableRegen()
         {
-            Healing?.Invoke(true);
+            //Healing?.Invoke(true);
             currentRegens = baseRegens;
-            StartCoroutine(RegenerateAll());
+            //StartCoroutine(RegenerateAll());
         }
 
         IEnumerator RegenerateAll()
@@ -889,23 +882,21 @@ namespace TimeDistortion.Gameplay.Handler
         void CanInteract() //ALL OF THIS REALLY DIRTY, RETHINK
         {
             canInteract = false;
-            interactables.Clear();
+            interactable = null;
 
             Vector3 pos = transform.position + interactCheckOffset;
             Quaternion rot = transform.rotation;
 
             Collider[] cols = Physics.OverlapBox(pos, interactCheckSize / 2, rot, interactableLayers);
 
-            IInteractable interactable;
             for (int i = 0; i < cols.Length; i++)
             {
-                interactable = cols[i].GetComponent<IInteractable>();
+                interactable = cols[i].GetComponent<InteractableController>();
 
-                if (interactable != null)
-                {
-                    canInteract = true;
-                    interactables.Add(interactable);
-                }
+                if (interactable == null) continue;
+                
+                canInteract = true;
+                return;
             }
         }
 
