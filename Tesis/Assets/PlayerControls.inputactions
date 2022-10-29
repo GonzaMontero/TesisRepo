@@ -78,6 +78,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Regenerate",
+                    "type": "Button",
+                    "id": "02b08dfa-8878-4f73-a87e-1da94ee78bc4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Open Menu",
                     "type": "Button",
                     "id": "c2d36052-2a77-4575-912c-3e811d2a5784",
@@ -367,6 +376,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Use SlowMo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "983e5128-9bcb-44f7-9cc0-253a12302546",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Regenerate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b5d102d-eac5-4900-9d43-1a545f84f705",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Regenerate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

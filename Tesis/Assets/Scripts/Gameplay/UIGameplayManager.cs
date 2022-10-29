@@ -1,4 +1,5 @@
 ﻿using System;
+using TimeDistortion.Gameplay.Handler;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -12,9 +13,12 @@ namespace TimeDistortion.Gameplay
 
         [Header("Set Values")]
         [SerializeField] GameplayManager manager;
+        [SerializeField] PlayerController player;
         //[SerializeField] GameObject inGameUI;
         //[SerializeField] GameObject pauseUI;
         [SerializeField] GameObject gameOverUI;
+        [SerializeField] GameObject healthSpawnTuto;
+        [SerializeField] GameObject healthRegen;
         [SerializeField] Image fadeToBlackImage;
         [Tooltip("Seconds needed for the black image to disappear")]
         [SerializeField] float fadeInTime;
@@ -22,9 +26,11 @@ namespace TimeDistortion.Gameplay
         [SerializeField] float fadeOutTime;
         [Tooltip("Seconds needed for game over UI activation")]
         [SerializeField] float gameOverDelay;
+        //[SerializeField] float healthSpawnTutoDuration;
         [Header("Runtime Values")]
         [SerializeField] GameplayScreens currentState = GameplayScreens.inGame;
         [SerializeField] GameplayScreens targetState = GameplayScreens.inGame;
+        //[SerializeField] float healthSpawnTutoTimer;
         [SerializeField] float delayTimer;
         [SerializeField] float fadeTimer;
         [SerializeField] bool fadingIn;
@@ -38,6 +44,11 @@ namespace TimeDistortion.Gameplay
                 manager = GameplayManager.Get();
             }
 
+            if (!player)
+            {
+                player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            }
+
             fadingIn = true;
             fadeTimer = fadeInTime;
             UpdateFade();
@@ -46,6 +57,8 @@ namespace TimeDistortion.Gameplay
             manager.GameEnded += OnGameEnded;
             //manager.GamePaused += OnPause;
             //manager.PlayerSpawned += OnPlayerSpawned;
+            manager.PlayerRegenEnabled += OnPlayerRegenEnabled;
+            player.Healing += OnPlayerFirstHealed;
         }
 
         void Update()
@@ -53,13 +66,6 @@ namespace TimeDistortion.Gameplay
             if (delayTimer > 0)
             {
                 delayTimer -= Time.deltaTime;
-                
-                if (!(delayTimer > 0))
-                {
-                    if(currentState == GameplayScreens.gameOver)
-                    {
-                    }
-                }
             }
             else if (currentState != targetState)
             {
@@ -74,6 +80,15 @@ namespace TimeDistortion.Gameplay
                         break;
                 }
             }
+
+            // if (healthSpawnTutoTimer > 0)
+            // {
+            //     healthSpawnTutoTimer -= Time.deltaTime;
+            //     if (!(healthSpawnTutoTimer > 0))
+            //     {
+            //         healthSpawnTuto.SetActive(false);
+            //     }
+            // }
             
             if(fadeTimer > 0)
                UpdateFade();
@@ -154,5 +169,16 @@ namespace TimeDistortion.Gameplay
         //{
         //    SetPause(manager.publicPause);
         //}
+        void OnPlayerRegenEnabled()
+        {
+            healthRegen.SetActive(true);
+            healthSpawnTuto.SetActive(true);
+        }
+        void OnPlayerFirstHealed(bool healing)
+        {
+            if(!healing) return;
+            healthSpawnTuto.SetActive(false);
+            player.Healing -= OnPlayerFirstHealed;
+        }
     }
 }

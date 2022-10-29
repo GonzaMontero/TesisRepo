@@ -11,6 +11,7 @@ namespace TimeDistortion.Gameplay
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController player;
         [SerializeField] Props.BreakableStone stone;
+        [SerializeField] Props.InteractableController regenSpawn;
         [SerializeField] float playerSpawnTime;
         [Header("Runtime Values")]
         [SerializeField] float playerSpawnTimer;
@@ -19,6 +20,7 @@ namespace TimeDistortion.Gameplay
 
         public Action<bool> GameEnded; //bool = playerWon
         //public Action PlayerSpawned;
+        public Action PlayerRegenEnabled;
 
         //Unity Events
         private void Start()
@@ -33,6 +35,7 @@ namespace TimeDistortion.Gameplay
             
             player.Died += OnPlayerDied;
             stone.StoneBroke += OnStoneBroke;
+            regenSpawn.Interacted += OnRegenPickedUp;
         }
 
         void Update()
@@ -68,10 +71,14 @@ namespace TimeDistortion.Gameplay
             //Player lost, so invoke gameover and set "playerWon" to false
             GameOver(false);
         }
-
         void OnStoneBroke()
         {
             GameOver(true);
+        }
+        void OnRegenPickedUp(string notUsed)
+        {
+            player.EnableRegen();
+            PlayerRegenEnabled?.Invoke();
         }
     }
 }
