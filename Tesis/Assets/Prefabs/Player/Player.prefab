@@ -899,7 +899,7 @@ MonoBehaviour:
   movementSpeed: 8
   rotationSpeed: 18
   maxMoveSpeed: 20
-  interactCheckOffset: {x: 0, y: 0, z: 1}
+  interactCheckOffset: 1
   interactCheckSize: {x: 1, y: 1.5, z: 1}
   interactableLayers:
     serializedVersion: 2

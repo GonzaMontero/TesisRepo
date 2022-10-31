@@ -224,6 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4966961711005215413}
   - component: {fileID: 4966961711005215410}
+  - component: {fileID: 3921595604298926405}
   m_Layer: 13
   m_Name: Health Spawner
   m_TagString: Untagged
@@ -240,7 +241,7 @@ Transform:
   m_GameObject: {fileID: 4966961711005215412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6225, y: 1.6225, z: 1.6225}
   m_Children:
   - {fileID: 4966961710385816564}
   - {fileID: 4966961710589784329}
@@ -260,3 +261,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.33734512, y: 0.3411975, z: 0.3540039}
   m_Center: {x: -0.0035114288, y: 0.015535116, z: -0.039794922}
+--- !u!114 &3921595604298926405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966961711005215412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e264fcb161b56948b2a3f1d00115e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Press 'R' to Heal!
+  maxInteractions: 1
+  interactions: 0

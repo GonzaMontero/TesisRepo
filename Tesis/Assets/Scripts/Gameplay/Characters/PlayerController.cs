@@ -72,7 +72,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region Handler Actions and Stuff
 
-        [SerializeField] Vector3 interactCheckOffset = Vector3.forward;
+        [SerializeField] float interactCheckOffset;
         [SerializeField] Vector3 interactCheckSize = Vector3.one;
         [SerializeField] LayerMask interactableLayers;
         [SerializeField] InteractableController interactable;
@@ -254,7 +254,7 @@ namespace TimeDistortion.Gameplay.Handler
             Color color = canInteract ? Color.green : Color.red;
             color.a = 0.5f;
             Gizmos.color = color;
-            Gizmos.DrawCube(transform.position + interactCheckOffset, interactCheckSize);
+            Gizmos.DrawCube(transform.position + interactCheckOffset * transform.forward, interactCheckSize);
         }
 #endif
 
@@ -884,7 +884,7 @@ namespace TimeDistortion.Gameplay.Handler
             canInteract = false;
             interactable = null;
 
-            Vector3 pos = transform.position + interactCheckOffset;
+            Vector3 pos = transform.position + interactCheckOffset * transform.forward;
             Quaternion rot = transform.rotation;
 
             Collider[] cols = Physics.OverlapBox(pos, interactCheckSize / 2, rot, interactableLayers);
