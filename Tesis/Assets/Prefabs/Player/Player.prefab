@@ -887,14 +887,14 @@ MonoBehaviour:
   steppableLayers:
     serializedVersion: 2
     m_Bits: 4608
-  groundCheckSizeMod: 1.6
+  groundCheckSizeMod: 1.7
   stepRayUpper: {fileID: 3543425573091240077}
   stepRayLower: {fileID: 2200564826544138606}
   stepHeight: 0.2
   stepSmooth: 10
   forwardRefObject: {fileID: 0}
   grounded: 1
-  onAirSpeedMod: 0.2
+  onAirSpeedMod: 0.4
   onAirRotMod: 10
   movementSpeed: 8
   rotationSpeed: 18
@@ -913,9 +913,10 @@ MonoBehaviour:
   fallParalysisTime: 0.3
   minHeavyDamage: 2
   hittedLightParalysisTime: 0.5
-  hittedHeavyParalysisTime: 2
-  hittedInvulnerabilityTime: 2.5
+  hittedHeavyParalysisTime: 1
+  hittedInvulnerabilityTime: 1.5
   invulnerabilityTimer: 0
+  regenMod: 3
   regenDelay: 1
   regenDuration: 1
   regenMoveMod: 0.5

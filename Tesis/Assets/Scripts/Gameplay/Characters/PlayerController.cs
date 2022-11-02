@@ -88,6 +88,7 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] float hittedHeavyParalysisTime;
         [SerializeField] float hittedInvulnerabilityTime;
         [SerializeField] float invulnerabilityTimer;
+        [SerializeField] int regenMod;
         [SerializeField] float regenDelay;
         [SerializeField] float regenDuration;
         [SerializeField] float regenMoveMod;
@@ -797,7 +798,7 @@ namespace TimeDistortion.Gameplay.Handler
             float missingHP = data.baseStats.health - data.currentStats.health;
             while (data.currentStats.health < data.baseStats.health && regenerators > 0)
             {
-                data.currentStats.health += 1;
+                data.currentStats.health += regenMod;
                 currentRegens--;
                 LifeChanged?.Invoke(1);
                 yield return new WaitForSeconds(regenDuration / missingHP);
@@ -810,8 +811,9 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (regenTimer > 0) return;
 
-            data.currentStats.health += 1;
-
+            data.currentStats.health += regenMod;
+            if (data.currentStats.health > data.baseStats.health)
+                data.currentStats.health = data.baseStats.health;
             regenerating = true;
             currentRegens--;
 
