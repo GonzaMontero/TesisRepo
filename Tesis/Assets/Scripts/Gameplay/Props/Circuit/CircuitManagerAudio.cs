@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TimeDistortion.Gameplay.Props
+namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class CircuitManagerAudio : MonoBehaviour
     {

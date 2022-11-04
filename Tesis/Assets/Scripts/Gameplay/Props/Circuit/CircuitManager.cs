@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TimeDistortion.Gameplay.Props
+namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class CircuitManager : MonoBehaviour
     {
@@ -32,7 +32,17 @@ namespace TimeDistortion.Gameplay.Props
             switch (mode)
             {
                 case TriggerModes.allTriggers:
-                    if (activatedCircuitParts.Contains(part)) return;
+                    //If part was already in activated list, exit
+                    if (activatedCircuitParts.Contains(part))
+                    {
+                        if (!part.activated)
+                        {
+                            activatedCircuitParts.Remove(part);
+                        }
+                        return;
+                    }
+                    if(!part.activated) return;
+                    
                     activatedCircuitParts.Add(part);
                     completed = activatedCircuitParts.Count >= circuitParts.Count;
                     break;
