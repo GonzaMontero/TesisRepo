@@ -20,8 +20,10 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         }
 
         //Event Receivers
-        void OnCompleted()
+        void OnCompleted(bool isComplete)
         {
+            if(!isComplete) return;
+            
             FMODUnity.RuntimeManager.PlayOneShot(completedAudio);
         }
     }

@@ -11,11 +11,12 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [Header("Set Values")]
         [SerializeField] List<CircuitPartController> circuitParts;
         [SerializeField] TriggerModes mode;
+        [SerializeField] bool canDeactivate = true;
         [Header("Runtime Values")]
         [SerializeField] List<CircuitPartController> activatedCircuitParts;
-        [SerializeField] bool completed;
+        [SerializeField] bool isComplete;
         
-        public Action CircuitCompleted;
+        public Action<bool> CircuitCompleted;
 
         //Unity Events
         private void Start()
@@ -29,29 +30,34 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         //Methods
         void CheckPartActivation(CircuitPartController part)
         {
+            if(isComplete && !canDeactivate) return;
+
+            bool wasComplete = isComplete;
             switch (mode)
             {
                 case TriggerModes.allTriggers:
                     //If part was already in activated list, exit
-                    if (activatedCircuitParts.Contains(part))
-                    {
-                        if (!part.activated)
-                        {
-                            activatedCircuitParts.Remove(part);
-                        }
-                        return;
-                    }
-                    if(!part.activated) return;
+
+                    bool partWasInList = activatedCircuitParts.Contains(part);
                     
-                    activatedCircuitParts.Add(part);
-                    completed = activatedCircuitParts.Count >= circuitParts.Count;
+                    if (part.activated)
+                    {
+                        if (partWasInList) return;
+                        activatedCircuitParts.Add(part);
+                    }
+                    else if (partWasInList)
+                    {
+                        activatedCircuitParts.Remove(part);
+                    }
+                    
+                    isComplete = activatedCircuitParts.Count >= circuitParts.Count;
                     break;
                 default:
                     break;
             }
 
-            if (!completed) return;
-            CircuitCompleted?.Invoke();
+            if (wasComplete == isComplete) return;
+            CircuitCompleted?.Invoke(isComplete);
         }
 
         //Event Receivers
