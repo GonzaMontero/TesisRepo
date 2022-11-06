@@ -47,6 +47,8 @@ namespace TimeDistortion.Gameplay.TimePhys
 
             controller.TimeChanged += OnTimeChanged;
 
+            if(!animator) return;
+            
             //Check in animator has Time parameter
             foreach (var animParameter in animator.parameters)
             {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TimeDistortion.Gameplay.Props
+namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class CircuitPartModel : MonoBehaviour
     {
@@ -14,7 +14,7 @@ namespace TimeDistortion.Gameplay.Props
         {
             if (controller == null)
             {
-                controller = GetComponent<CircuitPartController>();
+                controller = GetComponent<CollisionCircuitPart>();
             }
             if (animator == null)
             {

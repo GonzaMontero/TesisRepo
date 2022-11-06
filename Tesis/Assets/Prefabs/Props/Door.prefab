@@ -108,7 +108,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: f8dd18edced0eef47b5cbde125d5d90e, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 2
+  m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 8511661907267737803}
   active: 0
 --- !u!114 &8511661907267737806
 MonoBehaviour:

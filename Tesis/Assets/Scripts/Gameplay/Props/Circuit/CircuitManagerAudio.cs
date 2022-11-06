@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TimeDistortion.Gameplay.Props
+namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class CircuitManagerAudio : MonoBehaviour
     {
@@ -20,8 +20,10 @@ namespace TimeDistortion.Gameplay.Props
         }
 
         //Event Receivers
-        void OnCompleted()
+        void OnCompleted(bool isComplete)
         {
+            if(!isComplete) return;
+            
             FMODUnity.RuntimeManager.PlayOneShot(completedAudio);
         }
     }

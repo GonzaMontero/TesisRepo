@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TimeDistortion.Gameplay.Props
+namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class CircuitManager : MonoBehaviour
     {
@@ -11,11 +11,12 @@ namespace TimeDistortion.Gameplay.Props
         [Header("Set Values")]
         [SerializeField] List<CircuitPartController> circuitParts;
         [SerializeField] TriggerModes mode;
+        [SerializeField] bool canDeactivate = true;
         [Header("Runtime Values")]
         [SerializeField] List<CircuitPartController> activatedCircuitParts;
-        [SerializeField] bool completed;
+        [SerializeField] bool isComplete;
         
-        public Action CircuitCompleted;
+        public Action<bool> CircuitCompleted;
 
         //Unity Events
         private void Start()
@@ -29,19 +30,34 @@ namespace TimeDistortion.Gameplay.Props
         //Methods
         void CheckPartActivation(CircuitPartController part)
         {
+            if(isComplete && !canDeactivate) return;
+
+            bool wasComplete = isComplete;
             switch (mode)
             {
                 case TriggerModes.allTriggers:
-                    if (activatedCircuitParts.Contains(part)) return;
-                    activatedCircuitParts.Add(part);
-                    completed = activatedCircuitParts.Count >= circuitParts.Count;
+                    //If part was already in activated list, exit
+
+                    bool partWasInList = activatedCircuitParts.Contains(part);
+                    
+                    if (part.activated)
+                    {
+                        if (partWasInList) return;
+                        activatedCircuitParts.Add(part);
+                    }
+                    else if (partWasInList)
+                    {
+                        activatedCircuitParts.Remove(part);
+                    }
+                    
+                    isComplete = activatedCircuitParts.Count >= circuitParts.Count;
                     break;
                 default:
                     break;
             }
 
-            if (!completed) return;
-            CircuitCompleted?.Invoke();
+            if (wasComplete == isComplete) return;
+            CircuitCompleted?.Invoke(isComplete);
         }
 
         //Event Receivers
