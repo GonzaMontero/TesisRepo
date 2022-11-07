@@ -15,13 +15,14 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [Header("Set Values")]
         [SerializeField] RotatorController[] rotators;
         [SerializeField] TriggerModes triggerMode;
-        [SerializeField] float[] rotations;
+        [SerializeField] float[] rotations = new float [1];
         [Tooltip("On 'Same Rotation' mode, target step will be defined on runtime")]
-        [SerializeField] int targetStep;
+        [SerializeField] int[] targetSteps = new int [1];
         [Header("Runtime Values")]
         [SerializeField] int[] rotatorsStep;
         [Header("DEBUG")]
         [SerializeField] Vector3 gizmoRotationAxis;
+        [SerializeField] float gizmoRotRayLength = 1;
 
 
         //Unity Events
@@ -36,7 +37,6 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         }
 
 #if UNITY_EDITOR
-        [ExecuteInEditMode]
         void OnDrawGizmos()
         {
             Quaternion rotation = Quaternion.identity;
@@ -45,23 +45,25 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             Vector3 offset = Vector3.zero;
             
             //Draw Steps
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.yellow;
             for (int i = 0; i < rotations.Length; i++)
             {
                 rotation.eulerAngles = rotations[i] * gizmoRotationAxis;
                 offset = rotation * Vector3.forward;
-                offset *= 5;
+                offset *= gizmoRotRayLength;
                 Gizmos.DrawLine(pos, pos + offset);
             }
 
             //Draw target step
-            //rotation = Quaternion.LookRotation(transform.forward);
-            euler.y = rotations[targetStep];
-            rotation.eulerAngles = euler.y * gizmoRotationAxis;
-            offset = rotation * transform.forward * 5;
-            
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(pos, pos + offset);
+            for (int i = 0; i < targetSteps.Length; i++)
+            {
+                euler.y = rotations[targetSteps[i]];
+                rotation.eulerAngles = euler.y * gizmoRotationAxis;
+                offset = rotation * transform.forward * gizmoRotRayLength;
+            
+                Gizmos.DrawLine(pos, pos + offset);
+            }
         }
 #endif
         
@@ -140,14 +142,17 @@ namespace TimeDistortion.Gameplay.Props.Circuit
 
             if (triggerMode == TriggerModes.allSameRotation)
             {
-                targetStep = rotatorsStep[0];
+                targetSteps[0] = rotatorsStep[0];
             }
             
             for (int i = 0; i < rotatorsStep.Length; i++)
             {
-                if(rotatorsStep[i] == targetStep) continue;
+                for (int j = 0; j < targetSteps.Length; j++)
+                {
+                    if(rotatorsStep[i] == targetSteps[j]) break;
 
-                isTrigger = false;
+                    isTrigger = false;
+                }
             }
 
             if (isTrigger == activated) return;
