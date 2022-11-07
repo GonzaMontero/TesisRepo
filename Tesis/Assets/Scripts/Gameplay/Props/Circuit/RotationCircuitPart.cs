@@ -18,9 +18,10 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [SerializeField] float[] rotations;
         [Tooltip("On 'Same Rotation' mode, target step will be defined on runtime")]
         [SerializeField] int targetStep;
-
         [Header("Runtime Values")]
         [SerializeField] int[] rotatorsStep;
+        [Header("DEBUG")]
+        [SerializeField] Vector3 gizmoRotationAxis;
 
 
         //Unity Events
@@ -41,26 +42,26 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             Quaternion rotation = Quaternion.identity;
             Vector3 euler = Vector3.zero;
             Vector3 pos = transform.position;
-            Vector3 target = Vector3.zero;
+            Vector3 offset = Vector3.zero;
             
             //Draw Steps
             Gizmos.color = Color.blue;
             for (int i = 0; i < rotations.Length; i++)
             {
-                euler.y = rotations[targetStep];
-                rotation.eulerAngles = euler;
-                Gizmos.DrawLine(pos, pos + 5 * euler);
+                rotation.eulerAngles = rotations[i] * gizmoRotationAxis;
+                offset = rotation * Vector3.forward;
+                offset *= 5;
+                Gizmos.DrawLine(pos, pos + offset);
             }
 
             //Draw target step
             //rotation = Quaternion.LookRotation(transform.forward);
             euler.y = rotations[targetStep];
-            rotation.eulerAngles = euler;
-            target = 1 * euler;
+            rotation.eulerAngles = euler.y * gizmoRotationAxis;
+            offset = rotation * transform.forward * 5;
             
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(pos, pos + 1 * euler);
-            
+            Gizmos.DrawLine(pos, pos + offset);
         }
 #endif
         
@@ -79,6 +80,9 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         }
         int GetRotationStep(int step, float rotation)
         {
+            //if there's only one step, return only it
+            if (rotations.Length == 1) return 0;
+            
             //if step is beyond array, set to other side of array
             if (step < 0) step = rotations.Length - 1;
             if (step+1 > rotations.Length) step = 0;
