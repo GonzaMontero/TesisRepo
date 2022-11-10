@@ -400,7 +400,7 @@ MonoBehaviour:
   lockRange: 10
   lockTarget: {fileID: 0}
   isLocked: 0
-  verticalAngleLimits: {x: -30, y: 50}
+  verticalAngleLimits: {x: -60, y: 50}
   rotationSpeeds: {x: 100, y: 100}
   camFollow: {fileID: 0}
 --- !u!1 &2035393692386919970

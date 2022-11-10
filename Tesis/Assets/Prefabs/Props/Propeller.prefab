@@ -91,9 +91,9 @@ GameObject:
   - component: {fileID: 3235915596786913958}
   - component: {fileID: 3911378308106093269}
   - component: {fileID: 63781046348612375}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Helices
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -408,7 +408,11 @@ MonoBehaviour:
   timeController: {fileID: 8801117579265230642}
   windArea: {fileID: 2405330140041928690}
   coll: {fileID: 4654331939432497936}
+  passCheckCenter: {x: 0, y: 0, z: 0}
+  passCheckSize: {x: 0, y: 0, z: 0}
+  passThroughDistance: {x: 0, y: 0, z: 0}
   damage: 2
+  canBePassedThrough: 0
 --- !u!114 &8801117579265230642
 MonoBehaviour:
   m_ObjectHideFlags: 0
