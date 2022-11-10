@@ -115,9 +115,19 @@ namespace TimeDistortion.Gameplay
             Color fadeColor = fadeToBlackImage.color;
             
             if(fadingIn)
+            {
                 fadeColor.a = Mathf.Lerp(0, 1, fadeTimer / fadeInTime);
+                if (fadeTimer <= 0)
+                {
+                    fadeToBlackImage.enabled = false;
+                }
+            }
             else
+            {
                 fadeColor.a = Mathf.Lerp(1, 0, fadeTimer / fadeOutTime);
+                if (!fadeToBlackImage.enabled)
+                    fadeToBlackImage.enabled = true;
+            }
 
             fadeToBlackImage.color = fadeColor;
         }
