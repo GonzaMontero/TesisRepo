@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace TimeDistortion.Gameplay.Props.Circuit
@@ -145,14 +145,23 @@ namespace TimeDistortion.Gameplay.Props.Circuit
                 targetSteps[0] = rotatorsStep[0];
             }
             
-            for (int i = 0; i < rotatorsStep.Length; i++)
+            //THIS IS UGLY, CLEAN
+            for (int i = 0; i < targetSteps.Length; i++)
             {
-                for (int j = 0; j < targetSteps.Length; j++)
+                //If only one rotator is not in target, trigger = false & go to next target step
+                for (int j = 0; j < rotatorsStep.Length; j++)
                 {
-                    if(rotatorsStep[i] == targetSteps[j]) break;
-
-                    isTrigger = false;
+                    if (rotatorsStep[j] != targetSteps[i])
+                    {
+                        isTrigger = false;
+                        
+                        break;
+                    }
+            
+                    isTrigger = true;
                 }
+                
+                if(isTrigger) break;
             }
 
             if (isTrigger == activated) return;
