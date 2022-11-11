@@ -6,14 +6,14 @@ namespace Universal.Testing
     {
         [SerializeField] int damage;
         [SerializeField] bool dealDamageNow;
-        IHittable iHittable;
+        TimeDistortion.Gameplay.IHittable iHittable;
 
         //Unity Events
         private void Start()
         {
             if (iHittable == null)
             {
-                iHittable = GetComponent<IHittable>();
+                iHittable = GetComponent<TimeDistortion.Gameplay.IHittable>();
             }
         }
         private void Update()

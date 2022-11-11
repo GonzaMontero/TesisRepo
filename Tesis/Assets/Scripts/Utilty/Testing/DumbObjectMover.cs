@@ -2,7 +2,7 @@
 
 namespace TimeDistortion.Testing
 {
-    public class DumbObjectMover : MonoBehaviour, ITimed
+    public class DumbObjectMover : MonoBehaviour, Gameplay.ITimed
     {
         [Header("Set Values")]
         [SerializeField] Vector3 direction;

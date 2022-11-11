@@ -1,38 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class BlockerDestroy : MonoBehaviour, IHittable
+namespace TimeDistortion.Gameplay.Props
 {
-    [SerializeField] GameObject BlockerDestroyed;
-    [SerializeField] float destroyTimer;
-    public Animator rockAnimator;
-    public float explosionImpulse;
-    private bool wasHited;
-    public void GetHitted(int damage)
+    public class BlockerDestroy : MonoBehaviour, IHittable
     {
-        wasHited = true;
-        rockAnimator.SetTrigger("Hited");
-    }
+        [SerializeField] GameObject BlockerDestroyed;
+        [SerializeField] float destroyTimer;
+        public Animator rockAnimator;
+        public float explosionImpulse;
+        private bool wasHited;
 
-    void Update()
-    {
-        if (!wasHited)
-            return;
-        destroyTimer -= Time.deltaTime;
-        if (destroyTimer < 0)
+        public void GetHitted(int damage)
         {
-            DestroyRock();
+            wasHited = true;
+            rockAnimator.SetTrigger("Hited");
         }
-    }
 
-    void DestroyRock()
-    {
-        BlockerDestroyed = Instantiate(BlockerDestroyed, transform.position, transform.rotation, transform.parent);
-        foreach (Rigidbody child in BlockerDestroyed.transform.GetComponentsInChildren<Rigidbody>())
+        void Update()
         {
-            child.AddExplosionForce(explosionImpulse, BlockerDestroyed.transform.position, 5f);
+            if (!wasHited)
+                return;
+            destroyTimer -= Time.deltaTime;
+            if (destroyTimer < 0)
+            {
+                DestroyRock();
+            }
         }
-        Destroy(this.gameObject);
+
+        void DestroyRock()
+        {
+            BlockerDestroyed = Instantiate(BlockerDestroyed, transform.position, transform.rotation, transform.parent);
+            foreach (Rigidbody child in BlockerDestroyed.transform.GetComponentsInChildren<Rigidbody>())
+            {
+                child.AddExplosionForce(explosionImpulse, BlockerDestroyed.transform.position, 5f);
+            }
+
+            Destroy(gameObject);
+        }
     }
 }

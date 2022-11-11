@@ -1,4 +1,7 @@
-﻿public interface IHittable
+﻿namespace TimeDistortion.Gameplay
 {
-    void GetHitted(int damage);
+    public interface IHittable
+    {
+        void GetHitted(int damage);
+    }
 }
