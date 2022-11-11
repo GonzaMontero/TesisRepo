@@ -31,11 +31,11 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         {
             //Draw closed door
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube( transform.parent.position + closedPos, coll.bounds.size);
+            Gizmos.DrawWireCube( closedPos, coll.bounds.size);
 
             //Draw opened door
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(transform.parent.position + openedPos, coll.bounds.size);
+            Gizmos.DrawWireCube(openedPos, coll.bounds.size);
 
             if(!setPositions) return;
             setPositions = false;
@@ -46,15 +46,15 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         //Methods
         void SetPositions()
         {
-            closedPos = transform.localPosition;
-            openedPos = transform.localPosition + coll.bounds.size.y * transform.up;
+            closedPos = transform.position;
+            openedPos = transform.position + coll.bounds.size.y * transform.up;
         }
         void Move()
         {
             if(moveDir.sqrMagnitude == 0) return;
 
             Vector3 movement = moveDir * speed * Time.deltaTime;
-            Vector3 pos = transform.localPosition;
+            Vector3 pos = transform.position;
 
             float disToTarget = Vector3.Distance(pos, targetPos);
             float disToMove = Vector3.Distance(pos, pos + movement);
@@ -62,7 +62,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             if (disToTarget < disToMove)
             {
                 moveDir = Vector3.zero;
-                transform.localPosition = targetPos;
+                transform.position = targetPos;
                 return;
             }
             
@@ -81,7 +81,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
                 targetPos = closedPos;
             }
 
-            moveDir = (targetPos - transform.localPosition).normalized;
+            moveDir = (targetPos - transform.position).normalized;
         }
     }
 }
