@@ -29,7 +29,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         void Update()
         {
             RotateAll();
-            CheckTrigger();
+            CheckActivation();
         }
 
 #if UNITY_EDITOR
@@ -146,8 +146,10 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             //If rotation is after next step rotation, check with the next step
             else return GetRotationStep(step + 1, rotation);
         }
-        void CheckTrigger()
+        void CheckActivation()
         {
+            if(active && !canDeactivate) return;
+            
             bool isTrigger = true;
 
             if (triggerMode == TriggerModes.AllSameRotation)

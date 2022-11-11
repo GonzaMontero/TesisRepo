@@ -4,8 +4,8 @@ namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class CircuitPartController : MonoBehaviour
     {
-        //[Header("Set Values")]
-        //[SerializeField]
+        [Header("Set Values")]
+        [SerializeField] internal bool canDeactivate = true;
         [Header("Runtime Values")]
         [SerializeField] internal bool active;
 

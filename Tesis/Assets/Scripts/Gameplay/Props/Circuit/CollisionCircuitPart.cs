@@ -53,6 +53,8 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         //Methods
         void CheckActivation()
         {
+            if(active && !canDeactivate) return;
+            
             bool wasActivated = active;
 
             //Only "Any Triggering" mode should start with active false
