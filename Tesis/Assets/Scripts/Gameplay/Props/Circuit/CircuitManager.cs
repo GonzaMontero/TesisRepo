@@ -6,14 +6,14 @@ namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class CircuitManager : MonoBehaviour
     {
-        [Serializable] enum TriggerModes { allTriggers }
+        [Serializable] enum ActivationModes { AllActive, AnyActive }
 
         [Header("Set Values")]
         [SerializeField] List<CircuitPartController> circuitParts;
-        [SerializeField] TriggerModes mode;
+        [SerializeField] ActivationModes mode;
         [SerializeField] bool canDeactivate = true;
         [Header("Runtime Values")]
-        [SerializeField] List<CircuitPartController> activatedCircuitParts;
+        [SerializeField] List<CircuitPartController> activeCircuitParts;
         [SerializeField] bool isComplete;
         
         public Action<bool> CircuitCompleted;
@@ -32,32 +32,39 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         {
             if(isComplete && !canDeactivate) return;
 
+            //If list update failed, exit
+            if(!UpdatePartList(part)) return;
+            
             bool wasComplete = isComplete;
             switch (mode)
             {
-                case TriggerModes.allTriggers:
-                    //If part was already in activated list, exit
-
-                    bool partWasInList = activatedCircuitParts.Contains(part);
-                    
-                    if (part.activated)
-                    {
-                        if (partWasInList) return;
-                        activatedCircuitParts.Add(part);
-                    }
-                    else if (partWasInList)
-                    {
-                        activatedCircuitParts.Remove(part);
-                    }
-                    
-                    isComplete = activatedCircuitParts.Count >= circuitParts.Count;
+                case ActivationModes.AllActive:
+                    isComplete = activeCircuitParts.Count >= circuitParts.Count;
                     break;
-                default:
+                case ActivationModes.AnyActive:
+                    isComplete = activeCircuitParts.Count > 0;
                     break;
             }
 
             if (wasComplete == isComplete) return;
             CircuitCompleted?.Invoke(isComplete);
+        }
+        bool UpdatePartList(CircuitPartController part)
+        {
+            bool partWasInList = activeCircuitParts.Contains(part);
+                    
+            //If part is active, but it was already in list, exit
+            if (part.active)
+            {
+                if (partWasInList) return false;
+                activeCircuitParts.Add(part);
+            }
+            else if (partWasInList)
+            {
+                activeCircuitParts.Remove(part);
+            }
+
+            return true;
         }
 
         //Event Receivers

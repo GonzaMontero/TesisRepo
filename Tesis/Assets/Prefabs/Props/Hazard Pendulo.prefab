@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2814303973188798460}
   - component: {fileID: 2918578748166728859}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Hazard Pendulo
   m_TagString: Untagged
   m_Icon: {fileID: 0}

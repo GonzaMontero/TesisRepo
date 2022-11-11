@@ -7,11 +7,11 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         //[Header("Set Values")]
         //[SerializeField]
         [Header("Runtime Values")]
-        [SerializeField] internal bool activated;
+        [SerializeField] internal bool active;
 
         public System.Action<CircuitPartController> Activated;
         
-        public bool isActive => activated;
+        public bool isActive => active;
 
         //Unity Events
 

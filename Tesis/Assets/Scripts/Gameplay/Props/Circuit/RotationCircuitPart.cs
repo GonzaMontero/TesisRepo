@@ -1,15 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TimeDistortion.Gameplay.Props.Circuit
 {
     public class RotationCircuitPart : CircuitPartController
     {
-        [System.Serializable] enum TriggerModes
-        {
-            allToTargetRotation,
-            allSameRotation
-        }
+        [System.Serializable] enum TriggerModes  { AllToTargetRotation, AllSameRotation }
 
         [Header("Child Values", order = -1)]
         [Header("Set Values")]
@@ -155,7 +150,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         {
             bool isTrigger = true;
 
-            if (triggerMode == TriggerModes.allSameRotation)
+            if (triggerMode == TriggerModes.AllSameRotation)
             {
                 targetSteps[0] = rotatorsStep[0];
             }
@@ -179,9 +174,9 @@ namespace TimeDistortion.Gameplay.Props.Circuit
                 if(isTrigger) break;
             }
 
-            if (isTrigger == activated) return;
+            if (isTrigger == active) return;
             
-            activated = isTrigger;
+            active = isTrigger;
             Activated?.Invoke(this); 
         }
     }
