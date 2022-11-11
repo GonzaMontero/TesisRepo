@@ -27,6 +27,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         [SerializeField] float chargeTimer;
         [SerializeField] bool activating;
         ITimed currentTarget;
+        ObjectTimeController targetTime;
 
         public Action<bool> TargetInScope;
         public Action ActivatingCharge;
@@ -34,8 +35,8 @@ namespace TimeDistortion.Gameplay.TimePhys
 
         public Vector3 publicHitPos { get; private set; }
         public Transform publicTargetTransform { get; private set; }
-        public Transform publicPlayer { get { return player; } }
-        public float publicCharge { get { return chargeTimer; } }
+        public Transform publicPlayer => player;
+        public float publicCharge => chargeTimer;
 
         //Unity Events
         private void Start()
@@ -105,7 +106,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             }
 
             //Check if target is valid (if not, deactivate oldest target)
-            ITimed target = hit.transform.GetComponent<ITimed>();
+            ObjectTimeController target = hit.transform.GetComponent<ObjectTimeController>();
             if (target == null)
             {
                 Debug.DrawRay(mainCam.transform.position, direction * slowdownRange, Color.red);
@@ -129,6 +130,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             hits = Physics.RaycastAll(ray.origin, ray.direction, slowdownRange, slowableLayers);
 
             ITimed objectToSlow = null;
+            ObjectTimeController objTime = null;
             Vector3 hitpos = Vector3.zero;
 
             //Search for target even between old targets
@@ -140,11 +142,11 @@ namespace TimeDistortion.Gameplay.TimePhys
 
                 //Check if target is valid (if not, skip)
                 objectToSlow = hittedObj.GetComponent<ITimed>();
-                if (objectToSlow == null) continue;
+                objTime = hittedObj.GetComponent<ObjectTimeController>();
+                
+                if (objectToSlow == null && objTime == null) continue;
 
                 //Check if target is already slowed, if it is, skip
-                ObjectTimeController objTime;
-                objTime = hittedObj.GetComponent<ObjectTimeController>();
                 if (objTime != null)
                     if (objTime.slowMoLeft > 0)
                     {
@@ -157,7 +159,7 @@ namespace TimeDistortion.Gameplay.TimePhys
                 break;
             }
 
-            if (objectToSlow == null)
+            if (objectToSlow == null && objTime == null)
             {
                 ClearTarget();
                 TargetInScope?.Invoke(false);
@@ -167,9 +169,10 @@ namespace TimeDistortion.Gameplay.TimePhys
             //Debug.Log("Valid Target");
 
             //If already targetting a valid object, exit
-            if (currentTarget != null) return;
+            if (currentTarget != null && !targetTime) return;
 
             currentTarget = objectToSlow;
+            targetTime = objTime;
             publicTargetTransform = hittedObj;
             publicHitPos = hitpos;
 
@@ -179,7 +182,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         void ActivateTarget()
         {
             //If there's no target, exit
-            if (currentTarget == null)
+            if (currentTarget == null && !targetTime)
             {
                 //Restart Charge
                 StartCoroutine(CancelRoutine());
@@ -193,6 +196,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             publicHitPos = Vector3.zero;
             publicTargetTransform = null;
             currentTarget = null;
+            targetTime = null;
         }
         void UpdateTimers()
         {
@@ -217,6 +221,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             ReleasedCharge?.Invoke();
             
             ITimed target = currentTarget;
+            ObjectTimeController time = targetTime;
             ClearTarget();
             
             while (chargeTimer > 0)
@@ -233,7 +238,14 @@ namespace TimeDistortion.Gameplay.TimePhys
             }
 
             //Slow target
-            target.ChangeTime(slowdownFactor);
+            if (target != null)
+            {
+                target.ChangeTime(slowdownFactor);
+            }
+            else
+            {
+                time.ChangeTime(slowdownFactor);
+            }
         }
         IEnumerator CancelRoutine()
         {
