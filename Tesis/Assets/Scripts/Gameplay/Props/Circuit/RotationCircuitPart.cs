@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace TimeDistortion.Gameplay.Props.Circuit
@@ -23,6 +23,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [Header("DEBUG")]
         [SerializeField] Vector3 gizmoRotationAxis;
         [SerializeField] float gizmoRotRayLength = 1;
+        [SerializeField] bool gizmoPerRotator = false;
 
 
         //Unity Events
@@ -39,9 +40,27 @@ namespace TimeDistortion.Gameplay.Props.Circuit
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
+            if (gizmoPerRotator)
+            {
+                for (int i = 0; i < rotators.Length; i++)
+                {
+                    GIZMODrawSteps(rotators[i].transform);
+                }
+            }
+            else
+            {
+                GIZMODrawSteps(transform);
+            }
+        }
+#endif
+        
+
+        //Methods
+        void GIZMODrawSteps(Transform target)
+        {
             Quaternion rotation = Quaternion.identity;
             Vector3 euler = Vector3.zero;
-            Vector3 pos = transform.position;
+            Vector3 pos = target.position;
             Vector3 offset = Vector3.zero;
             
             //Draw Steps
@@ -49,7 +68,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             for (int i = 0; i < rotations.Length; i++)
             {
                 rotation.eulerAngles = rotations[i] * gizmoRotationAxis;
-                offset = rotation * Vector3.forward;
+                offset = rotation * transform.forward;
                 offset *= gizmoRotRayLength;
                 Gizmos.DrawLine(pos, pos + offset);
             }
@@ -65,10 +84,6 @@ namespace TimeDistortion.Gameplay.Props.Circuit
                 Gizmos.DrawLine(pos, pos + offset);
             }
         }
-#endif
-        
-
-        //Methods
         void RotateAll()
         {
             for (int i = 0; i < rotators.Length; i++)
