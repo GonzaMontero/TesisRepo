@@ -43,6 +43,8 @@ namespace TimeDistortion.Gameplay.TimePhys
         }
         void Move()
         {
+            if(!target) Destroy(gameObject);
+            
             Vector3 updatedPos = target.position + offset;
             Vector3 dir = (updatedPos - transform.position).normalized;
 

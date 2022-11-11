@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5075179296606080291}
   - component: {fileID: 5075179296606080294}
   - component: {fileID: 5075179296606080295}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Time Ray VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

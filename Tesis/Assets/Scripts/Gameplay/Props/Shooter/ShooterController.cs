@@ -25,6 +25,9 @@ namespace TimeDistortion.Gameplay.Props
 
         private void Update()
         {
+            //If max projectiles, exit
+            if (currentProjectiles >= maxProjectilesInScreen) return;
+            
             if (timer >= timeBetweenProjectiles)
             {
                 CreateProjectile();

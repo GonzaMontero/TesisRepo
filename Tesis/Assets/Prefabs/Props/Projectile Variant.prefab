@@ -60,12 +60,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8552cc93b6a0946b07957532428710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: {fileID: 0}
+  time: {fileID: 5308870242706471098}
+  coll: {fileID: 0}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 14081
   selfDestroyTime: 0
   speed: 25
-  damage: 5
+  damage: 2
   useLocalSelfDestroy: 0
   destroyTimer: 0
+--- !u!114 &214783673272177809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433315546770259163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b29db0b51ec5b243bb9298cbb01b6e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 5308870242706471098}
+  loopAudio:
+    Guid:
+      Data1: 79954564
+      Data2: 1312304696
+      Data3: -1972240250
+      Data4: -1099311744
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
+  playingLoop: 0
 --- !u!114 &4672589818524557016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +107,43 @@ MonoBehaviour:
   impactVFXPrefab: {fileID: 1392484901424030496, guid: db0aff02c5433cf46b6b13b2bf2aa35e,
     type: 3}
   impactVFXTimer: 1.25
+  timer: 0
+--- !u!114 &4674919903547076208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433315546770259163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b89640b227613c49a340fd8cac795e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 5308870242706471098}
+  animator: {fileID: 0}
+  slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
+  auraFadeMod: 1
+  models: []
+  currentFX: {fileID: 0}
+  animatorHasTime: 0
+--- !u!114 &5308870242706471098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433315546770259163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82510fb104b858b4eb2d8667fba849b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localTimeMod: 0.5
+  slowMoDuration: 20
+  slowMoDelay: 0
+  slowable: 1
+  localTime: 1
   timer: 0
 --- !u!1001 &7775773491129483658
 PrefabInstance:

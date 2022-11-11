@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HazardController : MonoBehaviour
+namespace TimeDistortion.Gameplay.Props
 {
-    [SerializeField] int damage;
-
-    private void OnCollisionStay(Collision collision)
+    public class HazardController : MonoBehaviour
     {
-        IHittable hittedObject = collision.gameObject.GetComponent<IHittable>();
-        if (hittedObject == null)
-            return;
-        hittedObject.GetHitted(damage);
+        [SerializeField] int damage;
+
+        private void OnCollisionStay(Collision collision)
+        {
+            IHittable hittedObject = collision.gameObject.GetComponent<IHittable>();
+            if (hittedObject == null)
+                return;
+            hittedObject.GetHitted(damage);
+        }
     }
 }

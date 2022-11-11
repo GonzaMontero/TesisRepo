@@ -7,6 +7,8 @@ namespace TimeDistortion.Gameplay.Props
     {
         [Header("Set Values")]
         [SerializeField] TimePhys.ObjectTimeController time;
+        [SerializeField] BoxCollider coll;
+        [SerializeField] LayerMask collisionLayers;
         [SerializeField] float selfDestroyTime;
         [SerializeField] float speed;
         [SerializeField] int damage;
@@ -25,6 +27,10 @@ namespace TimeDistortion.Gameplay.Props
             {
                 time = GetComponent<TimePhys.ObjectTimeController>();
             }
+            if (coll == null)
+            {
+                coll = GetComponent<BoxCollider>();
+            }
         }
         void Update()
         {
@@ -35,27 +41,7 @@ namespace TimeDistortion.Gameplay.Props
                 return;
             }
             Move();
-        }
-        private void OnCollisionEnter(Collision other) //CLEAN LATER?
-        {
-            IHittable hittable = other.gameObject.GetComponent<IHittable>();
-            if (hittable != null)
-            {
-                hittable.GetHitted(damage);
-                if (other.transform.root.CompareTag("Player"))
-                {
-                    GetDestroyed();
-                    return;
-                }
-            }
-
-            if (!other.transform.root.CompareTag("Player") && other.transform != transform.parent)
-            {
-                //Debug.Log("KILL PROJECTILE");
-                GetDestroyed();
-            }
-
-            //Debug.Log("HIT PROJECTILE");
+            CheckCollisions();
         }
 
         //Methods
@@ -68,6 +54,37 @@ namespace TimeDistortion.Gameplay.Props
         void Move()
         {
             transform.Translate(transform.forward * (speed * time.delta), Space.World);
+        }
+        void CheckCollisions()
+        {
+            Vector3 pos = transform.position;
+            Vector3 size = coll.bounds.extents;
+            Quaternion rot = transform.rotation;
+
+            Collider[] collisions;
+            collisions = Physics.OverlapBox(pos, size, rot, collisionLayers);
+
+            for (int i = 0; i < collisions.Length; i++)
+            {
+                if(collisions[i] == coll) continue;
+                
+                IHittable hittable = collisions[i].gameObject.GetComponent<IHittable>();
+                if (hittable != null)
+                {
+                    hittable.GetHitted(damage);
+                    if (collisions[i].transform.root.CompareTag("Player"))
+                    {
+                        GetDestroyed();
+                        return;
+                    }
+                }
+
+                if (!collisions[i].transform.root.CompareTag("Player"))
+                {
+                    //Debug.Log("KILL PROJECTILE");
+                    GetDestroyed();
+                }
+            }
         }
         void GetDestroyed()
         {
