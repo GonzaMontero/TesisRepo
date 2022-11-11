@@ -384,8 +384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82510fb104b858b4eb2d8667fba849b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTimeMod: 1
-  slowMoDuration: 5
+  localTimeMod: 0.2
+  slowMoDuration: 10
   slowMoDelay: 0
   slowable: 1
   localTime: 1
