@@ -66,7 +66,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 14081
   selfDestroyTime: 0
-  speed: 25
+  speed: 12
   damage: 2
   useLocalSelfDestroy: 0
   destroyTimer: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localTimeMod: 0.5
-  slowMoDuration: 20
+  slowMoDuration: 10
   slowMoDelay: 0
   slowable: 1
   localTime: 1
