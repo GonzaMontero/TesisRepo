@@ -71,12 +71,13 @@ namespace TimeDistortion.Gameplay.Props
                 IHittable hittable = collisions[i].gameObject.GetComponent<IHittable>();
                 if (hittable != null)
                 {
+                    bool collidedWithPlayer;
+                    collidedWithPlayer = collisions[i].transform.root.CompareTag("Player"); 
+                    if (collidedWithPlayer && time.publicTime < 1) return;
+
                     hittable.GetHitted(damage);
-                    if (collisions[i].transform.root.CompareTag("Player"))
-                    {
-                        GetDestroyed();
-                        return;
-                    }
+                    GetDestroyed();
+                    return;
                 }
 
                 if (!collisions[i].transform.root.CompareTag("Player"))
