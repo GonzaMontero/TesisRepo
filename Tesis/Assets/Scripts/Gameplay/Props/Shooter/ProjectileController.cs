@@ -96,6 +96,7 @@ namespace TimeDistortion.Gameplay.Props
         public void GetPushed(Vector3 pushDirection)
         {
             transform.forward = pushDirection;
+            time.ChangeTime(1);
             Redirected?.Invoke();
         }
     }
