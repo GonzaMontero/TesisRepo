@@ -6,7 +6,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
     public class BreakableCircuitController : MonoBehaviour
     {
         [Header("Set Values")]
-        [SerializeField] CircuitManager manager;
+        [SerializeField] CollisionCircuitPart circuitPart;
         //[SerializeField] Rigidbody[] breakableParts;
         //[SerializeField] float explosionImpulse;
         //[Header("Runtime Values")]
@@ -15,7 +15,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         //Unity Events
         void Start()
         {
-            manager.CircuitCompleted += OnCircuitCompleted;
+            circuitPart.Activated += OnPartActivated;
         }
 
         //Methods
@@ -30,9 +30,9 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         }
         
         //Event Receiver
-        void OnCircuitCompleted(bool isCircuitComplete)
+        void OnPartActivated(CircuitPartController part)
         {
-            if (isCircuitComplete)
+            if (part.active)
             {
                 Break();
             }
