@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu/Intro Menu.unity
     guid: 8fea8364f14ea97428ccb4505ba4f96d
   - enabled: 1
+    path: Assets/Scenes/v0.8.unity
+    guid: c510a6d1728ec164a8296eebb23b749b
+  - enabled: 0
     path: Assets/Scenes/Training Rooms/Migue (Puzzle Level in process).unity
     guid: 02be063159175f8428b76aed3d41b9fb
   - enabled: 0
