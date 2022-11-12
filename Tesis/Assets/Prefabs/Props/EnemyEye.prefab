@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5413738614469657104}
   - component: {fileID: 8975301337542069685}
   - component: {fileID: 6587176681043687807}
+  - component: {fileID: 4762827836354537049}
   m_Layer: 0
   m_Name: EnemyEye
   m_TagString: Untagged
@@ -79,3 +80,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4762827836354537049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641705137033173162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a73076d97688fa4187af7f7848c79f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDeactivate: 0
+  active: 0
+  checkBoxes:
+  - posOffset: {x: 0, y: 0, z: 0}
+    radius: {x: 0.3, y: 0.4, z: 0.4}
+  mode: 0
+  layers:
+    serializedVersion: 2
+    m_Bits: 256
+  gizmosShouldDraw: 1
