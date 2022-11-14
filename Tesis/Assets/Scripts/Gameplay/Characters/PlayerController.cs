@@ -189,6 +189,14 @@ namespace TimeDistortion.Gameplay.Handler
             deltaTime = Time.deltaTime;
             bool wasOnGround = grounded;
             grounded = IsOnGround();
+            if (!grounded && usingSlowmo)
+            {
+                TimePhys.TimeChanger.Get().Release();
+                usingSlowmo = false;
+                
+                //SHOULD DO SOMETHING WITH THIS TOO
+                //cameraManager.OnTimeCharge(InputAction.CallbackContext);
+            }
             if (!wasOnGround && grounded)
             {
                 CollideWithGround();
