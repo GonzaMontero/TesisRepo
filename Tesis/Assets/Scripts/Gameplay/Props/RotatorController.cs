@@ -19,7 +19,7 @@ namespace TimeDistortion.Gameplay.Props
         //Methods
         public void Rotate()
         {
-            float rotValue = rotationSpeed * time.publicTime;
+            float rotValue = rotationSpeed * time.delta;
             transform.Rotate(rotAngle.normalized * rotValue);
             currentRot += rotValue;
             
