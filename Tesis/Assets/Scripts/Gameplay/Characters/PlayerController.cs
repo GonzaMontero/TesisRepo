@@ -97,27 +97,15 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] int baseRegens;
         [SerializeField] int currentRegens;
 
-        public InteractableController publicInteractable { get { return interactable; } }
-        
-        public int regenerators
-        {
-            get { return currentRegens; }
-        }
+        public InteractableController publicInteractable => interactable;
 
-        public bool publicCanInteract
-        {
-            get { return canInteract; }
-        }
+        public int regenerators => currentRegens;
 
-        public bool isSpawning
-        {
-            get { return spawning; }
-        }
+        public bool publicCanInteract => canInteract;
 
-        public bool isRegenerating
-        {
-            get { return regenerating; }
-        }
+        public bool isSpawning => spawning;
+
+        public bool isRegenerating => regenerating;
 
         public float paralysisTimer;
 

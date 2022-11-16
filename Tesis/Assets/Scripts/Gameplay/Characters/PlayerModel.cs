@@ -145,9 +145,13 @@ namespace TimeDistortion.Gameplay.Characters
                 animator.SetTrigger("Heal");
                 healOrbAnimator.SetTrigger("Appear");
             }
-            else
+            else if(controller.isRegenerating) //if player is in regen, make heal orb fade
             {
                 healOrbAnimator.SetTrigger("Disappear");
+            }
+            else //if player's heal was interrupted, make orb go puff
+            {
+                healOrbAnimator.SetTrigger("GoPuff");
             }
         }
     }

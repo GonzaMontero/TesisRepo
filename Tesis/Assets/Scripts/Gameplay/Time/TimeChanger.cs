@@ -20,7 +20,7 @@ namespace TimeDistortion.Gameplay.TimePhys
         [SerializeField] float chargeLength;
         [Tooltip("Global time while timeChange is charged")]
         [SerializeField] float chargeSlowdown;
-        [SerializeField] int maxTargets;
+        //[SerializeField] int maxTargets;
         [Header("Runtime Values")]
         [SerializeField] Camera mainCam;
         [SerializeField] Vector2 centerOfScreen;
