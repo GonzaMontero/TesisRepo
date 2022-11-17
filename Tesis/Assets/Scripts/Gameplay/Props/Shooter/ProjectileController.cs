@@ -40,8 +40,8 @@ namespace TimeDistortion.Gameplay.Props
                 GetDestroyed();
                 return;
             }
-            Move();
             CheckCollisions();
+            Move();
         }
 
         //Methods
@@ -64,6 +64,7 @@ namespace TimeDistortion.Gameplay.Props
             Collider[] collisions;
             collisions = Physics.OverlapBox(pos, size, rot, collisionLayers);
 
+            bool shouldGetDestoyed = false;
             for (int i = 0; i < collisions.Length; i++)
             {
                 if(collisions[i] == coll) continue;
@@ -76,15 +77,20 @@ namespace TimeDistortion.Gameplay.Props
                     if (collidedWithPlayer && time.publicTime < 1) return;
 
                     hittable.GetHitted(damage);
-                    GetDestroyed();
+                    shouldGetDestoyed = true;
                     return;
                 }
 
                 if (!collisions[i].transform.root.CompareTag("Player"))
                 {
                     //Debug.Log("KILL PROJECTILE");
-                    GetDestroyed();
+                    shouldGetDestoyed = true;
                 }
+            }
+
+            if (shouldGetDestoyed)
+            {
+                GetDestroyed();
             }
         }
         void GetDestroyed()
