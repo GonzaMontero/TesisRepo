@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TimeDistortion.Gameplay.Props.Circuit
 {
@@ -12,7 +13,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [SerializeField] TriggerModes triggerMode;
         [SerializeField] float[] rotations = new float [1];
         [Tooltip("On 'Same Rotation' mode, target step will be defined on runtime")]
-        [SerializeField] int[] targetSteps = new int [1];
+        [SerializeField] List<int> targetSteps = new List<int> (1);
         [Header("Runtime Values")]
         [SerializeField] int[] rotatorsStep;
         [Header("DEBUG")]
@@ -70,7 +71,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
 
             //Draw target step
             Gizmos.color = Color.green;
-            for (int i = 0; i < targetSteps.Length; i++)
+            for (int i = 0; i < targetSteps.Count; i++)
             {
                 euler.y = rotations[targetSteps[i]];
                 rotation.eulerAngles = euler.y * gizmoRotationAxis;
@@ -156,25 +157,18 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             {
                 targetSteps[0] = rotatorsStep[0];
             }
-            
-            //THIS IS UGLY, CLEAN
-            for (int i = 0; i < targetSteps.Length; i++)
+
+            //If only one rotator is not in target, trigger = false & go to next target step
+            for (int i = 0; i < rotatorsStep.Length; i++)
             {
-                //If only one rotator is not in target, trigger = false & go to next target step
-                for (int j = 0; j < rotatorsStep.Length; j++)
+                if (targetSteps.BinarySearch(rotatorsStep[i]) < 0)
                 {
-                    if (rotatorsStep[j] != targetSteps[i])
-                    {
-                        isTrigger = false;
-                        
-                        break;
-                    }
-            
-                    isTrigger = true;
+                    isTrigger = false;
+                    
+                    break;
                 }
-                
-                if(isTrigger) break;
             }
+                
 
             if (isTrigger == active) return;
             
