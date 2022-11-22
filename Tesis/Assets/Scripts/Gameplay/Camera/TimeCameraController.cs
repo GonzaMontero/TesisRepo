@@ -54,7 +54,7 @@ namespace TimeDistortion.Gameplay.Cameras
         void RotateVertical(float rotation)
         {
             //Get rotation
-            float rot = -rotation * rotationSpeeds.y * Time.deltaTime;
+            float rot = -rotation * rotationSpeeds.y * Time.unscaledDeltaTime;
 
             //Rotate
             camFollow.Rotate(rot, 0, 0);
@@ -79,7 +79,7 @@ namespace TimeDistortion.Gameplay.Cameras
         void RotateHorizontal(float rotation)
         {
             //Get rotation
-            float rot = rotation * rotationSpeeds.x * Time.deltaTime;
+            float rot = rotation * rotationSpeeds.x * Time.unscaledDeltaTime;
 
             //Rotate
             player.Rotate(0, rot, 0);
