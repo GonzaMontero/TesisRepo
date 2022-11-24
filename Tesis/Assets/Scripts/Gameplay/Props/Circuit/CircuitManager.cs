@@ -18,6 +18,8 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         
         public Action<bool> CircuitCompleted;
 
+        public bool publicIsComplete => isComplete;
+
         //Unity Events
         private void Start()
         {

@@ -4,15 +4,9 @@ using TimeDistortion.Gameplay.TimePhys;
 using UnityEngine;
 namespace TimeDistortion.Gameplay.Props
 {
-    public class DoorBlocker : BlockerController, ITimed
+    public class DoorBlocker : BlockerController
     {
-        [SerializeField] ObjectTimeController timeController;
         [SerializeField] Animator doorSpiningAnimator;
-
-        public void ChangeTime(float newTime)
-        {
-            timeController.ChangeTime(newTime);
-        }
 
         internal override void DestroyRock()
         {
