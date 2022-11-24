@@ -37,7 +37,7 @@ namespace TimeDistortion.Gameplay.Cameras
                 mainCam = Camera.main.transform;
             }
         }
-        private void Update()
+        internal virtual void Update()
         {
             if (!isLocked) return;
 

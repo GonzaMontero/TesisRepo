@@ -12,6 +12,7 @@ namespace TimeDistortion.Gameplay.Cameras
         [SerializeField] Vector2 rotationSpeeds;
         [Header("Runtime Values")]
         [SerializeField] Transform camFollow;
+        [SerializeField] Vector2 input;
 
         //Unity Events
         internal new void Start()
@@ -20,20 +21,19 @@ namespace TimeDistortion.Gameplay.Cameras
 
             camFollow = cam.Follow;
         }
+
+        internal override void Update()
+        {
+            Rotate();
+            
+            base.Update();
+        }
+
         public void OnRotateInput(InputAction.CallbackContext context)
         {
             if (isLocked) return;
 
-            Vector2 input = context.ReadValue<Vector2>();
-
-            if (rotationSpeeds.y > 0 && Mathf.Pow(input.y, 2) > 0)
-            {
-                RotateVertical(input.y);
-            }
-            if (rotationSpeeds.x > 0 && Mathf.Pow(input.x, 2) > 0)
-            {
-                RotateHorizontal(input.x);
-            }
+            input = context.ReadValue<Vector2>();
         }
 
         //Methods
@@ -50,6 +50,20 @@ namespace TimeDistortion.Gameplay.Cameras
 
             //Reset cam follow rotation
             camFollow.rotation = Quaternion.identity;
+        }
+
+        void Rotate()
+        {
+            if (isLocked) return;
+            
+            if (Mathf.Pow(input.y, 2) > 0 && rotationSpeeds.y > 0)
+            {
+                RotateVertical(input.y);
+            }
+            if (Mathf.Pow(input.x, 2) > 0 && rotationSpeeds.x > 0)
+            {
+                RotateHorizontal(input.x);
+            }
         }
         void RotateVertical(float rotation)
         {
