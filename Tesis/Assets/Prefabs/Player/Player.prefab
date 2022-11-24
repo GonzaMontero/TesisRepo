@@ -1018,6 +1018,13 @@ MonoBehaviour:
       Data3: 725968025
       Data4: -506881069
     Path: event:/SFX/Characters/Main/Habilities/SlowMo/Spell Launch
+  slowMoChargingAudio:
+    Guid:
+      Data1: 1146407640
+      Data2: 1256627489
+      Data3: -1173084739
+      Data4: -1976168127
+    Path: event:/SFX/Characters/Main/Habilities/SlowMo/Charging
   slowMoChargedAudio:
     Guid:
       Data1: 1858378122

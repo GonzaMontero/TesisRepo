@@ -15,6 +15,7 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] FMODUnity.EventReference hitAudio;
         [SerializeField] FMODUnity.EventReference hitStoneAudio;
         [SerializeField] FMODUnity.EventReference castSlowMoAudio;
+        [SerializeField] FMODUnity.EventReference slowMoChargingAudio;
         [SerializeField] FMODUnity.EventReference slowMoChargedAudio;
         [SerializeField] FMODUnity.EventReference slowMoFailedAudio;
         [SerializeField] FMODUnity.EventReference dashAudio;
@@ -51,7 +52,7 @@ namespace TimeDistortion.Gameplay.Characters
             playerHitter.HittedStone += OnPlayerHittedStone;
             //timeChanger.TargetInScope += OnSlowMoTargetting;
             timeChanger.ReleasedCharge += OnSlowMoReleased;
-            //timeChanger.ActivatingCharge += OnSlowMoCharging;
+            timeChanger.ActivatingCharge += OnSlowMoCharging;
         }
         private void Update()
         {
@@ -139,6 +140,12 @@ namespace TimeDistortion.Gameplay.Characters
         {
             FMODUnity.RuntimeManager.PlayOneShot(dashAudio);
         }
+        void OnSlowMoCharging()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(slowMoChargingAudio);
+            // slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            // slowMoAudioInstance.release(); 
+        }
         void OnSlowMoCharged()
         {
             slowMoChargedAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoChargedAudio);
@@ -187,12 +194,6 @@ namespace TimeDistortion.Gameplay.Characters
             slowMoReady = isReady;
         }*/
         
-        /*void OnSlowMoCharging()
-        {
-            //FMODUnity.RuntimeManager.PlayOneShot(slowMoChargeAudio);
-            //slowMoAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            //slowMoAudioInstance.release(); 
-        }*/
         #endregion
     }
 }
