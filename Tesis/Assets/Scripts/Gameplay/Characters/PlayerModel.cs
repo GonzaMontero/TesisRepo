@@ -13,7 +13,6 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] TrailRenderer dashTrail;
         [SerializeField] float swordTrailTime;
         [SerializeField] float dashTrailTime;
-        [SerializeField] int minHeavyDmg;
         [Header("Runtime Values")]
         [SerializeField] float swordTrailTimer;
         [SerializeField] float dashTrailTimer;
@@ -125,7 +124,7 @@ namespace TimeDistortion.Gameplay.Characters
         {
             if(healthChange > -1) return;
             
-            if (healthChange > minHeavyDmg)
+            if (healthChange > controller.minHeavyDmg)
             {
                 animator.SetTrigger("LightlyHitted");
             }

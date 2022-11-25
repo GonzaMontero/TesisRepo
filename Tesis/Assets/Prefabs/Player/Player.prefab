@@ -1046,9 +1046,45 @@ MonoBehaviour:
       Data3: -873047891
       Data4: -727602387
     Path: event:/SFX/Characters/Main/Motions/Dash
+  lightDamageAudio:
+    Guid:
+      Data1: -1102605092
+      Data2: 1185761963
+      Data3: -1853064265
+      Data4: 401915590
+    Path: event:/SFX/Characters/Main/Health System/Damage Received
+  heavyDamageAudio:
+    Guid:
+      Data1: -1243795140
+      Data2: 1166433248
+      Data3: 2116368048
+      Data4: -1763170542
+    Path: event:/SFX/Characters/Main/Health System/Body Fall
+  dieAudio:
+    Guid:
+      Data1: 649459461
+      Data2: 1093881421
+      Data3: 1831310739
+      Data4: -610811694
+    Path: event:/SFX/Characters/Main/Health System/Main Death
+  healAudio:
+    Guid:
+      Data1: 2100049514
+      Data2: 1301610871
+      Data3: -281885001
+      Data4: -1276538076
+    Path: event:/SFX/Characters/Main/Health System/Main Heal
+  spawnAudio:
+    Guid:
+      Data1: 107838287
+      Data2: 1100042187
+      Data3: 689682346
+      Data4: 1340424337
+    Path: event:/SFX/Characters/Main/Health System/Main Respawn
   playerOnAir: 0
   playerWalking: 0
   slowMoCharged: 0
+  playerSpawned: 0
 --- !u!1 &1431308610248082017
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,7 +3157,6 @@ MonoBehaviour:
   dashTrail: {fileID: 8333983027195949967}
   swordTrailTime: 0
   dashTrailTime: 1
-  minHeavyDmg: -2
   swordTrailTimer: 0.5
   dashTrailTimer: 0
 --- !u!1 &4317590047491261354

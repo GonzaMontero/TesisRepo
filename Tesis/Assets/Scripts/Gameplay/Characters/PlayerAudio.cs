@@ -19,10 +19,16 @@ namespace TimeDistortion.Gameplay.Characters
         [SerializeField] FMODUnity.EventReference slowMoChargedAudio;
         [SerializeField] FMODUnity.EventReference slowMoFailedAudio;
         [SerializeField] FMODUnity.EventReference dashAudio;
+        [SerializeField] FMODUnity.EventReference lightDamageAudio;
+        [SerializeField] FMODUnity.EventReference heavyDamageAudio;
+        [SerializeField] FMODUnity.EventReference dieAudio;
+        [SerializeField] FMODUnity.EventReference healAudio;
+        [SerializeField] FMODUnity.EventReference spawnAudio;
         [Header("Runtime Values")]
         [SerializeField] bool playerOnAir;
         [SerializeField] bool playerWalking;
         [SerializeField] bool slowMoCharged;
+        [SerializeField] bool playerSpawned;
         FMOD.Studio.EventInstance walkAudioInstance;
         FMOD.Studio.EventInstance slowMoChargedAudioInstance;
 
@@ -53,9 +59,17 @@ namespace TimeDistortion.Gameplay.Characters
             //timeChanger.TargetInScope += OnSlowMoTargetting;
             timeChanger.ReleasedCharge += OnSlowMoReleased;
             timeChanger.ActivatingCharge += OnSlowMoCharging;
+            controller.LifeChanged += OnPlayerLifeChanged;
+            controller.Died += OnPlayerDied;
         }
         private void Update()
         {
+            if (!playerSpawned && controller.isSpawning)
+            {
+                OnPlayerSpawned();
+                playerSpawned = true;
+            }
+            
             if (timeChanger.publicCharge >= 1)
             {
                 if (!slowMoCharged)
@@ -170,6 +184,31 @@ namespace TimeDistortion.Gameplay.Characters
             //FMODUnity.RuntimeManager.PlayOneShot(slowMoAudio);
             //slowMoAudioInstance = FMODUnity.RuntimeManager.CreateInstance(slowMoAudio);
             //slowMoAudioInstance.start();
+        }
+        void OnPlayerLifeChanged(int healthChange)
+        {
+            if (healthChange > -1)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(healAudio);
+                return;
+            }
+            
+            if (healthChange > controller.minHeavyDmg)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(lightDamageAudio);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(heavyDamageAudio);
+            }
+        }
+        void OnPlayerDied()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(dieAudio);
+        }
+        void OnPlayerSpawned()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(spawnAudio);
         }
 
         #region DEPRECATED

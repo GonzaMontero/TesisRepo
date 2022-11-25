@@ -99,6 +99,8 @@ namespace TimeDistortion.Gameplay.Handler
 
         public InteractableController publicInteractable => interactable;
 
+        public int minHeavyDmg => minHeavyDamage;
+        
         public int regenerators => currentRegens;
 
         public bool publicCanInteract => canInteract;
