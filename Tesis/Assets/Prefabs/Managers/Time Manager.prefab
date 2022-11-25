@@ -52,9 +52,8 @@ MonoBehaviour:
   cancelDelay: 0.5
   slowdownRange: 20
   slowdownFactor: 0.1
-  chargeLength: 1
-  chargeSlowdown: 0.5
-  maxTargets: 1
+  chargeLength: 0.25
+  chargeSlowdown: 0.15
   mainCam: {fileID: 0}
   centerOfScreen: {x: 0, y: 0}
   chargeTimer: 0
