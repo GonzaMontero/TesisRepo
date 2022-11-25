@@ -11,11 +11,16 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [Header("Set Values")]
         [SerializeField] List<CircuitPartController> circuitParts;
         [SerializeField] ActivationModes mode;
+        [Tooltip("If time is equal or less to 0, it'll never be locked active")] 
+        [SerializeField] float timeToLockActive = -1;
         [SerializeField] bool canDeactivate = true;
         [Header("Runtime Values")]
         [SerializeField] List<CircuitPartController> activeCircuitParts;
+        [SerializeField] float lockActiveTimer;
         [SerializeField] bool isComplete;
-        
+        [SerializeField] bool activeLocked;
+
+        public Action CircuitLocked;
         public Action<bool> CircuitCompleted;
 
         public bool publicIsComplete => isComplete;
@@ -29,9 +34,36 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             }
         }
 
+        void Update()
+        {
+            if (ShouldLockActive())
+            {
+                LockActivation();
+            }
+        }
+
         //Methods
+        bool ShouldLockActive()
+        {
+            if (timeToLockActive <= 0) return false; //It can't be locked active, so exit
+            if (!isComplete)
+            {
+                lockActiveTimer = 0;
+                return false; 
+            } //It's not active yet, so reset timer & exit
+            if(activeLocked) return false; //It's already locked, so exit
+
+            lockActiveTimer += Time.deltaTime;
+            return lockActiveTimer >= timeToLockActive;
+        }
+        void LockActivation()
+        {
+            activeLocked = true;
+            CircuitLocked?.Invoke();
+        }
         void CheckPartActivation(CircuitPartController part)
         {
+            if(activeLocked) return;
             if(isComplete && !canDeactivate) return;
 
             //If list update failed, exit

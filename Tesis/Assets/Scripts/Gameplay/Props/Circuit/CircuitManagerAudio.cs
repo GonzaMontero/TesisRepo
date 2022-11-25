@@ -9,6 +9,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [SerializeField] CircuitManager controller;
         [SerializeField] FMODUnity.EventReference completedAudio;
         [SerializeField] float playAudioDelay;
+        [SerializeField] bool onlyOnActiveLocked;
         [Header("Runtime Values")]
         [SerializeField] float delayTimer;
         [SerializeField] bool didAudioPlay;
@@ -21,7 +22,14 @@ namespace TimeDistortion.Gameplay.Props.Circuit
                 controller = GetComponent<CircuitManager>();
             }
 
-            controller.CircuitCompleted += OnCompleted;
+            if (onlyOnActiveLocked)
+            {
+                controller.CircuitLocked += OnLocked;
+            }
+            else
+            {
+                controller.CircuitCompleted += OnCompleted;
+            }
         }
 
         void Update()
@@ -43,6 +51,11 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         }
         
         //Event Receivers
+        void OnLocked()
+        {
+            delayTimer = playAudioDelay;
+            didAudioPlay = false;
+        }
         void OnCompleted(bool isComplete)
         {
             if(!isComplete) return;
