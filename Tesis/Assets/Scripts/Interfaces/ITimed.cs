@@ -1,4 +1,7 @@
-﻿public interface ITimed
+﻿namespace TimeDistortion.Gameplay
 {
-    void TimeChanged(float newTime);
+    public interface ITimed
+    {
+        void ChangeTime(float newTime);
+    }
 }

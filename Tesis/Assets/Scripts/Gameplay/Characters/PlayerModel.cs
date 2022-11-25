@@ -6,12 +6,17 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
-        [SerializeField] Physic.TimeManager timeManager;
-        [SerializeField] Animator animator;
+        [SerializeField] TimePhys.TimeChanger timeChanger;
         [SerializeField] GameObject swordTrail;
-        [SerializeField] float swordTrailTimer;
+        [SerializeField] Animator animator;
+        [SerializeField] Animator healOrbAnimator;
+        [SerializeField] TrailRenderer dashTrail;
+        [SerializeField] float swordTrailTime;
+        [SerializeField] float dashTrailTime;
         [Header("Runtime Values")]
-        [SerializeField] float timer;
+        [SerializeField] float swordTrailTimer;
+        [SerializeField] float dashTrailTimer;
+        //[SerializeField] bool spawned;
 
         //Unity Events
         private void Start()
@@ -20,9 +25,9 @@ namespace TimeDistortion.Gameplay.Characters
             {
                 animator = GetComponentInChildren<Animator>();
             }
-            if (!timeManager)
+            if (!timeChanger)
             {
-                timeManager = Physic.TimeManager.Get();
+                timeChanger = TimePhys.TimeChanger.Get();
             }
             if (!controller)
             {
@@ -30,23 +35,40 @@ namespace TimeDistortion.Gameplay.Characters
             }
 
             //controller.CameraLocked += OnCameraLocked;
-            controller.PlayerAttacked += OnPlayerAttacked;
-            controller.PlayerJumped += OnPlayerJumped;
-            controller.PlayerMoved += OnPlayerMoved;
-            //timeManager.SlowMoReady += ;
-            timeManager.ObjectSlowed += OnObjectSlowed;
-            //timeManager.ObjectUnSlowed +=;
+            controller.Attacked += OnPlayerAttacked;
+            controller.Jumped += OnPlayerJumped;
+            controller.Moved += OnPlayerMoved;
+            controller.LifeChanged += OnLifeChanged;
+            controller.Died += OnDied;
+            controller.Healing += OnHealing;
+            timeChanger.ActivatingCharge += OnTimeCharging;
+            timeChanger.ReleasedCharge += OnTimeReleased;
         }
         private void Update()
         {
+            // if (!spawned && !controller.isSpawning)
+            // {
+            //     spawned = true;
+            //     animator.SetTrigger("Spawned");
+            // }
             if (controller.grounded == animator.GetBool("OnAir"))
             {
                 animator.SetBool("OnAir", !controller.grounded);
             }
-
-            if (timer > 0)
+            if (controller.dashing != animator.GetBool("Dashing"))
             {
-                timer -= Time.deltaTime;
+                animator.SetBool("Dashing", controller.dashing);
+                UpdateDashTrail();
+            }
+
+            if (swordTrailTimer > 0)
+            {
+                swordTrailTimer -= Time.deltaTime;
+            }
+            if (!controller.dashing && dashTrailTimer > 0)
+            {
+                dashTrailTimer -= Time.deltaTime;
+                UpdateDashTrail();
             }
             else if(swordTrail.activeSelf)
             {
@@ -55,6 +77,20 @@ namespace TimeDistortion.Gameplay.Characters
         }
 
         //Methods
+        void UpdateDashTrail()
+        {
+            if(controller.dashing)
+            {
+                dashTrail.enabled = true;
+                dashTrailTimer = dashTrailTime;
+            }
+            else if(!(dashTrailTimer > 0))
+            {
+                dashTrail.enabled = false;
+            }
+
+            dashTrail.time = dashTrailTimer / dashTrailTime;
+        }
 
         //Event Receivers
         void OnCameraLocked(bool cameraLocked)
@@ -63,7 +99,7 @@ namespace TimeDistortion.Gameplay.Characters
         void OnPlayerAttacked()
         {
             animator.SetTrigger("Attack");
-            timer = swordTrailTimer;
+            swordTrailTimer = swordTrailTime;
             swordTrail.SetActive(true);
         }
         void OnPlayerJumped()
@@ -74,9 +110,48 @@ namespace TimeDistortion.Gameplay.Characters
         {
             animator.SetBool("Walking", playerMoved);
         }
-        void OnObjectSlowed(Transform notUsed, float _notUsed)
+        void OnTimeCharging()
         {
-            animator.SetTrigger("StopTime");
+            animator.SetBool("ChargingSlowMo", true);
+        }
+        void OnTimeReleased()
+        {
+            bool timeChanged = timeChanger.publicCharge >= 1 && timeChanger.publicTargetTransform;
+            animator.SetBool("SlowMoCharged", timeChanged);
+            animator.SetBool("ChargingSlowMo", false);
+        }
+        void OnLifeChanged(int healthChange)
+        {
+            if(healthChange > -1) return;
+            
+            if (healthChange > controller.minHeavyDmg)
+            {
+                animator.SetTrigger("LightlyHitted");
+            }
+            else
+            {
+                animator.SetTrigger("HeavilyHitted");
+            }
+        }
+        void OnDied()
+        {
+            animator.SetTrigger("Died");
+        }
+        void OnHealing(bool healing)
+        {
+            if (healing)
+            {
+                animator.SetTrigger("Heal");
+                healOrbAnimator.SetTrigger("Appear");
+            }
+            else if(controller.isRegenerating) //if player is in regen, make heal orb fade
+            {
+                healOrbAnimator.SetTrigger("Disappear");
+            }
+            else //if player's heal was interrupted, make orb go puff
+            {
+                healOrbAnimator.SetTrigger("GoPuff");
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5634331173357630780}
   - component: {fileID: 4058002639754144993}
   - component: {fileID: 4882825252005364875}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Disparador
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,8 +111,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7433315546770259163, guid: 9e4937cce1c909542947d4f32d8a072c,
     type: 3}
   projectilesEmpty: {fileID: 923281012239800236}
-  mainCam: {fileID: 0}
-  player: {fileID: 0}
   timeBetweenProjectiles: 1
   projectileSelfDestroyTime: 30
   maxProjectilesInScreen: 1
@@ -130,7 +128,7 @@ GameObject:
   - component: {fileID: 4721171908811607965}
   - component: {fileID: 7339096044856708267}
   - component: {fileID: 1192496159563089243}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Hole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 923281012239800236}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,37 +11,57 @@ namespace TimeDistortion.Gameplay
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController player;
         [SerializeField] Props.BreakableStone stone;
-        private bool gameOver = false;
+        [SerializeField] Props.InteractableController regenSpawn;
+        [SerializeField] float playerSpawnTime;
+        [Header("Runtime Values")]
+        [SerializeField] float playerSpawnTimer;
+        [SerializeField] bool gameOver = false;
+        [SerializeField] bool playerSpawned = false;
 
         public Action<bool> GameEnded; //bool = playerWon
+        //public Action PlayerSpawned;
+        public Action PlayerRegenEnabled;
 
         //Unity Events
         private void Start()
         {
-            stone.StoneBroke += OnStoneBroke;
             if (!player)
             {
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<Handler.PlayerController>();
             }
 
+            player.gameObject.SetActive(false);
+            playerSpawnTimer = playerSpawnTime;
+            
             player.Died += OnPlayerDied;
+            stone.StoneBroke += OnStoneBroke;
+            regenSpawn.Interacted += OnRegenPickedUp;
         }
-        private void OnDestroy()
+
+        void Update()
         {
-            //player.Died -= OnPlayerDied;
+            if (playerSpawnTimer > 0)
+            {
+                playerSpawnTimer -= Time.deltaTime;
+            }
+            else if (!playerSpawned)
+            {
+                player.gameObject.SetActive(true);
+                playerSpawned = true;
+            }
         }
 
         //Methods
         public void GameOver(bool playerWon)
         {
             GameEnded?.Invoke(playerWon);
+            player.enabled = false;
             gameOver = true;
         }
 
         public void OnRestartInput(InputAction.CallbackContext context)
         {
-            if(!gameOver)
-                return;
+            if(!gameOver) return;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
@@ -51,10 +71,14 @@ namespace TimeDistortion.Gameplay
             //Player lost, so invoke gameover and set "playerWon" to false
             GameOver(false);
         }
-
         void OnStoneBroke()
         {
             GameOver(true);
+        }
+        void OnRegenPickedUp(string notUsed)
+        {
+            player.EnableRegen();
+            PlayerRegenEnabled?.Invoke();
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Universal.UI;
 
 namespace TimeDistortion.Gameplay.Characters
 {
@@ -8,11 +9,16 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
-        [SerializeField] Slider healthBar;
-        [SerializeField] TextMeshProUGUI healthText;
+        [SerializeField] UISpriteBar healthBar;
+        [SerializeField] TextMeshProUGUI healthRegenText;
+        [SerializeField] TextMeshProUGUI interactText;
+        [SerializeField] GameObject interactPopUp;
         [Header("Runtime Values")]
+        [SerializeField] string originalInteractText;
+        [SerializeField] string interactMessage;
         [SerializeField] int baseHealth;
         [SerializeField] int currentHealth;
+        [SerializeField] bool spawned;
 
         //Unity Events
         private void Start()
@@ -23,12 +29,28 @@ namespace TimeDistortion.Gameplay.Characters
             }
 
             //Link Actions
-            controller.Hitted += OnHitted;
-            controller.Died += OnHitted;
+            controller.LifeChanged += OnLifeChanged;
+            //controller.Died += OnLifeChanged;
 
             //Set UI Values
             baseHealth = controller.publicData.baseStats.health;
-            OnHitted();
+            healthBar.publicSpriteQuantity = baseHealth;
+            healthBar.Set();
+            OnLifeChanged(1);
+            originalInteractText = interactText.text;
+        }
+
+        public void Update()
+        {
+            //Set player UI only after the player spawned
+            if (spawned) return;
+            if(controller.isSpawning) return;
+
+            //Set interact pop up
+            if (controller.publicCanInteract)
+                SetInteractText();
+            else
+                ClearInteractText();
         }
 
         private void OnDestroy()
@@ -41,22 +63,51 @@ namespace TimeDistortion.Gameplay.Characters
         //Methods
         void UpdateHealthBar()
         {
-            if (healthBar == null) return;
-            healthBar.value = (float)currentHealth / (float)baseHealth;
+            if (!healthBar) return;
+            healthBar.publicFilledSprites = currentHealth;
         }
-
-        void UpdateHealthText()
+        void UpdateHealthRegenText()
         {
-            if (healthText == null) return;
-            healthText.text = currentHealth + "/" + baseHealth;
+            if (!healthRegenText) return;
+            //healthRegenText.text = currentHealth + "/" + baseHealth;
+            healthRegenText.text = controller.regenerators.ToString();
+        }
+        void SetInteractText()
+        {
+            //if message is already writen, exit
+            if (interactMessage == controller.publicInteractable.interactedMessage) return;
+            
+            //Get interact message
+            interactMessage = controller.publicInteractable.interactedMessage;
+            
+            //Set interact text
+            //interactText.text = originalInteractText + "\n" + interactMessage;
+            
+            interactPopUp.SetActive(true);
+        }
+        void ClearInteractText()
+        {
+            if (!interactPopUp.activeSelf) return;
+
+            interactPopUp.SetActive(false);
+            
+            //Reset interact message
+            interactMessage = "";
+
+            //Reset interact text
+            //interactText.text = originalInteractText;
         }
 
         //Event Receivers
-        void OnHitted()
+        void OnLifeChanged(int healthDifference)
         {
             currentHealth = controller.publicData.currentStats.health;
             UpdateHealthBar();
-            UpdateHealthText();
+
+            if (healthDifference > 0)
+            {
+                UpdateHealthRegenText();
+            }
         }
     }
 }

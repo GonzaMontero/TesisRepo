@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Platform
   - CameraHolder
+  - Props
   layers:
   - Default
   - TransparentFX
@@ -17,13 +18,13 @@ TagManager:
   - 
   - 
   - Projectile
-  - 
+  - Stepable Prop
   - Controller
   - No Collision
   - Stepable
-  - 
-  - 
-  - 
+  - Props
+  - Glow
+  - Shooter
   - 
   - 
   - 

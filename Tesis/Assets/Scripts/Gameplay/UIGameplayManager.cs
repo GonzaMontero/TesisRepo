@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using TimeDistortion.Gameplay.Handler;
+using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace TimeDistortion.Gameplay
 {
@@ -10,13 +13,27 @@ namespace TimeDistortion.Gameplay
 
         [Header("Set Values")]
         [SerializeField] GameplayManager manager;
+        [SerializeField] PlayerController player;
         //[SerializeField] GameObject inGameUI;
         //[SerializeField] GameObject pauseUI;
         [SerializeField] GameObject gameOverUI;
-
-
+        [SerializeField] GameObject healthSpawnTuto;
+        [SerializeField] GameObject healthRegen;
+        [SerializeField] Image fadeToBlackImage;
+        [Tooltip("Seconds needed for the black image to disappear")]
+        [SerializeField] float fadeInTime;
+        [Tooltip("Seconds needed for the black image to appear")]
+        [SerializeField] float fadeOutTime;
+        [Tooltip("Seconds needed for game over UI activation")]
+        [SerializeField] float gameOverDelay;
+        //[SerializeField] float healthSpawnTutoDuration;
         [Header("Runtime Values")]
         [SerializeField] GameplayScreens currentState = GameplayScreens.inGame;
+        [SerializeField] GameplayScreens targetState = GameplayScreens.inGame;
+        //[SerializeField] float healthSpawnTutoTimer;
+        [SerializeField] float delayTimer;
+        [SerializeField] float fadeTimer;
+        [SerializeField] bool fadingIn;
 
         //Unity Events
         private void Start()
@@ -27,9 +44,54 @@ namespace TimeDistortion.Gameplay
                 manager = GameplayManager.Get();
             }
 
+            if (!player)
+            {
+                player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            }
+
+            fadingIn = true;
+            fadeTimer = fadeInTime;
+            UpdateFade();
+
             //Link action
             manager.GameEnded += OnGameEnded;
             //manager.GamePaused += OnPause;
+            //manager.PlayerSpawned += OnPlayerSpawned;
+            manager.PlayerRegenEnabled += OnPlayerRegenEnabled;
+            player.Healing += OnPlayerFirstHealed;
+        }
+
+        void Update()
+        {
+            if (delayTimer > 0)
+            {
+                delayTimer -= Time.deltaTime;
+            }
+            else if (currentState != targetState)
+            {
+                currentState = targetState;
+
+                switch (currentState)
+                {
+                    case GameplayScreens.gameOver:
+                        SetGameOver();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // if (healthSpawnTutoTimer > 0)
+            // {
+            //     healthSpawnTutoTimer -= Time.deltaTime;
+            //     if (!(healthSpawnTutoTimer > 0))
+            //     {
+            //         healthSpawnTuto.SetActive(false);
+            //     }
+            // }
+            
+            if(fadeTimer > 0)
+               UpdateFade();
         }
         //private void OnDestroy()
         //{
@@ -46,11 +108,36 @@ namespace TimeDistortion.Gameplay
         //    currentState = pause ? GameplayScreens.pause : GameplayScreens.inGame;
         //    SwitchUIStage();
         //}
+        void UpdateFade()
+        {
+            fadeTimer -= Time.deltaTime;
+
+            Color fadeColor = fadeToBlackImage.color;
+            
+            if(fadingIn)
+            {
+                fadeColor.a = Mathf.Lerp(0, 1, fadeTimer / fadeInTime);
+                if (fadeTimer <= 0)
+                {
+                    fadeToBlackImage.enabled = false;
+                }
+            }
+            else
+            {
+                fadeColor.a = Mathf.Lerp(1, 0, fadeTimer / fadeOutTime);
+                if (!fadeToBlackImage.enabled)
+                    fadeToBlackImage.enabled = true;
+            }
+
+            fadeToBlackImage.color = fadeColor;
+        }
         void SetGameOver()
         {
             //GameManager.Get().SetPause(true);
 
-            currentState = GameplayScreens.gameOver;
+            fadingIn = false;
+            fadeTimer = fadeOutTime;
+            
             SwitchUIStage();
         }
         void SwitchUIStage()
@@ -79,13 +166,29 @@ namespace TimeDistortion.Gameplay
         }
 
         //Event receivers
+        void OnGameEnded(bool playerWon)
+        {
+            delayTimer = gameOverDelay;
+            targetState = GameplayScreens.gameOver;
+        }
+        // void OnPlayerSpawned()
+        // {
+        //     
+        // }
         //void OnPause()
         //{
         //    SetPause(manager.publicPause);
         //}
-        void OnGameEnded(bool playerWon)
+        void OnPlayerRegenEnabled()
         {
-            SetGameOver();
+            healthRegen.SetActive(true);
+            healthSpawnTuto.SetActive(true);
+        }
+        void OnPlayerFirstHealed(bool healing)
+        {
+            if(!healing) return;
+            healthSpawnTuto.SetActive(false);
+            player.Healing -= OnPlayerFirstHealed;
         }
     }
 }

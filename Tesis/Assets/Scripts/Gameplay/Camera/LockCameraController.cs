@@ -2,14 +2,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TimeDistortion.Gameplay
+namespace TimeDistortion.Gameplay.Cameras
 {
-    public class LockCameraController : MonoBehaviour
+    public class LockCameraController : CameraController
     {
         [Header("Set Values")]
-        [SerializeField] Cinemachine.CinemachineVirtualCamera cam;
+        [SerializeField] internal Transform player;
         [SerializeField] Transform mainCam;
-        [SerializeField] Transform player;
         [SerializeField] LayerMask lockLayers;
         [Tooltip("Which layers will the camera ignore " +
                     "when checking if the target is behind a wall?")]
@@ -20,13 +19,15 @@ namespace TimeDistortion.Gameplay
 
         [Header("Runtime Values")]
         [SerializeField] Transform lockTarget;
-        [SerializeField] bool isLocked;
+        [SerializeField] internal bool isLocked;
 
         public System.Action<bool> CameraLocked;
 
         //Unity Events
-        private void Start()
+        internal new void Start()
         {
+            base.Start();
+
             if (!player)
             {
                 player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -36,7 +37,7 @@ namespace TimeDistortion.Gameplay
                 mainCam = Camera.main.transform;
             }
         }
-        private void Update()
+        internal virtual void Update()
         {
             if (!isLocked) return;
 
@@ -67,6 +68,12 @@ namespace TimeDistortion.Gameplay
         {
             if (!context.performed) return;
 
+            UpdateLockOn();
+        }
+
+        //Methods
+        internal virtual void UpdateLockOn()
+        {
             if (isLocked)
             {
                 ClearLock();
@@ -77,8 +84,6 @@ namespace TimeDistortion.Gameplay
                 SetLock();
             }
         }
-
-        //Methods
         void ClearLock()
         {
             cam.LookAt = null;

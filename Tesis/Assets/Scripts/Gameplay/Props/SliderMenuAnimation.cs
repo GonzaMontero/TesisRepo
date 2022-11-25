@@ -18,6 +18,8 @@ public class SliderMenuAnimation : MonoBehaviour
             {
                 bool isOpen = animator.GetBool("ShowControls");
                 animator.SetBool("ShowControls", !isOpen);
+                Cursor.lockState = !isOpen?CursorLockMode.None:CursorLockMode.Locked;
+                Cursor.visible = !isOpen;
             }
         }
     }

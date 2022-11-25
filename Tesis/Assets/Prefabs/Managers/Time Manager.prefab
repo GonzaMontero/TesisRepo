@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8193310065279458634}
-  - component: {fileID: 8193310065279458636}
+  - component: {fileID: 6098916640010640047}
   - component: {fileID: 8193310065279458637}
   m_Layer: 0
   m_Name: Time Manager
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8193310065279458636
+--- !u!114 &6098916640010640047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,30 +41,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8193310065279458633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 661530cfe55702a499162c0c758a372b, type: 3}
+  m_Script: {fileID: 11500000, guid: 34d9f52cb28087c48bdfe4ce1e79e63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   slowableLayers:
     serializedVersion: 2
-    m_Bits: 257
-  slowdownDelay: 0.5
-  slowdownRange: 50
+    m_Bits: 8449
+  slowdownDelay: 1
+  cancelDelay: 0.5
+  slowdownRange: 20
   slowdownFactor: 0.1
-  slowdownLength: 20
-  slowdownExtraLength: 5
-  cooldownLength: 2
-  maxTargets: 1
-  targets: []
-  currentTarget:
-    transform: {fileID: 0}
-    timer: 0
-    ID: 0
+  chargeLength: 0.25
+  chargeSlowdown: 0.15
   mainCam: {fileID: 0}
   centerOfScreen: {x: 0, y: 0}
-  cooldownTimer: 1
-  slowMoIsReady: 0
-  playerOnFloor: 0
+  chargeTimer: 0
+  activating: 0
 --- !u!114 &8193310065279458637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,10 +70,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa88c31cce8bc6448e2bc6f8aec82a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  slowAuraMaterial: {fileID: 2100000, guid: 4b0634099a0695844be6824ada512e71, type: 2}
-  slowedObjects: []
+  controller: {fileID: 6098916640010640047}
+  slowMoRayPrefab: {fileID: 5075179296606080288, guid: 8985a9ca0d3a38f4c9b620e9b768d13d,
+    type: 3}
+  slowAuraMaterial: {fileID: 2100000, guid: 1f3b1b996f9c5384f842847e91a32144, type: 2}
   auraFadeMod: 0.8
+  slowableObjs: []
+  slowableObjects: []
   newObjectSlowed: {fileID: 0}
   newObjectUnSlowed: {fileID: 0}
   newTimer: 0

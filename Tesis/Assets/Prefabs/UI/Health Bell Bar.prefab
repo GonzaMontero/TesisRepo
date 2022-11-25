@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4418522735976586242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4418522735976586253}
+  - component: {fileID: 4418522735976586252}
+  m_Layer: 5
+  m_Name: Health Bell Bar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4418522735976586253
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4418522735976586242}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -303, y: 254.35}
+  m_SizeDelta: {x: -657.98926, y: -527.1633}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4418522735976586252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4418522735976586242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9617b798968df6e4fa77c7ae1e27349d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritePrefab: {fileID: 1326392031000159750, guid: 23bc636dc8e97df4dafbb3575b3073e8,
+    type: 3}
+  emptiedVFX: {fileID: 2423427814302982287, guid: 4b74595c67aa8154bb295d00d3b8ddd6,
+    type: 3}
+  rectT: {fileID: 4418522735976586253}
+  filledImage: {fileID: 21300000, guid: 3d4a2fc5c74422141b4af3c98050ee51, type: 3}
+  emptyImage: {fileID: 21300000, guid: 62cd4e3d9f9fb064fa124d7bad45ba70, type: 3}
+  spriteSpacing: 0
+  spriteQuantity: 0
+  sprites: []
+  filledSprites: 0
+  oldFilledSprites: 0
+  runOnEditMode: 1
+  resetSprites: 0

@@ -2,7 +2,7 @@
 
 namespace TimeDistortion.Testing
 {
-    public class DumbObjectMover : MonoBehaviour, ITimed
+    public class DumbObjectMover : MonoBehaviour, Gameplay.ITimed
     {
         [Header("Set Values")]
         [SerializeField] Vector3 direction;
@@ -26,7 +26,7 @@ namespace TimeDistortion.Testing
         }
 
         //Interface Implementations
-        public void TimeChanged(float newTime)
+        public void ChangeTime(float newTime)
         {
             localTime = newTime;
             //rb.
