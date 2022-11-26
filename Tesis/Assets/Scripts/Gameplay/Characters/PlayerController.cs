@@ -224,9 +224,16 @@ namespace TimeDistortion.Gameplay.Handler
                 ProjectVelocity();
                 SetNewRotation(true);
             }
+            else if (usingSlowmo)
+            {
+                SetNewRotation(true);
+                Debug.Log("Rotating while slow mo");
+                Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
+                                    "\n Current Rot: " + transform.rotation.eulerAngles);
+            }
 
             UpdateRigidVelocity();
-            HandleRotation(deltaTime);
+            HandleRotation(Time.unscaledDeltaTime);
         }
 
         private void LateUpdate()
@@ -327,7 +334,7 @@ namespace TimeDistortion.Gameplay.Handler
         private void HandleRotation(float delta)
         {
             if (transform.rotation == targetRotation) return;
-            if (usingSlowmo) return;
+            //if (usingSlowmo) return;
             float frameRot = rotationSpeed * delta;
 
             if (!grounded)
@@ -549,11 +556,19 @@ namespace TimeDistortion.Gameplay.Handler
 
         public void OnRotateInput(InputAction.CallbackContext context)
         {
-            if (usingSlowmo) return;
-
-            //Calculate velocity and rotation after camera moved;
-            ProjectVelocity();
-            SetNewRotation(false);
+            if (usingSlowmo)
+            {
+                // SetNewRotation(true);
+                // Debug.Log("Rotating while slow mo");
+                // Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
+                //                     "\n Current Rot: " + transform.rotation.eulerAngles);
+            }
+            else
+            {
+                //Calculate velocity and rotation after camera moved;
+                ProjectVelocity();
+                SetNewRotation(false);
+            }
         }
 
         public void OnMovementInput(InputAction.CallbackContext context)
