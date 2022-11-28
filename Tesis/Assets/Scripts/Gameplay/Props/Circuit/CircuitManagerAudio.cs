@@ -13,6 +13,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [Header("Runtime Values")]
         [SerializeField] float delayTimer;
         [SerializeField] bool didAudioPlay;
+        [SerializeField] bool audioShouldPlay;
 
         //Unity Events
         private void Start()
@@ -34,7 +35,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
 
         void Update()
         {
-            if(!controller.publicIsComplete) return;
+            if(!audioShouldPlay) return;
             
             //Wait delay, then play audio
             if (delayTimer > 0)
@@ -55,6 +56,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         {
             delayTimer = playAudioDelay;
             didAudioPlay = false;
+            audioShouldPlay = true;
         }
         void OnCompleted(bool isComplete)
         {
@@ -62,6 +64,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             
             delayTimer = playAudioDelay;
             didAudioPlay = false;
+            audioShouldPlay = true;
         }
     }
 }
