@@ -908,9 +908,12 @@ MonoBehaviour:
   interactable: {fileID: 0}
   canInteract: 0
   jumpHeight: 5.5
+  jumping: 0
   usingSlowmo: 0
   spawnParalysisTime: 2
   spawning: 1
+  coyoteDuration: 0.6
+  coyoteTimer: 0
   fallParalysisTime: 0.3
   minHeavyDamage: 2
   hittedLightParalysisTime: 0.5

@@ -78,9 +78,12 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] InteractableController interactable;
         [SerializeField] [Tooltip("THIS IS RUNTIME")] bool canInteract;
         [SerializeField] float jumpHeight = 1.0f;
+        [SerializeField] bool jumping;
         [SerializeField] bool usingSlowmo;
         [SerializeField] float spawnParalysisTime;
         [SerializeField] bool spawning = true;
+        [SerializeField] float coyoteDuration;
+        [SerializeField] float coyoteTimer;
         [SerializeField] float fallParalysisTime;
         [Tooltip("How much damage is needed for heavy threshold")] 
         [SerializeField] int minHeavyDamage;
@@ -177,39 +180,82 @@ namespace TimeDistortion.Gameplay.Handler
         private void Update()
         {
             deltaTime = Time.deltaTime;
+            
             bool wasOnGround = grounded;
-            grounded = IsOnGround();
-            if (!grounded && usingSlowmo)
+            bool isOnGround = IsOnGround();
+            //grounded = true;
+
+            if (isOnGround)
             {
-                TimePhys.TimeChanger.Get().Release();
-                usingSlowmo = false;
+                coyoteTimer = -1;
                 
-                //SHOULD DO SOMETHING WITH THIS TOO
-                //cameraManager.OnTimeCharge(InputAction.CallbackContext);
+                if (!wasOnGround)
+                {
+                    CollideWithGround();
+                    Debug.Log("Collide!");
+                }
             }
-            if (!wasOnGround && grounded)
+            else
             {
-                CollideWithGround();
+                if (wasOnGround)
+                {
+                    if (jumping)
+                    {
+                        grounded = false;
+                    }
+                    //If player was on ground and now it isn't, stay "grounded" for a fixed duration
+                    else if (coyoteTimer <= -1)
+                    {
+                        coyoteTimer = coyoteDuration;
+                        Debug.Log("Coyote On!");
+                    }
+                }
+
+                //If using slowmo while on air, stop using slow mo
+                if (usingSlowmo)
+                {
+                    TimePhys.TimeChanger.Get().Release();
+                    usingSlowmo = false;
+
+                    //SHOULD DO SOMETHING WITH THIS TOO
+                    //cameraManager.OnTimeCharge(InputAction.CallbackContext);
+                }
             }
 
             //Check for interactables
             CanInteract();
 
             //Advance Timers
+            if (coyoteTimer > 0)
+            {
+                coyoteTimer -= deltaTime;
+                grounded = true;
+            }
+            else if(coyoteTimer > -1)
+            {
+                coyoteTimer = -1;
+                Debug.Log("Coyote Off!");
+                grounded = false;
+            }
             if (dashTime > 0)
-                dashTime -= Time.deltaTime;
-
+            {
+                dashTime -= deltaTime;
+            }
             if (invulnerabilityTimer > 0)
-                invulnerabilityTimer -= Time.deltaTime;
-
+            {
+                invulnerabilityTimer -= deltaTime;
+            }
             if (regenTimer > 0)
-                regenTimer -= Time.deltaTime;
+            {
+                regenTimer -= deltaTime;
+            }
             else if (regenTimer > -1)
+            {
                 UpdateRegeneration();
-
+            }
             if (paralysisTimer > 0)
             {
-                paralysisTimer -= Time.deltaTime;
+                paralysisTimer -= deltaTime;
                 if (projectedVelocity.sqrMagnitude > 0)
                     StopRigidMovement();
                 return;
@@ -227,9 +273,9 @@ namespace TimeDistortion.Gameplay.Handler
             else if (usingSlowmo)
             {
                 SetNewRotation(true);
-                Debug.Log("Rotating while slow mo");
-                Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
-                                    "\n Current Rot: " + transform.rotation.eulerAngles);
+                // Debug.Log("Rotating while slow mo");
+                // Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
+                //                     "\n Current Rot: " + transform.rotation.eulerAngles);
             }
 
             UpdateRigidVelocity();
@@ -354,6 +400,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (grounded)
             {
                 rigidbody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
+                jumping = true;
                 Jumped?.Invoke();
             }
         }
@@ -493,6 +540,8 @@ namespace TimeDistortion.Gameplay.Handler
             //     StopRigidMovement();
             // }
 
+            grounded = true;
+            jumping = false;
             paralysisTimer += fallParalysisTime;
         }
 
