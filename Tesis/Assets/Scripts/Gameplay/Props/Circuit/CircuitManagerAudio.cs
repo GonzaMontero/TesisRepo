@@ -10,6 +10,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [SerializeField] FMODUnity.EventReference completedAudio;
         [SerializeField] float playAudioDelay;
         [SerializeField] bool onlyOnActiveLocked;
+        [SerializeField] bool shouldPlayOnce = true;
         [Header("Runtime Values")]
         [SerializeField] float delayTimer;
         [SerializeField] bool didAudioPlay;
@@ -47,7 +48,8 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         //Methods
         void PlayAudio()
         {
-            didAudioPlay = true;
+            didAudioPlay = shouldPlayOnce;
+            audioShouldPlay = false;
             FMODUnity.RuntimeManager.PlayOneShot(completedAudio);
         }
         
