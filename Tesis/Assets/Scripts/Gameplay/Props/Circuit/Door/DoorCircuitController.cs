@@ -21,6 +21,10 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         private void Start()
         {
             manager.CircuitCompleted += OnCircuitCompleted;
+            
+            //Init with all doors closed
+            targetPos = closedPos;
+            transform.position = targetPos;
         }
         void Update()
         {
