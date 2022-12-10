@@ -54,7 +54,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         }
         
         //Event Receivers
-        void OnLocked()
+        void OnLocked(CircuitManager manager)
         {
             delayTimer = playAudioDelay;
             didAudioPlay = false;

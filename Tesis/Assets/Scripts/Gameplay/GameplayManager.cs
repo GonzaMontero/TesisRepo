@@ -13,10 +13,12 @@ namespace TimeDistortion.Gameplay
         [SerializeField] Props.BreakableStone stone;
         [SerializeField] Props.InteractableController regenSpawn;
         [SerializeField] float playerSpawnTime;
+
         [Header("Runtime Values")]
         [SerializeField] float playerSpawnTimer;
         [SerializeField] bool gameOver = false;
         [SerializeField] bool playerSpawned = false;
+        [SerializeField] PlayerRespawn playerRespawn;
 
         public Action<bool> GameEnded; //bool = playerWon
         //public Action PlayerSpawned;
@@ -32,7 +34,8 @@ namespace TimeDistortion.Gameplay
 
             player.gameObject.SetActive(false);
             playerSpawnTimer = playerSpawnTime;
-            
+            playerRespawn = PlayerRespawn.Get();
+
             player.Died += OnPlayerDied;
             stone.StoneBroke += OnStoneBroke;
             regenSpawn.Interacted += OnRegenPickedUp;
@@ -61,8 +64,8 @@ namespace TimeDistortion.Gameplay
 
         public void OnRestartInput(InputAction.CallbackContext context)
         {
-            if(!gameOver) return;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //if(!gameOver) return;
+            playerRespawn.OnRestart();
         }
 
         //Event Receivers
