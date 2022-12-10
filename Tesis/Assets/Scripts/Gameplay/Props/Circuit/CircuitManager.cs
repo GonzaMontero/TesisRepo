@@ -20,8 +20,9 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [SerializeField] bool isComplete;
         [SerializeField] bool activeLocked;
 
-        public Action CircuitLocked;
+        public Action<CircuitManager> CircuitLocked;
         public Action<bool> CircuitCompleted;
+        public Action<bool> ForcedActiveRespawn;
 
         public bool publicIsComplete => isComplete;
 
@@ -59,7 +60,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         void LockActivation()
         {
             activeLocked = true;
-            CircuitLocked?.Invoke();
+            CircuitLocked?.Invoke(this);
         }
         void CheckPartActivation(CircuitPartController part)
         {
@@ -99,6 +100,13 @@ namespace TimeDistortion.Gameplay.Props.Circuit
             }
 
             return true;
+        }
+
+        public void ForceActive()
+        {
+            isComplete = true;
+            activeLocked = true;
+            ForcedActiveRespawn?.Invoke(isComplete);
         }
 
         //Event Receivers
