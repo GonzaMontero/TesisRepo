@@ -66,6 +66,7 @@ namespace TimeDistortion
             }
 
             playerTransform.position = currentCP.position;
+            playerTransform.rotation = currentCP.rotation;
         }
 
         public void SetCP(CircuitPartController part)
