@@ -112,13 +112,15 @@ namespace TimeDistortion.Gameplay.Characters
         }
         void OnTimeCharging()
         {
-            animator.SetBool("ChargingSlowMo", true);
+            animator.SetBool("AimingSlowMo", true);
         }
         void OnTimeReleased()
         {
-            bool timeChanged = timeChanger.publicCharge >= 1 && timeChanger.publicTargetTransform;
-            animator.SetBool("SlowMoCharged", timeChanged);
-            animator.SetBool("ChargingSlowMo", false);
+            //If TimeChanger still has a target, an object was slowed
+            if(timeChanger.publicTargetTransform) animator.SetTrigger("SlowObject");
+            
+            //Player stopped aiming with slow mo
+            animator.SetBool("AimingSlowMo", false);
         }
         void OnLifeChanged(int healthChange)
         {

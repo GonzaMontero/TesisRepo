@@ -227,7 +227,7 @@ namespace TimeDistortion.Gameplay.TimePhys
             while (chargeTimer > 0)
             {
                 //Update Timer
-                chargeTimer -= Time.deltaTime / slowdownDelay;
+                chargeTimer -= Time.unscaledDeltaTime / slowdownDelay;
 
                 if (chargeTimer < 0) chargeTimer = 0;
 
