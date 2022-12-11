@@ -48,6 +48,8 @@ namespace TimeDistortion.Gameplay.Cameras
             base.SetCameraActive(isActive);
 
             //Reset cam follow rotation
+            if (!camFollow)
+                return;
             camFollow.localRotation = Quaternion.identity;
             targetRotationY = camFollow.localRotation;
             targetRotationX = player.localRotation;
