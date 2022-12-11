@@ -29,6 +29,10 @@ namespace TimeDistortion.Gameplay.Cameras
         internal override void Update()
         {
             if(!cam.enabled) return;
+            if (input.magnitude > 0)
+            {
+                SetRotation();
+            }
             
             Rotate();
             base.Update();
@@ -39,7 +43,6 @@ namespace TimeDistortion.Gameplay.Cameras
             if(!cam.enabled) return;
 
             input = context.ReadValue<Vector2>();
-            SetRotatation();
         }
 
         //Methods
@@ -61,7 +64,7 @@ namespace TimeDistortion.Gameplay.Cameras
             //Reset cam follow rotation
             camFollow.rotation = Quaternion.identity;
         }
-        void SetRotatation()
+        void SetRotation()
         {
             if (isLocked) return;
 
