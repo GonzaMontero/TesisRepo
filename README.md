@@ -4,7 +4,8 @@
 
 # Tempomancy
 
-PONER LA DESCRIPCION LARGA DEL JUEGO ACA.
+Tempomancy is a puzzle-action game where you can manipulate time itself. 
+Travel through an esoteric and mysterious place, and unfold the enigma of the tempomancy.
 
 This is a game being developed by students from <a href="https://www.imagecampus.edu.ar/">Image Campus</a>
 
