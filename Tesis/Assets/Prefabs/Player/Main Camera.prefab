@@ -494,13 +494,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
   m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
+  m_IgnoreTimeScale: 1
   m_WorldUpOverride: {fileID: 0}
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 0
-    m_Time: 2
+    m_Style: 2
+    m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   freeCamera: {fileID: 3408602676762577920}
   lockOnCamera: {fileID: 5941796832406029877}
-  timeCamera: {fileID: 3651945957022943276}
+  timeCamera: {fileID: 3354257748236057662}
   cameras: []
   currentCamera: {fileID: 0}
   targetCamera: 0
@@ -711,7 +711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4602681350275631972
 Transform:
   m_ObjectHideFlags: 0
@@ -1304,7 +1304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &666894089568553087
 Transform:
   m_ObjectHideFlags: 0
