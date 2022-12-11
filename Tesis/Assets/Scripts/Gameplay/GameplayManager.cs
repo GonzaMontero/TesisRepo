@@ -124,7 +124,7 @@ namespace TimeDistortion.Gameplay
         }
         public void OnRestartInput(InputAction.CallbackContext context)
         {
-            //if(!gameOver) return;
+            if(!gameOver) return;
             gameplayData.OnRestart();
         }
 

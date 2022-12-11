@@ -36,7 +36,7 @@ namespace TimeDistortion.Gameplay
         [SerializeField] bool fadingIn;
 
         //Unity Events
-        private void Start()
+        private void Awake()
         {
             //If manager wasn't asigned, get it
             if (manager == null)
