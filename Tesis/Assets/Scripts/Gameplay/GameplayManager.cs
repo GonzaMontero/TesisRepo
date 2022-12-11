@@ -18,7 +18,7 @@ namespace TimeDistortion.Gameplay
         [SerializeField] float preOutroTime;
 
         [Header("Runtime Values")]
-        [SerializeField] PlayerRespawn playerRespawn;
+        [SerializeField] GameplayData gameplayData;
         [SerializeField] float playerSpawnTimer;
         [SerializeField] float preOutroTimer;
         [SerializeField] bool gameOver = false;
@@ -28,7 +28,7 @@ namespace TimeDistortion.Gameplay
 
         public Action<bool> GameEnded; //bool = playerWon
         //public Action PlayerSpawned;
-        public Action PlayerRegenEnabled;
+        public Action<bool> PlayerRegenEnabled;
         public Action GameStarted;
 
         //Unity Events
@@ -40,12 +40,13 @@ namespace TimeDistortion.Gameplay
             }
 
             player.gameObject.SetActive(false);
-            playerRespawn = PlayerRespawn.Get();
+            gameplayData = GameplayData.Get();
 
             playerSpawnTimer = playerSpawnTime;
-            if (playerRespawn.checkPoint >= 0)
+            if (gameplayData.checkPoint >= 0)
             {
                 introGO.SetActive(false);
+                player.HealAll();
                 StartGame();
             }
 
@@ -84,6 +85,10 @@ namespace TimeDistortion.Gameplay
         //Methods
         void StartGame()
         {
+            if (gameplayData.playerHasRegen)
+            {
+                EnablePlayerRegen(false);
+            }
             spawnPlayer = true;
             GameStarted?.Invoke();
         }
@@ -92,6 +97,17 @@ namespace TimeDistortion.Gameplay
             player.gameObject.SetActive(true);
             playerSpawned = true;
             introGO.SetActive(false);
+        }
+        void EnablePlayerRegen(bool firstRegen)
+        {
+            player.EnableRegen();
+            
+            PlayerRegenEnabled?.Invoke(firstRegen);
+            
+            if (firstRegen)
+            {
+                gameplayData.playerHasRegen = true;
+            }
         }
         public void GameOver(bool playerWon)
         {
@@ -109,7 +125,7 @@ namespace TimeDistortion.Gameplay
         public void OnRestartInput(InputAction.CallbackContext context)
         {
             //if(!gameOver) return;
-            playerRespawn.OnRestart();
+            gameplayData.OnRestart();
         }
 
         //Event Receivers
@@ -122,7 +138,7 @@ namespace TimeDistortion.Gameplay
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            playerRespawn.Restart();
+            gameplayData.Restart();
             
             SceneManager.LoadScene("Intro Menu");
         }
@@ -139,8 +155,7 @@ namespace TimeDistortion.Gameplay
         }
         void OnRegenPickedUp(string notUsed)
         {
-            player.EnableRegen();
-            PlayerRegenEnabled?.Invoke();
+            EnablePlayerRegen(true);
         }
     }
 }

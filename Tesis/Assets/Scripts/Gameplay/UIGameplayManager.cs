@@ -185,10 +185,10 @@ namespace TimeDistortion.Gameplay
         //{
         //    SetPause(manager.publicPause);
         //}
-        void OnPlayerRegenEnabled()
+        void OnPlayerRegenEnabled(bool firstRegen)
         {
             healthRegen.SetActive(true);
-            healthSpawnTuto.SetActive(true);
+            healthSpawnTuto.SetActive(firstRegen);
         }
         void OnPlayerFirstHealed(bool healing)
         {

@@ -29,6 +29,7 @@ namespace TimeDistortion.Gameplay.Characters
             }
 
             //Link Actions
+            GameplayManager.Get().PlayerRegenEnabled += OnRegenEnabled;
             controller.LifeChanged += OnLifeChanged;
             //controller.Died += OnLifeChanged;
 
@@ -99,6 +100,10 @@ namespace TimeDistortion.Gameplay.Characters
         }
 
         //Event Receivers
+        void OnRegenEnabled(bool firstTime)
+        {
+            UpdateHealthRegenText();
+        }
         void OnLifeChanged(int healthDifference)
         {
             currentHealth = controller.publicData.currentStats.health;
