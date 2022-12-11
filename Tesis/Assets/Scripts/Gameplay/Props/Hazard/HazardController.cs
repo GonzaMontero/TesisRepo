@@ -8,12 +8,16 @@ namespace TimeDistortion.Gameplay.Props
     {
         [SerializeField] int damage;
 
+        public System.Action<Collision> HittedSomething;
+        
         private void OnCollisionStay(Collision collision)
         {
             IHittable hittedObject = collision.gameObject.GetComponent<IHittable>();
-            if (hittedObject == null)
-                return;
+            
+            if (hittedObject == null) return;
+            
             hittedObject.GetHitted(damage);
+            HittedSomething?.Invoke(collision);
         }
     }
 }

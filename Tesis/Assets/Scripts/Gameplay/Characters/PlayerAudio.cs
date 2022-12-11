@@ -6,7 +6,7 @@ namespace TimeDistortion.Gameplay.Characters
     {
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
-        [SerializeField] SwordHit playerHitter;
+        [SerializeField] AttackController playerHitter;
         [SerializeField] TimePhys.TimeChanger timeChanger;
         [SerializeField] FMODUnity.EventReference walkAudio;
         [SerializeField] FMODUnity.EventReference jumpAudio;
@@ -46,7 +46,7 @@ namespace TimeDistortion.Gameplay.Characters
             }
             if (!playerHitter)
             {
-                playerHitter = GetComponentInChildren<SwordHit>();
+                playerHitter = GetComponentInChildren<AttackController>();
             }
 
             //Link events

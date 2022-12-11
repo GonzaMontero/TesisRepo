@@ -9,7 +9,7 @@ namespace TimeDistortion.Gameplay
     public class UIGameplayManager : MonoBehaviour
     {
         [System.Serializable]
-        enum GameplayScreens { inGame, /*pause,*/ gameOver, resetGame }
+        enum GameplayScreens { inGame, /*pause,*/ defeat, victory }
 
         [Header("Set Values")]
         [SerializeField] GameplayManager manager;
@@ -49,11 +49,8 @@ namespace TimeDistortion.Gameplay
                 player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
             }
 
-            fadingIn = true;
-            fadeTimer = fadeInTime;
-            UpdateFade();
-
             //Link action
+            manager.GameStarted += OnGameStarted;
             manager.GameEnded += OnGameEnded;
             //manager.GamePaused += OnPause;
             //manager.PlayerSpawned += OnPlayerSpawned;
@@ -73,7 +70,10 @@ namespace TimeDistortion.Gameplay
 
                 switch (currentState)
                 {
-                    case GameplayScreens.gameOver:
+                    case GameplayScreens.defeat:
+                        SetGameOver();
+                        break;
+                    case GameplayScreens.victory:
                         SetGameOver();
                         break;
                     default:
@@ -152,13 +152,13 @@ namespace TimeDistortion.Gameplay
                 //    inGameUI.SetActive(false);
                 //    pauseUI.SetActive(true);
                 //    break;
-                case GameplayScreens.gameOver:
+                case GameplayScreens.defeat:
                     //inGameUI.SetActive(false);
                     gameOverUI.SetActive(true);
                     break;
-                case GameplayScreens.resetGame:
+                case GameplayScreens.victory:
                     gameOverUI.SetActive(false);
-                    //inGameUI.SetActive(true);
+                    //inGameUI.SetActive(false);
                     break;
                 default:
                     break;
@@ -166,10 +166,16 @@ namespace TimeDistortion.Gameplay
         }
 
         //Event receivers
+        void OnGameStarted()
+        {
+            fadingIn = true;
+            fadeTimer = fadeInTime;
+            UpdateFade();
+        }
         void OnGameEnded(bool playerWon)
         {
-            delayTimer = gameOverDelay;
-            targetState = GameplayScreens.gameOver;
+            delayTimer = playerWon ? 0 : gameOverDelay;
+            targetState = playerWon ? GameplayScreens.victory : GameplayScreens.defeat;
         }
         // void OnPlayerSpawned()
         // {
@@ -179,10 +185,10 @@ namespace TimeDistortion.Gameplay
         //{
         //    SetPause(manager.publicPause);
         //}
-        void OnPlayerRegenEnabled()
+        void OnPlayerRegenEnabled(bool firstRegen)
         {
             healthRegen.SetActive(true);
-            healthSpawnTuto.SetActive(true);
+            healthSpawnTuto.SetActive(firstRegen);
         }
         void OnPlayerFirstHealed(bool healing)
         {

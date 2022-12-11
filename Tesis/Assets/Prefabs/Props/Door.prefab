@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8511661907267737801}
   - component: {fileID: 8511661907267737802}
   - component: {fileID: 5081720370878456539}
-  - component: {fileID: 8511661907267737806}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -29,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8511661907267737908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25.516035, y: 20.676468, z: 33.63}
-  m_LocalScale: {x: 1.536, y: 2.668618, z: 0.15829813}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5.314824, y: 6.8320155, z: 0.59965}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -115,23 +114,3 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   moveDir: {x: 0, y: 0, z: 0}
   setPositions: 0
---- !u!114 &8511661907267737806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8511661907267737908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed4b058ea62fba24b9fea37b14bc1173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  completedAudio:
-    Guid:
-      Data1: 2032690473
-      Data2: 1128972698
-      Data3: 351920820
-      Data4: 260414803
-    Path: event:/SFX/Environment/Objects (3D)/Sliding Door

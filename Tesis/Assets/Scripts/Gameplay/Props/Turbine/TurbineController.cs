@@ -12,7 +12,6 @@ namespace TimeDistortion.Gameplay.Props
         [SerializeField] Vector3 passCheckCenter;
         [SerializeField] Vector3 passCheckSize;
         [SerializeField] Vector3 passThroughDistance;
-        [SerializeField] int damage;
         [SerializeField] bool canBePassedThrough;
         //[Header("Runtime Values")]
 
@@ -34,12 +33,6 @@ namespace TimeDistortion.Gameplay.Props
         }
         void OnCollisionStay(Collision collision)
         {
-            IHittable hittable = collision.gameObject.GetComponent<IHittable>();
-            
-            if(hittable == null) return;
-            
-            hittable.GetHitted(damage);
-            
             if(!canBePassedThrough) return;
             Vector3 checkPos = passCheckCenter;
             Vector3 checkSize = passCheckSize / 2;

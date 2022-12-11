@@ -18,9 +18,14 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [SerializeField] bool setPositions;
 
         //Unity Events
-        private void Start()
+        private void Awake()
         {
             manager.CircuitCompleted += OnCircuitCompleted;
+            manager.ForcedActiveRespawn += OnCircuitCompleted;
+            
+            //Init with all doors closed
+            targetPos = closedPos;
+            transform.position = targetPos;
         }
         void Update()
         {

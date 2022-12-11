@@ -11,7 +11,6 @@ namespace TimeDistortion.Gameplay.Handler
     {
         #region Components and Controls
 
-        [SerializeField] GameObject attackHitBox;
         [SerializeField] Cameras.CameraManager cameraManager;
         [SerializeField] CapsuleCollider coll;
 
@@ -30,10 +29,10 @@ namespace TimeDistortion.Gameplay.Handler
         private float mouseY;
         private bool jumpInput;
 
-        [SerializeField] GameObject stepRayUpper;
-        [SerializeField] GameObject stepRayLower;
-        [SerializeField] float stepHeight = 0.3f;
-        [SerializeField] float stepSmooth = 2f;
+        // [SerializeField] GameObject stepRayUpper;
+        // [SerializeField] GameObject stepRayLower;
+        // [SerializeField] float stepHeight = 0.3f;
+        // [SerializeField] float stepSmooth = 2f;
 
         public bool lockOnFlag { set; private get; }
 
@@ -72,16 +71,28 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region Handler Actions and Stuff
 
+        [Header("Interact")]
         [SerializeField] float interactCheckOffset;
         [SerializeField] Vector3 interactCheckSize = Vector3.one;
         [SerializeField] LayerMask interactableLayers;
         [SerializeField] InteractableController interactable;
         [SerializeField] [Tooltip("THIS IS RUNTIME")] bool canInteract;
+        
+        [Header("Jump & Fall")]
         [SerializeField] float jumpHeight = 1.0f;
+        [SerializeField] bool jumping;
+        [SerializeField] float coyoteDuration;
+        [SerializeField] float coyoteTimer;
+        [SerializeField] float fallParalysisTime;
+        
+        [Header("Slow mo")]
         [SerializeField] bool usingSlowmo;
+        
+        [Header("Spawn")]
         [SerializeField] float spawnParalysisTime;
         [SerializeField] bool spawning = true;
-        [SerializeField] float fallParalysisTime;
+        
+        [Header("Health")]
         [Tooltip("How much damage is needed for heavy threshold")] 
         [SerializeField] int minHeavyDamage;
         [SerializeField] float hittedLightParalysisTime;
@@ -97,6 +108,21 @@ namespace TimeDistortion.Gameplay.Handler
         [SerializeField] int baseRegens;
         [SerializeField] int currentRegens;
 
+        [Header("Attack")]
+        [SerializeField] AttackController attack;
+        
+        #region Dash Variables
+        [Header("Dash")]
+        public float dashForce;
+        public float dashDuration;
+        public float dashCooldown;
+        private float dashTime;
+        public bool dashing { get; private set; }
+        private bool dashCurrent;
+        [SerializeField] private bool dashAirCompleted = false;
+
+        #endregion
+        
         public InteractableController publicInteractable => interactable;
 
         public int minHeavyDmg => minHeavyDamage;
@@ -111,13 +137,7 @@ namespace TimeDistortion.Gameplay.Handler
 
         public float paralysisTimer;
 
-        [SerializeField] float attackDuration;
-        [SerializeField] float attackStartUp;
-        private bool attacking = false;
-
         #endregion
-
-        #region Stats and UI Refs
 
         [SerializeField] CharacterData data;
 
@@ -131,23 +151,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             data.Set();
         }
-
-        //Methods
-
-        #endregion
-
-        #region Dash Variables
-
-        public float dashForce;
-        public float dashDuration;
-        public float dashCooldown;
-        private float dashTime;
-        public bool dashing { get; private set; }
-        private bool dashCurrent;
-        [SerializeField] private bool dashAirCompleted = false;
-
-        #endregion
-
+        
         private void Start()
         {
             //cameraHandler = CameraHandler.singleton;
@@ -163,61 +167,55 @@ namespace TimeDistortion.Gameplay.Handler
             paralysisTimer += spawnParalysisTime;
         }
 
-        private void InitRigidSystem()
-        {
-            rigidbody = GetComponent<Rigidbody>();
-            if (forwardRefObject == null)
-            {
-                forwardRefObject = Camera.main.transform;
-            }
-
-            grounded = true;
-        }
-
         private void Update()
         {
             deltaTime = Time.deltaTime;
+            
             bool wasOnGround = grounded;
-            grounded = IsOnGround();
-            if (!grounded && usingSlowmo)
+            bool isOnGround = IsOnGround();
+            //grounded = true;
+
+            if (isOnGround)
             {
-                TimePhys.TimeChanger.Get().Release();
-                usingSlowmo = false;
+                coyoteTimer = -1;
                 
-                //SHOULD DO SOMETHING WITH THIS TOO
-                //cameraManager.OnTimeCharge(InputAction.CallbackContext);
+                if (!wasOnGround)
+                {
+                    CollideWithGround();
+                    //Debug.Log("Collide!");
+                }
             }
-            if (!wasOnGround && grounded)
+            else
             {
-                CollideWithGround();
+                if (wasOnGround)
+                {
+                    if (jumping)
+                    {
+                        grounded = false;
+                    }
+                    //If player was on ground and now it isn't, stay "grounded" for a fixed duration
+                    else if (coyoteTimer <= -1)
+                    {
+                        coyoteTimer = coyoteDuration;
+                        //Debug.Log("Coyote On!");
+                    }
+                }
+
+                //If using slowmo while on air, stop using slow mo
+                if (usingSlowmo)
+                {
+                    TimePhys.TimeChanger.Get().Release();
+                    usingSlowmo = false;
+
+                    //SHOULD DO SOMETHING WITH THIS TOO
+                    //cameraManager.OnTimeCharge(InputAction.CallbackContext);
+                }
             }
 
             //Check for interactables
             CanInteract();
 
-            //Advance Timers
-            if (dashTime > 0)
-                dashTime -= Time.deltaTime;
-
-            if (invulnerabilityTimer > 0)
-                invulnerabilityTimer -= Time.deltaTime;
-
-            if (regenTimer > 0)
-                regenTimer -= Time.deltaTime;
-            else if (regenTimer > -1)
-                UpdateRegeneration();
-
-            if (paralysisTimer > 0)
-            {
-                paralysisTimer -= Time.deltaTime;
-                if (projectedVelocity.sqrMagnitude > 0)
-                    StopRigidMovement();
-                return;
-            }
-            else if (spawning)
-            {
-                spawning = false;
-            }
+            UpdateTimers();
 
             if (lockOnFlag || ShouldMove() || !grounded)
             {
@@ -227,9 +225,9 @@ namespace TimeDistortion.Gameplay.Handler
             else if (usingSlowmo)
             {
                 SetNewRotation(true);
-                Debug.Log("Rotating while slow mo");
-                Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
-                                    "\n Current Rot: " + transform.rotation.eulerAngles);
+                // Debug.Log("Rotating while slow mo");
+                // Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
+                //                     "\n Current Rot: " + transform.rotation.eulerAngles);
             }
 
             UpdateRigidVelocity();
@@ -264,6 +262,58 @@ namespace TimeDistortion.Gameplay.Handler
         }
 #endif
 
+        //Methods
+        void UpdateTimers()
+        {
+            if (coyoteTimer > 0)
+            {
+                coyoteTimer -= deltaTime;
+                grounded = true;
+            }
+            else if(coyoteTimer > -1)
+            {
+                coyoteTimer = -1;
+                //Debug.Log("Coyote Off!");
+                grounded = false;
+            }
+            if (dashTime > 0)
+            {
+                dashTime -= deltaTime;
+            }
+            if (invulnerabilityTimer > 0)
+            {
+                invulnerabilityTimer -= deltaTime;
+            }
+            if (regenTimer > 0)
+            {
+                regenTimer -= deltaTime;
+            }
+            else if (regenTimer > -1)
+            {
+                UpdateRegeneration();
+            }
+            if (paralysisTimer > 0)
+            {
+                paralysisTimer -= deltaTime;
+                if (projectedVelocity.sqrMagnitude > 0)
+                    StopRigidMovement();
+            }
+            else if (spawning)
+            {
+                spawning = false;
+            }
+        }
+        private void InitRigidSystem()
+        {
+            rigidbody = GetComponent<Rigidbody>();
+            if (forwardRefObject == null)
+            {
+                forwardRefObject = Camera.main.transform;
+            }
+
+            grounded = true;
+        }
+        
         #region Movement Calculations
 
         public void TickInput(float delta)
@@ -354,6 +404,7 @@ namespace TimeDistortion.Gameplay.Handler
             if (grounded)
             {
                 rigidbody.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
+                jumping = true;
                 Jumped?.Invoke();
             }
         }
@@ -493,6 +544,8 @@ namespace TimeDistortion.Gameplay.Handler
             //     StopRigidMovement();
             // }
 
+            grounded = true;
+            jumping = false;
             paralysisTimer += fallParalysisTime;
         }
 
@@ -511,44 +564,44 @@ namespace TimeDistortion.Gameplay.Handler
         }
 
         //https://youtu.be/DrFk5Q_IwG0
-        void StepClimb()
-        {
-            RaycastHit hitLower;
-            if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward),
-                    out hitLower, 0.1f))
-            {
-                RaycastHit hitUpper;
-                if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward),
-                        out hitUpper, 0.2f))
-                {
-                    transform.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-                }
-            }
-
-            RaycastHit hitLower45;
-            if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1),
-                    out hitLower45, 0.1f))
-            {
-                RaycastHit hitUpper45;
-                if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1),
-                        out hitUpper45, 0.2f))
-                {
-                    transform.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-                }
-            }
-
-            RaycastHit hitLowerMinus45;
-            if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1),
-                    out hitLowerMinus45, 0.1f))
-            {
-                RaycastHit hitUpperMinus45;
-                if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1),
-                        out hitUpperMinus45, 0.2f))
-                {
-                    transform.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-                }
-            }
-        }
+        // void StepClimb()
+        // {
+        //     RaycastHit hitLower;
+        //     if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward),
+        //             out hitLower, 0.1f))
+        //     {
+        //         RaycastHit hitUpper;
+        //         if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward),
+        //                 out hitUpper, 0.2f))
+        //         {
+        //             transform.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+        //         }
+        //     }
+        //
+        //     RaycastHit hitLower45;
+        //     if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1),
+        //             out hitLower45, 0.1f))
+        //     {
+        //         RaycastHit hitUpper45;
+        //         if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1),
+        //                 out hitUpper45, 0.2f))
+        //         {
+        //             transform.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+        //         }
+        //     }
+        //
+        //     RaycastHit hitLowerMinus45;
+        //     if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1),
+        //             out hitLowerMinus45, 0.1f))
+        //     {
+        //         RaycastHit hitUpperMinus45;
+        //         if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1),
+        //                 out hitUpperMinus45, 0.2f))
+        //         {
+        //             transform.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+        //         }
+        //     }
+        // }
 
         #endregion
 
@@ -596,7 +649,7 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnJumpInput(InputAction.CallbackContext context)
         {
             if (paralysisTimer > 0) return;
-            if (usingSlowmo || regenerating || attacking) return;
+            if (usingSlowmo || regenerating || attack.attacking) return;
             if (!context.started)
                 return;
             HandleJumping();
@@ -658,7 +711,7 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnSlowMoInput(InputAction.CallbackContext context)
         {
             if (paralysisTimer > 0) return;
-            if (attacking || dashing || regenerating || !grounded) return;
+            if (attack.attacking || dashing || regenerating || !grounded) return;
             if (context.canceled)
             {
                 //SetNewRotation(true);
@@ -687,33 +740,15 @@ namespace TimeDistortion.Gameplay.Handler
 
         private void HandleAttackInput()
         {
-            if (attacking) return; //If player is already attacking, exit
+            if (attack.attacking) return; //If player is already attacking, exit
 
             if (usingSlowmo) return; //If player is using time changer, exit
 
             if (!grounded || dashing) return; //If player is on air or dashing, exit
 
-            if (attackHitBox.activeSelf) return; //If hit box is on (player is attacking), exit
-
-            paralysisTimer += attackDuration + attackStartUp;
-            attacking = true;
-            Invoke("StartLightAttack", attackStartUp * Time.timeScale);
+            paralysisTimer += attack.attackTime;
+            attack.StartAttack();
             Attacked?.Invoke();
-        }
-
-        public void StartLightAttack()
-        {
-            attackHitBox.SetActive(true);
-            Invoke("StopLightAttack", attackDuration * Time.timeScale);
-        }
-
-        public void StopLightAttack()
-        {
-            if (attackHitBox.activeSelf == true)
-            {
-                attackHitBox.SetActive(false);
-                attacking = false;
-            }
         }
 
         #endregion
@@ -723,7 +758,7 @@ namespace TimeDistortion.Gameplay.Handler
         public void OnDashInput(InputAction.CallbackContext context)
         {
             if (paralysisTimer > 0) return;
-            if (attacking || usingSlowmo || regenerating) return;
+            if (attack.attacking || usingSlowmo || regenerating) return;
             if (dashCurrent || dashAirCompleted) return;
             StartCoroutine(Dash());
 
@@ -798,6 +833,12 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region HP
 
+        public void HealAll()
+        {
+            data.currentStats.health = data.baseStats.health;
+            LifeChanged.Invoke(1);
+        }
+        
         public void EnableRegen()
         {
             //Healing?.Invoke(true);
@@ -884,6 +925,8 @@ namespace TimeDistortion.Gameplay.Handler
             if (data.currentStats.health > 0) return;
             data.currentStats.health = 0;
             Died?.Invoke();
+            coll.enabled = false;
+            rigidbody.isKinematic = true;
 
             //If died disable controller
             this.enabled = false;

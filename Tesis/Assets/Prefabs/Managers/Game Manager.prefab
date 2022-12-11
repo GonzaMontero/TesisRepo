@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 43739211142894522}
   - component: {fileID: 5004106613656624096}
   - component: {fileID: 6645520315626216323}
+  - component: {fileID: 8944263134862581204}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -58,3 +59,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minLoadSeconds: 2
+--- !u!114 &8944263134862581204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43739211142894525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4477947b59334bb4682d097486caaedc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puzzlesCompleted: 
+  checkPoint: -1

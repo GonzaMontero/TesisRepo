@@ -274,9 +274,10 @@ GameObject:
   - component: {fileID: 5704027403296390310}
   - component: {fileID: 7551465626355877996}
   - component: {fileID: 7732767325078411660}
-  - component: {fileID: 6375493848203441908}
   - component: {fileID: 6933638781699583777}
   - component: {fileID: 3043364619768115330}
+  - component: {fileID: 6375493848203441908}
+  - component: {fileID: 3870695846643809329}
   m_Layer: 0
   m_Name: Hacha_Pendulo_3D
   m_TagString: Untagged
@@ -359,19 +360,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7643229109163234770, guid: f3ae782a660815045941a2f2e6c2e3c0, type: 3}
---- !u!114 &6375493848203441908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8344270203914054073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c925b8da4ee8d4e89a5f4720e5eed9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 2
 --- !u!114 &6933638781699583777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,3 +399,32 @@ MonoBehaviour:
       Data4: -1099311744
     Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
   playingLoop: 0
+--- !u!114 &6375493848203441908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344270203914054073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c925b8da4ee8d4e89a5f4720e5eed9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+--- !u!114 &3870695846643809329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344270203914054073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8637c148a690b24fb3789f4dd9b6090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 6375493848203441908}
+  hitVFX: {fileID: 1392484901424030496, guid: db0aff02c5433cf46b6b13b2bf2aa35e, type: 3}
+  hitVFXCooldown: 1
+  hitVFXTimer: 0

@@ -357,6 +357,8 @@ GameObject:
   - component: {fileID: 263021796120543826}
   - component: {fileID: 8801117579265230642}
   - component: {fileID: 1080554657915291609}
+  - component: {fileID: 499095573749426899}
+  - component: {fileID: 1248418202862059839}
   m_Layer: 13
   m_Name: Propeller
   m_TagString: Untagged
@@ -411,7 +413,6 @@ MonoBehaviour:
   passCheckCenter: {x: 0, y: 0, z: 0}
   passCheckSize: {x: 0, y: 0, z: 0}
   passThroughDistance: {x: 0, y: 0, z: 0}
-  damage: 2
   canBePassedThrough: 0
 --- !u!114 &8801117579265230642
 MonoBehaviour:
@@ -452,6 +453,35 @@ MonoBehaviour:
       Data4: -1099311744
     Path: event:/SFX/Characters/Main/Habilities/SlowMo/Counting
   playingLoop: 0
+--- !u!114 &499095573749426899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3735850866175416823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c925b8da4ee8d4e89a5f4720e5eed9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+--- !u!114 &1248418202862059839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3735850866175416823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8637c148a690b24fb3789f4dd9b6090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 499095573749426899}
+  hitVFX: {fileID: 1392484901424030496, guid: db0aff02c5433cf46b6b13b2bf2aa35e, type: 3}
+  hitVFXCooldown: 2
+  hitVFXTimer: 0
 --- !u!1001 &3127939499529960218
 PrefabInstance:
   m_ObjectHideFlags: 0
