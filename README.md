@@ -16,14 +16,17 @@ This is a game being developed by students from <a href="https://www.imagecampus
 
 ## Credits
 
-- **Alejandro Insausti** - *Programming*
-- **Gonza Montero** - *Programming*
 - **Miguel Pignatiello Hernández** - *Game Design*
 - **Milagros Orozco** - *Game Design*
 - **Valentina Lanús** - *Game Design*
-- **Lucas Schwartz** - *Game Design / Testing*
-- **Nombre Apellido** - *Art*
-- **Nombre Apellido** - *Art*
+- **Alejandro Insausti** - *Programming*
+- **Gonza Montero** - *Programming*
+- **Lucas Schwartz** - *Testing*
+- **Julian Suarez** - *Art*
+- **Ulises Vicente** - *Art*
+- **Ana Elisa Ochoa** - *Art*
+- **Bradley Lejeune** - *Art*
+- **Roro Lee** - *Art*
 - **Matias Jara** - *Audio*
 
 This game was also possible thanks to the support of these professors:
