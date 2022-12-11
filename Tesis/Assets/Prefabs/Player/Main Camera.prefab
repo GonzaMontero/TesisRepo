@@ -507,7 +507,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
+  m_CustomBlends: {fileID: 11400000, guid: 3dad63019e410bc45b5dcc231dc033a5, type: 2}
   m_CameraCutEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -756,7 +756,7 @@ MonoBehaviour:
     LensShift: {x: 0, y: 0}
   m_Transitions:
     m_BlendHint: 0
-    m_InheritPosition: 1
+    m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
@@ -769,7 +769,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2837214528044119741}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2588cc5dedbb75e49a44aada63f7b939, type: 3}
   m_Name: 
@@ -806,8 +806,12 @@ MonoBehaviour:
   lockTarget: {fileID: 0}
   isLocked: 0
   verticalAngleLimits: {x: -60, y: 50}
-  rotationSpeeds: {x: 100, y: 100}
+  rotationImpulseY: 0.08
+  rotationImpulseX: 0.225
+  rotationSpeed: 50
   camFollow: {fileID: 0}
+  targetRotationY: {x: 0, y: 0, z: 0, w: 0}
+  targetRotationX: {x: 0, y: 0, z: 0, w: 0}
   input: {x: 0, y: 0}
 --- !u!1 &4120309555159022922
 GameObject:

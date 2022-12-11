@@ -10,7 +10,8 @@ namespace TimeDistortion.Gameplay.Cameras
         [Header("Set Values")]
         [Tooltip("X = min angle, Y = max angle | (X rotates up & Y rotates down)")]
         [SerializeField] Vector2 verticalAngleLimits;
-        [SerializeField] Vector2 rotationImpulse;
+        [SerializeField] [Range(0, 1)] float rotationImpulseY;
+        [SerializeField] [Range(0, 1)] float rotationImpulseX;
         [SerializeField] float rotationSpeed;
         [Header("Runtime Values")]
         [SerializeField] Transform camFollow;
@@ -27,6 +28,8 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         internal override void Update()
         {
+            if(!cam.enabled) return;
+            
             Rotate();
             base.Update();
         }
@@ -63,8 +66,8 @@ namespace TimeDistortion.Gameplay.Cameras
             //Get how much should the target rotation rotate
             Quaternion inputRotY;
             Quaternion inputRotX;
-            inputRotY = Quaternion.Euler(Vector3.right * input.y * -rotationImpulse.y); //positive impulse inverts rot
-            inputRotX = Quaternion.Euler(Vector3.up * input.x * rotationImpulse.x);
+            inputRotY = Quaternion.Euler(Vector3.right * input.y * -rotationImpulseY); //positive impulse inverts rot
+            inputRotX = Quaternion.Euler(Vector3.up * input.x * rotationImpulseX);
             
             //Get the target rotation rotated by the input rotation (if target rotation is 0, take input rotation)
             Quaternion newRotY;
