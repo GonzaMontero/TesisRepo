@@ -224,7 +224,7 @@ namespace TimeDistortion.Gameplay.Handler
             }
             else if (usingSlowmo)
             {
-                SetNewRotation(true);
+                //SetNewRotation(true);
                 // Debug.Log("Rotating while slow mo");
                 // Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
                 //                     "\n Current Rot: " + transform.rotation.eulerAngles);
@@ -611,7 +611,7 @@ namespace TimeDistortion.Gameplay.Handler
         {
             if (usingSlowmo)
             {
-                // SetNewRotation(true);
+                SetNewRotation(true);
                 // Debug.Log("Rotating while slow mo");
                 // Debug.Log("\n Target Rot: " + targetRotation.eulerAngles + 
                 //                     "\n Current Rot: " + transform.rotation.eulerAngles);

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CustomBlends:
   - m_From: Default Camera
-    m_To: TimeChange Camera
+    m_To: TimeChange Camera (1)
     m_Blend:
       m_Style: 2
       m_Time: 1
@@ -24,7 +24,7 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: TimeChange Camera
+  - m_From: TimeChange Camera (1)
     m_To: Default Camera
     m_Blend:
       m_Style: 2
