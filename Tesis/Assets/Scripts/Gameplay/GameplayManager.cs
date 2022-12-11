@@ -22,6 +22,7 @@ namespace TimeDistortion.Gameplay
         [SerializeField] float playerSpawnTimer;
         [SerializeField] float preOutroTimer;
         [SerializeField] bool gameOver = false;
+        [SerializeField] bool didPlayerWin = false;
         [SerializeField] bool playerSpawned = false;
         [SerializeField] bool spawnPlayer = false;
 
@@ -66,7 +67,7 @@ namespace TimeDistortion.Gameplay
                 }
             }
 
-            if (gameOver)
+            if (didPlayerWin)
             {
                 if (preOutroTimer > 0)
                 {
@@ -94,8 +95,8 @@ namespace TimeDistortion.Gameplay
         }
         public void GameOver(bool playerWon)
         {
+            didPlayerWin = playerWon;
             Time.timeScale = 1;
-
             GameEnded?.Invoke(playerWon);
             player.enabled = false;
             gameOver = true;

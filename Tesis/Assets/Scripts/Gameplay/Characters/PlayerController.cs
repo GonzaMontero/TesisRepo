@@ -919,6 +919,8 @@ namespace TimeDistortion.Gameplay.Handler
             if (data.currentStats.health > 0) return;
             data.currentStats.health = 0;
             Died?.Invoke();
+            coll.enabled = false;
+            rigidbody.isKinematic = true;
 
             //If died disable controller
             this.enabled = false;
