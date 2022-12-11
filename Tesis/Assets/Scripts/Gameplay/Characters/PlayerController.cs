@@ -833,6 +833,12 @@ namespace TimeDistortion.Gameplay.Handler
 
         #region HP
 
+        public void HealAll()
+        {
+            data.currentStats.health = data.baseStats.health;
+            LifeChanged.Invoke(1);
+        }
+        
         public void EnableRegen()
         {
             //Healing?.Invoke(true);

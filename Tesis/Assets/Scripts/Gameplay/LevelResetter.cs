@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TimeDistortion.Gameplay.Props.Circuit;
 
-namespace TimeDistortion
+namespace TimeDistortion.Gameplay
 {
-    public class CheckpointGetter : MonoBehaviour
+    public class LevelResetter : MonoBehaviour
     {
         [System.Serializable]
         struct CheckPointCircuitPair
@@ -18,18 +18,21 @@ namespace TimeDistortion
         [Header("Static Sets")]
         [SerializeField] CheckPointCircuitPair[] pairs;
         [SerializeField] List<CircuitManager> circuitManagers;
-        public Transform playerTransform;
+        [SerializeField] Transform playerTransform;
+        [SerializeField] GameObject healthSpawn;
         
 
         [Header("Runtime Sets")]
-        public PlayerRespawn pr;
-        public Transform currentCP;
+        [SerializeField] GameplayData gData;
+        [SerializeField] Transform currentCP;
         Dictionary<CircuitPartController, int> spawnCircuitPair;
 
         private void Start()
         {
+            //Init dictionary
             spawnCircuitPair = new Dictionary<CircuitPartController, int>();
 
+            //Link all checkpoints
             for (short i = 0; i < pairs.Length; i++)
             {
                 if (pairs[i].collision == null || pairs[i].checkPoint == null)
@@ -39,18 +42,27 @@ namespace TimeDistortion
                 pairs[i].collision.Activated += SetCP;
             }
 
+            //Link all puzzles
             for(short i = 0; i < circuitManagers.Count; i++)
             {
                 circuitManagers[i].CircuitLocked += OnPuzzleCompleted;
 
             }
 
-            pr = PlayerRespawn.Get();
+            //Get gameplay data
+            gData = GameplayData.Get();
 
-            if (!pr || pr.checkPoint < 0)
+            if (gData.playerHasRegen)
+            {
+                healthSpawn.SetActive(false);
+            }
+            
+            //Check if player has checkpoint
+            if (!gData || gData.checkPoint < 0)
                 return;
 
-            currentCP = pairs[pr.checkPoint].checkPoint;
+            //Spawn player in checkpoint
+            currentCP = pairs[gData.checkPoint].checkPoint;
             OnPlayerRestart();
         }
 
@@ -59,7 +71,7 @@ namespace TimeDistortion
             if (!currentCP)
                 return;
 
-            List<int> cm = pr.GetCompletedPuzzleIndex();
+            List<int> cm = gData.GetCompletedPuzzleIndex();
 
             for (short i = 0; i < cm.Count; i++)
             {
@@ -75,13 +87,13 @@ namespace TimeDistortion
             int i = 0;
             if (!spawnCircuitPair.TryGetValue(part, out i))
                 return;
-            pr.checkPoint = i;
+            gData.checkPoint = i;
         }
 
         public void OnPuzzleCompleted(CircuitManager manager)
         {
             int i = circuitManagers.IndexOf(manager);
-            pr.OnPuzzleCompleted(i);
+            gData.OnPuzzleCompleted(i);
         }
     }
 }
