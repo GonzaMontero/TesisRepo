@@ -121,7 +121,7 @@ namespace TimeDistortion.Gameplay
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            playerRespawn.checkPoint = -1;
+            playerRespawn.Restart();
             
             SceneManager.LoadScene("Intro Menu");
         }

@@ -12,21 +12,29 @@ namespace TimeDistortion
 
         public int checkPoint = -1;
 
+
+        //Methods
+        public List<int> GetCompletedPuzzleIndex()
+        {
+            return puzzlesCompleted;
+        }
+
+        public void Restart()
+        {
+            checkPoint = -1;
+            puzzlesCompleted.Clear();
+        }
+        
+        //Event Receivers
         public void OnPuzzleCompleted(int i)
         {
             puzzlesCompleted.Add(i);
             puzzlesCompleted.Sort();
         }
-
         public void OnRestart()
         {
             Time.timeScale = 1;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
-        public List<int> GetCompletedPuzzleIndex()
-        {
-            return puzzlesCompleted;
         }
     }
 }
