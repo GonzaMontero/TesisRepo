@@ -10,6 +10,7 @@ namespace TimeDistortion
         [System.Serializable]
         struct CheckPointCircuitPair
         {
+            [SerializeField] string name;
             public CircuitPartController collision;
             public Transform checkPoint;
         }

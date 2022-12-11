@@ -48,13 +48,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  stone: {fileID: 0}
+  victoryCircuit: {fileID: 0}
   regenSpawn: {fileID: 0}
+  introGO: {fileID: 0}
+  outroGO: {fileID: 0}
   playerSpawnTime: 2.2
+  preOutroTime: 2
+  playerRespawn: {fileID: 0}
   playerSpawnTimer: 0
+  preOutroTimer: 0
   gameOver: 0
   playerSpawned: 0
-  playerRespawn: {fileID: 0}
+  spawnPlayer: 0
 --- !u!114 &4417939724522703916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,23 +387,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pairs:
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
-  - collision: {fileID: 0}
+  - name: 
+    collision: {fileID: 0}
     checkPoint: {fileID: 0}
   circuitManagers:
   - {fileID: 0}

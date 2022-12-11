@@ -13,7 +13,7 @@ namespace TimeDistortion.Gameplay
         [SerializeField] FMODUnity.EventReference reverb;
         [SerializeField] [Range(0,1)] float musicVolume = 1;
         [SerializeField] [Range(0,1)] float ambienceVolume = 1;
-        [Header("Runtime Values")]
+        [Header("EDITOR")]
         [SerializeField] [Tooltip("Press to set volume")] bool setMusicVolume;
         [SerializeField] [Tooltip("Press to set volume")] bool setAmbienceVolume;
         FMOD.Studio.EventInstance ambienceAudioInstance;
@@ -23,15 +23,8 @@ namespace TimeDistortion.Gameplay
         //Unity Events
         void Start()
         {
-            //Start audios
-            StartAudio(ambienceAudio, ambienceAudioInstance);
-            StartAudio(musicAudio, musicAudioInstance);
-            FMODUnity.RuntimeManager.PlayOneShot(debrisAudio);
-            FMODUnity.RuntimeManager.PlayOneShot(reverb);
-            
-            //Set volumes
-            musicAudioInstance.setVolume(musicVolume);
-            ambienceAudioInstance.setVolume(ambienceVolume);
+            controller.GameStarted += OnGameStarted;
+            controller.GameEnded += OnGameEnded;
         }
 
         void Update()
@@ -65,7 +58,6 @@ namespace TimeDistortion.Gameplay
             audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             audioInstance.release();
         }
-
         void UpdateVolume(FMOD.Studio.EventInstance audioInstance, string name, float newVol)
         {
             Debug.Log("Updating " + name + " Volume to: " + newVol);
@@ -74,6 +66,25 @@ namespace TimeDistortion.Gameplay
             float currentVol;
             audioInstance.getVolume(out currentVol);
             Debug.Log(name + " Volume Updated to: " + currentVol);
+        }
+        
+        //Event Receivers
+        void OnGameStarted()
+        {
+            //Start audios
+            StartAudio(ambienceAudio, ambienceAudioInstance);
+            StartAudio(musicAudio, musicAudioInstance);
+            FMODUnity.RuntimeManager.PlayOneShot(debrisAudio);
+            FMODUnity.RuntimeManager.PlayOneShot(reverb);
+            
+            //Set volumes
+            musicAudioInstance.setVolume(musicVolume);
+            ambienceAudioInstance.setVolume(ambienceVolume);
+        }
+        void OnGameEnded(bool playerWon)
+        {
+            StopAudio(ambienceAudioInstance);
+            StopAudio(musicAudioInstance);
         }
     }
 }
