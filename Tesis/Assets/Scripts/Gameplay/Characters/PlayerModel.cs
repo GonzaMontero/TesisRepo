@@ -7,13 +7,17 @@ namespace TimeDistortion.Gameplay.Characters
         [Header("Set Values")]
         [SerializeField] Handler.PlayerController controller;
         [SerializeField] TimePhys.TimeChanger timeChanger;
+        [SerializeField] AttackController playerHitter;
         [SerializeField] GameObject swordTrail;
+        [SerializeField] GameObject hitVFX;
         [SerializeField] Animator animator;
         [SerializeField] Animator healOrbAnimator;
         [SerializeField] TrailRenderer dashTrail;
+        [SerializeField] float hitVFXCooldown;
         [SerializeField] float swordTrailTime;
         [SerializeField] float dashTrailTime;
         [Header("Runtime Values")]
+        [SerializeField] float hitVFXTimer;
         [SerializeField] float swordTrailTimer;
         [SerializeField] float dashTrailTimer;
         //[SerializeField] bool spawned;
@@ -36,6 +40,8 @@ namespace TimeDistortion.Gameplay.Characters
 
             //controller.CameraLocked += OnCameraLocked;
             controller.Attacked += OnPlayerAttacked;
+            playerHitter.HittedSomething += OnAttackHitted;
+            playerHitter.HittedStone += OnAttackHitted;
             controller.Jumped += OnPlayerJumped;
             controller.Moved += OnPlayerMoved;
             controller.LifeChanged += OnLifeChanged;
@@ -61,6 +67,10 @@ namespace TimeDistortion.Gameplay.Characters
                 UpdateDashTrail();
             }
 
+            if (hitVFXTimer > 0)
+            {
+                hitVFXTimer -= Time.deltaTime;
+            }
             if (swordTrailTimer > 0)
             {
                 swordTrailTimer -= Time.deltaTime;
@@ -101,6 +111,14 @@ namespace TimeDistortion.Gameplay.Characters
             animator.SetTrigger("Attack");
             swordTrailTimer = swordTrailTime;
             swordTrail.SetActive(true);
+        }
+        void OnAttackHitted()
+        {
+            if(hitVFXTimer > 0) return;
+            
+            GameObject vfx = Instantiate(hitVFX);
+            vfx.transform.position = playerHitter.collision.point;
+            hitVFXTimer = hitVFXCooldown;
         }
         void OnPlayerJumped()
         {
