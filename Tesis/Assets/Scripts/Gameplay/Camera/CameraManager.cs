@@ -1,6 +1,4 @@
-﻿using Cinemachine;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace TimeDistortion.Gameplay.Cameras
@@ -34,8 +32,7 @@ namespace TimeDistortion.Gameplay.Cameras
             currentCamera.SetCameraActive(true);
 
             //Link actions
-            LockCameraController lockController;
-            lockController = lockOnCamera.GetComponent<LockCameraController>();
+            LockCameraController lockController = (LockCameraController)lockOnCamera;
             if (lockController)
             {
                 lockController.CameraLocked += OnCameraLockOn;
@@ -43,12 +40,34 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         public void OnTimeCharge(InputAction.CallbackContext context)
         {
+            //Check if camera is locked on, then transfer to right camera
             if (context.canceled)
             {
-                targetCamera = Cameras.free;
+                LockCameraController timeCam = (LockCameraController)timeCamera;
+                
+                if (timeCam.isLocked)
+                {
+                    targetCamera = Cameras.lockOn;
+                    
+                    //Switch lock target from one camera to the other
+                    LockCameraController lockCam = (LockCameraController)lockOnCamera;
+                    lockCam.SetTarget(timeCam.publicTarget);
+                }
+                else
+                {
+                    targetCamera = Cameras.free;
+                }
             }
             else if (context.started)
             {
+                if (targetCamera == Cameras.lockOn)
+                {
+                    //Switch lock target from one camera to the other
+                    LockCameraController timeCam = (LockCameraController)timeCamera;
+                    LockCameraController lockCam = (LockCameraController)lockOnCamera;
+                    timeCam.SetTarget(lockCam.publicTarget);
+                }
+                
                 targetCamera = Cameras.time;
             }
 

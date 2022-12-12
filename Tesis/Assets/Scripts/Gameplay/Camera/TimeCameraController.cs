@@ -51,11 +51,6 @@ namespace TimeDistortion.Gameplay.Cameras
         {
             base.SetCameraActive(isActive);
 
-            if (isLocked)
-            {
-                UpdateLockOn();
-            }
-
             //Reset cam follow rotation
             if (!camFollow) return;
             camFollow.localRotation = Quaternion.identity;
@@ -64,6 +59,8 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         internal override void UpdateLockOn()
         {
+            if(!cam.enabled) return;
+            
             base.UpdateLockOn();
             
             //Reset cam follow rotation

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +23,8 @@ namespace TimeDistortion.Gameplay.Cameras
         [SerializeField] internal bool isLocked;
 
         public System.Action<bool> CameraLocked;
+        
+        public Transform publicTarget => lockTarget;
 
         //Unity Events
         internal new void Start()
@@ -73,6 +75,11 @@ namespace TimeDistortion.Gameplay.Cameras
         }
 
         //Methods
+        public void SetTarget(Transform target)
+        {
+            lockTarget = target;
+            SetLock();
+        }
         internal virtual void UpdateLockOn()
         {
             if (isLocked)
@@ -108,7 +115,7 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         void GetTarget()
         {
-            lockTarget = null;
+            if(lockTarget) return;
 
             List<Transform> availableTargets = new List<Transform>();
             Collider[] colliders;
@@ -147,7 +154,7 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         void UpdateTarget()
         {
-            if (lockTarget)
+            if (!lockTarget)
             {
                 //Clear lock
                 UpdateLockOn();
