@@ -51,11 +51,18 @@ namespace TimeDistortion.Gameplay.Cameras
         {
             base.SetCameraActive(isActive);
 
-            //Reset cam follow rotation
+            //Set rotations
             if (!camFollow) return;
-            camFollow.localRotation = Quaternion.identity;
-            targetRotationY = camFollow.localRotation;
-            targetRotationX = player.localRotation;
+            if (isActive)
+            {
+                //Take other cameras rotation
+                SetInitialRotation();
+            }
+            else
+            {
+                //Reset cam follow for other cameras
+                camFollow.localRotation = Quaternion.identity;
+            }
         }
         internal override void UpdateLockOn()
         {
@@ -76,6 +83,20 @@ namespace TimeDistortion.Gameplay.Cameras
             {
                 vCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
             }
+        }
+
+        void SetInitialRotation()
+        {
+            //Get camera rotation
+            Vector3 mainRot = mainCam.eulerAngles;
+            
+            //Set Y rotation
+            //camFollow.localRotation = Quaternion.Euler(Vector3.right * mainRot.x);
+            targetRotationY = Quaternion.Euler(Vector3.right * mainRot.x);
+            
+            //Set X rotation
+            //player.localRotation = Quaternion.Euler(Vector3.up * mainRot.y);
+            targetRotationX = Quaternion.Euler(Vector3.up * mainRot.y);
         }
         void SetRotation()
         {

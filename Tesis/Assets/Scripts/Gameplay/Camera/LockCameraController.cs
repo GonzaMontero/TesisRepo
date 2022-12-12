@@ -8,7 +8,7 @@ namespace TimeDistortion.Gameplay.Cameras
     {
         [Header("Set Values")]
         [SerializeField] internal Transform player;
-        [SerializeField] Transform mainCam;
+        [SerializeField] internal Transform mainCam;
         [SerializeField] LayerMask lockLayers;
         [Tooltip("Which layers will the camera ignore " +
                     "when checking if the target is behind a wall?")]
