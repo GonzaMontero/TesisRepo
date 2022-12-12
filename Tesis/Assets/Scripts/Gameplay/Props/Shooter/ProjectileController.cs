@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace TimeDistortion.Gameplay.Props
+namespace TimeDistortion.Gameplay.Props.Shooter
 {
     public class ProjectileController : MonoBehaviour, IPushable
     {

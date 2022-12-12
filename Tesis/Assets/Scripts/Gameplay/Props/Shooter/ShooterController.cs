@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-namespace TimeDistortion.Gameplay.Props
+namespace TimeDistortion.Gameplay.Props.Shooter
 {
     public class ShooterController : MonoBehaviour
     {
         [Header("Set Values")]
         [SerializeField] GameObject projectilePrefab;
-        [SerializeField] Transform projectilesEmpty;
+        [SerializeField] internal Transform projectilesEmpty;
         [SerializeField] float timeBetweenProjectiles;
         [SerializeField] float projectileSelfDestroyTime = 15f;
         [SerializeField] int maxProjectilesInScreen;
@@ -23,7 +23,7 @@ namespace TimeDistortion.Gameplay.Props
             }
         }
 
-        private void Update()
+        internal virtual void Update()
         {
             //If max projectiles, exit
             if (currentProjectiles >= maxProjectilesInScreen) return;
@@ -45,8 +45,7 @@ namespace TimeDistortion.Gameplay.Props
 
             //Create Projectile
             GameObject projGO = Instantiate(projectilePrefab, projectilesEmpty);
-            projGO.transform.localPosition = Vector3.zero;
-            projGO.transform.forward = projectilesEmpty.forward;
+            SetProjectile(projGO.transform);
             ProjectileController proj = projGO.GetComponent<ProjectileController>();
             
             //If unsuccesful, exit
@@ -59,6 +58,12 @@ namespace TimeDistortion.Gameplay.Props
 
             //Increase Counter
             currentProjectiles++;
+        }
+
+        internal virtual void SetProjectile(Transform proj)
+        {
+            proj.localPosition = Vector3.zero;
+            proj.forward = projectilesEmpty.forward;
         }
 
         //Event Receivers
