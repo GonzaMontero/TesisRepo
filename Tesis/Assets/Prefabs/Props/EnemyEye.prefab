@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8975301337542069685}
   - component: {fileID: 6587176681043687807}
   - component: {fileID: 4762827836354537049}
+  - component: {fileID: 2196868664452756413}
   - component: {fileID: 6288076183720971082}
   - component: {fileID: 3721186559930483995}
   m_Layer: 0
@@ -104,6 +105,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   gizmosShouldDraw: 1
+--- !u!114 &2196868664452756413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641705137033173162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32aa9da03a77f614d8239a0019762d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 4762827836354537049}
+  VFX: {fileID: 8104564842464653832, guid: 3293646f8bd551c43b890e630f8293fd, type: 3}
+  animator: {fileID: 0}
+  animationTrigger: 
 --- !u!114 &6288076183720971082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,3 +153,4 @@ MonoBehaviour:
   checkOffset: {x: 0, y: 0, z: 0}
   lookSpeed: 5
   targetLook: {x: 0, y: 0, z: 0, w: 0}
+  lookingAtTarget: 0
