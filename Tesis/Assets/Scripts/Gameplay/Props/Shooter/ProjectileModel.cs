@@ -20,6 +20,7 @@ namespace TimeDistortion.Gameplay.Props
             }
 
             controller.Redirected += OnRedirected;
+            controller.HittedSomething += OnRedirected;
         }
         private void Update()
         {

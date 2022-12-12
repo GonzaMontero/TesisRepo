@@ -16,6 +16,7 @@ namespace TimeDistortion.Gameplay.Props
         [Header("Runtime Values")]
         [SerializeField] float destroyTimer;
 
+        public Action HittedSomething;
         public Action Redirected;
         public Action Destroyed;
         
@@ -65,9 +66,15 @@ namespace TimeDistortion.Gameplay.Props
             collisions = Physics.OverlapBox(pos, size, rot, collisionLayers);
 
             bool shouldGetDestoyed = false;
+            bool hittedSomething = false;
             for (int i = 0; i < collisions.Length; i++)
             {
                 if(collisions[i] == coll) continue;
+                if (!hittedSomething)
+                {
+                    hittedSomething = true;
+                    HittedSomething?.Invoke();
+                }
                 
                 IHittable hittable = collisions[i].gameObject.GetComponent<IHittable>();
                 if (hittable != null)
