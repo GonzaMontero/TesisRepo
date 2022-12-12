@@ -16,6 +16,7 @@ namespace TimeDistortion.Gameplay.Cameras
         [Tooltip("X = min, Y = max")]
         [SerializeField] Vector2 lockAngle;
         [SerializeField] float lockRange;
+        [SerializeField] float followRange;
 
         [Header("Runtime Values")]
         [SerializeField] Transform lockTarget;
@@ -148,22 +149,26 @@ namespace TimeDistortion.Gameplay.Cameras
         {
             float targetDis = Vector3.Distance(player.position, lockTarget.position);
 
-            if (targetDis > lockRange)
+            if (targetDis > followRange)
             {
-                lockTarget = null;
+                //Clear lock
+                UpdateLockOn();
                 return;
             }
 
             Vector3 camPos = mainCam.position;
             Vector3 targetDir = (lockTarget.position - camPos).normalized;
             float camDis = Vector3.Distance(player.position, mainCam.position);
+            
             RaycastHit hit;
-            if (Physics.Raycast(camPos, targetDir, out hit, lockRange + camDis, lockObstacleLayers))
+            if (Physics.Raycast(camPos, targetDir, out hit, followRange + camDis, lockObstacleLayers))
             {
                 if (hit.transform != lockTarget)
                 {
                     Debug.Log("Lock on canceled by " + hit.transform.gameObject.name);
-                    lockTarget = null;
+                    
+                    //Clear lock
+                    UpdateLockOn();
                     return;
                 }
             }
