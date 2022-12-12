@@ -113,10 +113,10 @@ namespace TimeDistortion.Gameplay.Cameras
             colliders = Physics.OverlapSphere(player.position, lockRange, lockLayers);
 
             float targetDis;
-            foreach (Collider collider in colliders)
+            for (int i = 0; i < colliders.Length; i++)
             {
                 //Check if collider has the TargetComponent (if not, try next one)
-                LockTarget target = collider.GetComponent<LockTarget>();
+                LockTarget target = colliders[i].GetComponent<LockTarget>();
                 if (!target) continue;
 
                 //Check if target is in range (if not, try next one)
@@ -128,7 +128,7 @@ namespace TimeDistortion.Gameplay.Cameras
                 float targetAngle = Vector3.Angle(lockTargetDir, mainCam.forward);
                 if (targetAngle < lockAngle.x || targetAngle > lockAngle.y) continue;
 
-                availableTargets.Add(collider.transform);
+                availableTargets.Add(colliders[i].transform);
             }
 
             float shortestDistance = Mathf.Infinity;
