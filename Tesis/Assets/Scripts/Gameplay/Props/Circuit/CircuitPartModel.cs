@@ -6,6 +6,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
     {
         [Header("Set Values")]
         [SerializeField] CircuitPartController controller;
+        [SerializeField] GameObject VFX;
         [SerializeField] Animator animator;
         [SerializeField] string animationTrigger;
 
@@ -29,7 +30,16 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         //Event Receivers
         void OnControllerActivated(CircuitPartController controller)
         {
-            animator.SetTrigger(animationTrigger);
+            if (animator)
+            {
+                animator.SetTrigger(animationTrigger);
+            }
+
+            if (VFX)
+            {
+                GameObject vfx = Instantiate(VFX);
+                vfx.transform.position = transform.position;
+            }
         }
     }
 }
