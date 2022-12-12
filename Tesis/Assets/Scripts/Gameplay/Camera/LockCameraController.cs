@@ -87,6 +87,7 @@ namespace TimeDistortion.Gameplay.Cameras
         void ClearLock()
         {
             cam.LookAt = null;
+            lockTarget = null;
             isLocked = false;
             CameraLocked?.Invoke(false);
 

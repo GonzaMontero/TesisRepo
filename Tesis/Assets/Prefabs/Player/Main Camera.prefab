@@ -797,10 +797,10 @@ MonoBehaviour:
   mainCam: {fileID: 1563751105590874131}
   lockLayers:
     serializedVersion: 2
-    m_Bits: 4353
+    m_Bits: 8960
   lockObstacleLayers:
     serializedVersion: 2
-    m_Bits: 4097
+    m_Bits: 0
   lockAngle: {x: -60, y: 50}
   lockRange: 10
   lockTarget: {fileID: 0}

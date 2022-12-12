@@ -1,4 +1,5 @@
-﻿using Cinemachine.Utility;
+﻿using Cinemachine;
+using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -50,9 +51,13 @@ namespace TimeDistortion.Gameplay.Cameras
         {
             base.SetCameraActive(isActive);
 
+            if (isLocked)
+            {
+                UpdateLockOn();
+            }
+
             //Reset cam follow rotation
-            if (!camFollow)
-                return;
+            if (!camFollow) return;
             camFollow.localRotation = Quaternion.identity;
             targetRotationY = camFollow.localRotation;
             targetRotationX = player.localRotation;
@@ -60,9 +65,20 @@ namespace TimeDistortion.Gameplay.Cameras
         internal override void UpdateLockOn()
         {
             base.UpdateLockOn();
-
+            
             //Reset cam follow rotation
-            camFollow.rotation = Quaternion.identity;
+            camFollow.localRotation = Quaternion.identity;
+
+            //Replace lock on mode with aim mode
+            CinemachineVirtualCamera vCam = (CinemachineVirtualCamera)cam;
+            if (isLocked)
+            {
+                vCam.AddCinemachineComponent<CinemachineComposer>();
+            }
+            else
+            {
+                vCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+            }
         }
         void SetRotation()
         {
@@ -86,17 +102,6 @@ namespace TimeDistortion.Gameplay.Cameras
             //Update target rotation
             targetRotationY = newRotY;
             targetRotationX = newRotX;
-            
-            #region DEPRECATED
-            // if (Mathf.Pow(input.y, 2) > 0 && rotationSpeeds.y > 0)
-            // {
-            //     SetRotationVertical(input.y);
-            // }
-            // if (Mathf.Pow(input.x, 2) > 0 && rotationSpeeds.x > 0)
-            // {
-            //     SetRotationHorizontal(input.x);
-            // }
-            #endregion
         }
         Quaternion ClampYAngle(Quaternion rot)
         {
@@ -121,6 +126,8 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         void Rotate()
         {
+            if(isLocked) return;
+            
             float frameRot = Time.unscaledDeltaTime * rotationSpeed;
 
             //Rotate player (in horizontal axis)
@@ -131,40 +138,5 @@ namespace TimeDistortion.Gameplay.Cameras
             rotation = Quaternion.Slerp(camFollow.localRotation, targetRotationY, frameRot);
             camFollow.localRotation = rotation;
         }
-        #region DEPRECATED
-        void SetRotationVertical(float rotation)
-        {
-            // //Get rotation
-            // float rot = -rotation * rotationSpeeds.y * Time.unscaledDeltaTime;
-            //
-            // //Rotate
-            // camFollow.Rotate(rot, 0, 0);
-            //
-            // //Check if rotation is beyond limits
-            // float localRot = camFollow.localRotation.eulerAngles.x;
-            // float minAngleExcess;
-            // minAngleExcess = (localRot > 180 ? (localRot - 360) : localRot) - verticalAngleLimits.x;
-            // float maxAngleExcess;
-            // maxAngleExcess = verticalAngleLimits.y - (localRot > 180 ? (localRot - 360) : localRot);
-            //
-            // //Fix rotation
-            // if (minAngleExcess < 0)
-            // {
-            //     camFollow.Rotate(-minAngleExcess, 0, 0);
-            // }
-            // else if (maxAngleExcess < 0)
-            // {
-            //     camFollow.Rotate(maxAngleExcess, 0, 0);
-            // }
-        }
-        void SetRotationHorizontal(float rotation)
-        {
-            // //Get rotation
-            // float rot = rotation * rotationSpeeds.x * Time.unscaledDeltaTime;
-            //
-            // //Rotate
-            // player.Rotate(0, rot, 0);
-        }
-        #endregion
     }
 }
