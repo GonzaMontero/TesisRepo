@@ -227,8 +227,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e957adb4-6f12-4c71-afe7-210bfd7d48bc"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""id"": ""e90eea0e-2c9d-40e5-a76f-195f34b57a3f"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
