@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -147,6 +147,13 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         void UpdateTarget()
         {
+            if (lockTarget)
+            {
+                //Clear lock
+                UpdateLockOn();
+                return;
+            }
+            
             float targetDis = Vector3.Distance(player.position, lockTarget.position);
 
             if (targetDis > followRange)
