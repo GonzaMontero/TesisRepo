@@ -71,6 +71,9 @@ namespace TimeDistortion.Gameplay.Cameras
         {
             if (!context.performed) return;
 
+            //If camera is already locked, but it isn't turned on, don't unlock 
+            //if (isLocked && !cam.enabled) return;
+                
             UpdateLockOn(!isLocked);
         }
 

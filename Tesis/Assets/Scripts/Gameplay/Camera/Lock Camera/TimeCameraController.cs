@@ -39,8 +39,8 @@ namespace TimeDistortion.Gameplay.Cameras
         }
         public void OnRotateInput(InputAction.CallbackContext context)
         {
-            if (isLocked) return;
             if(!cam.enabled) return;
+            if (isLocked) return;
 
             input = context.ReadValue<Vector2>();
         }
@@ -62,10 +62,9 @@ namespace TimeDistortion.Gameplay.Cameras
                 //Take other cameras rotation
                 SetInitialRotation();
             }
-            else
+            else if(isLocked)
             {
-                //Reset cam follow for other cameras
-                //camFollow.localRotation = Quaternion.identity;
+                UpdateLockOn(false);
             }
         }
         internal override void UpdateLockOn(bool shouldLock)
