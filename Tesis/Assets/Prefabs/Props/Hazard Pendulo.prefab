@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3017927582527201448}
   - component: {fileID: 2183699021827944205}
   - component: {fileID: 4155408454690593735}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Base_Pendulo_3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2299185595167797624}
   - component: {fileID: 7852065513864105459}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Moving Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 8804599956845607381}
   - component: {fileID: 5593438397554013808}
   - component: {fileID: 7672750440851456698}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Palo_Pendulo_3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 3889766914085237858}
   - component: {fileID: 2388095712837698046}
   - component: {fileID: 4361113197734842404}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Hacha_Pendulo_3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
