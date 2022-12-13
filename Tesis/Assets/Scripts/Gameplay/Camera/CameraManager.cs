@@ -16,6 +16,7 @@ namespace TimeDistortion.Gameplay.Cameras
         [SerializeField] CameraController currentCamera;
         [SerializeField] Cameras targetCamera;
 
+        public System.Action<bool> CameraLocked;
 
         //Unity Events
         private void Start()
@@ -36,6 +37,11 @@ namespace TimeDistortion.Gameplay.Cameras
             if (lockController)
             {
                 lockController.CameraLocked += OnCameraLockOn;
+            }
+            LockCameraController timeController = (LockCameraController)timeCamera;
+            if (timeController)
+            {
+                timeController.CameraLocked += OnCameraLockOn;
             }
         }
         public void OnTimeCharge(InputAction.CallbackContext context)
@@ -76,6 +82,22 @@ namespace TimeDistortion.Gameplay.Cameras
 
         //Methods
         /// <summary> Set cameras array </summary>
+        public Transform GetCurrentLockTarget()
+        {
+            Transform target = null;
+
+            switch (targetCamera)
+            {
+                case Cameras.time:
+                    target = ((LockCameraController)timeCamera).publicTarget;
+                    break;
+                case Cameras.lockOn:
+                    target = ((LockCameraController)lockOnCamera).publicTarget;
+                    break;
+            }
+            
+            return target;
+        }
         void SetCameras()
         {
             cameras = new CameraController[(int)Cameras._count];
@@ -111,6 +133,8 @@ namespace TimeDistortion.Gameplay.Cameras
         //Event Receivers
         void OnCameraLockOn(bool isLocked)
         {
+            CameraLocked?.Invoke(isLocked);
+            
             switch (targetCamera)
             {
                 case Cameras.free:
