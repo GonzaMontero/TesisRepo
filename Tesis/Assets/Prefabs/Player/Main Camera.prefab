@@ -554,9 +554,9 @@ MonoBehaviour:
   lockTarget: {fileID: 0}
   isLocked: 0
   verticalAngleLimits: {x: -60, y: 50}
-  rotationImpulseY: 0.08
-  rotationImpulseX: 0.225
-  rotationSpeed: 50
+  rotationImpulseY: 0.16
+  rotationImpulseX: 0.45
+  rotationSpeed: 300
   camFollow: {fileID: 0}
   targetRotationY: {x: 0, y: 0, z: 0, w: 0}
   targetRotationX: {x: 0, y: 0, z: 0, w: 0}
