@@ -65,7 +65,7 @@ namespace TimeDistortion.Gameplay.Cameras
             else
             {
                 //Reset cam follow for other cameras
-                camFollow.localRotation = Quaternion.identity;
+                //camFollow.localRotation = Quaternion.identity;
             }
         }
         internal override void UpdateLockOn(bool shouldLock)
