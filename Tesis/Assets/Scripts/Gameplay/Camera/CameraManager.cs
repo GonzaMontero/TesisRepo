@@ -1,6 +1,4 @@
-﻿using Cinemachine;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace TimeDistortion.Gameplay.Cameras
@@ -18,6 +16,7 @@ namespace TimeDistortion.Gameplay.Cameras
         [SerializeField] CameraController currentCamera;
         [SerializeField] Cameras targetCamera;
 
+        public System.Action<bool> CameraLocked;
 
         //Unity Events
         private void Start()
@@ -34,21 +33,47 @@ namespace TimeDistortion.Gameplay.Cameras
             currentCamera.SetCameraActive(true);
 
             //Link actions
-            LockCameraController lockController;
-            lockController = lockOnCamera.GetComponent<LockCameraController>();
+            LockCameraController lockController = (LockCameraController)lockOnCamera;
             if (lockController)
             {
                 lockController.CameraLocked += OnCameraLockOn;
             }
+            LockCameraController timeController = (LockCameraController)timeCamera;
+            if (timeController)
+            {
+                timeController.CameraLocked += OnCameraLockOn;
+            }
         }
         public void OnTimeCharge(InputAction.CallbackContext context)
         {
+            //Check if camera is locked on, then transfer to right camera
             if (context.canceled)
             {
-                targetCamera = Cameras.free;
+                LockCameraController timeCam = (LockCameraController)timeCamera;
+                
+                if (timeCam.isLocked)
+                {
+                    targetCamera = Cameras.lockOn;
+                    
+                    //Switch lock target from one camera to the other
+                    LockCameraController lockCam = (LockCameraController)lockOnCamera;
+                    lockCam.SetTarget(timeCam.publicTarget);
+                }
+                else
+                {
+                    targetCamera = Cameras.free;
+                }
             }
             else if (context.started)
             {
+                if (targetCamera == Cameras.lockOn)
+                {
+                    //Switch lock target from one camera to the other
+                    LockCameraController timeCam = (LockCameraController)timeCamera;
+                    LockCameraController lockCam = (LockCameraController)lockOnCamera;
+                    timeCam.SetTarget(lockCam.publicTarget);
+                }
+                
                 targetCamera = Cameras.time;
             }
 
@@ -57,6 +82,22 @@ namespace TimeDistortion.Gameplay.Cameras
 
         //Methods
         /// <summary> Set cameras array </summary>
+        public Transform GetCurrentLockTarget()
+        {
+            Transform target = null;
+
+            switch (targetCamera)
+            {
+                case Cameras.time:
+                    target = ((LockCameraController)timeCamera).publicTarget;
+                    break;
+                case Cameras.lockOn:
+                    target = ((LockCameraController)lockOnCamera).publicTarget;
+                    break;
+            }
+            
+            return target;
+        }
         void SetCameras()
         {
             cameras = new CameraController[(int)Cameras._count];
@@ -92,6 +133,8 @@ namespace TimeDistortion.Gameplay.Cameras
         //Event Receivers
         void OnCameraLockOn(bool isLocked)
         {
+            CameraLocked?.Invoke(isLocked);
+            
             switch (targetCamera)
             {
                 case Cameras.free:

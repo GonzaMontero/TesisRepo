@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8193310065279458633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8193310065279458634}
+  - component: {fileID: 6098916640010640047}
+  - component: {fileID: 8193310065279458637}
+  m_Layer: 0
+  m_Name: Time Changer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8193310065279458634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193310065279458633}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6098916640010640047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193310065279458633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d9f52cb28087c48bdfe4ce1e79e63e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  slowableLayers:
+    serializedVersion: 2
+    m_Bits: 8449
+  slowdownDelay: 1
+  cancelDelay: 0.3
+  slowdownRange: 20
+  slowdownFactor: 0.1
+  chargeLength: 0.25
+  chargeSlowdown: 0.15
+  mainCam: {fileID: 0}
+  centerOfScreen: {x: 0, y: 0}
+  chargeTimer: 0
+  activating: 0
+--- !u!114 &8193310065279458637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193310065279458633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa88c31cce8bc6448e2bc6f8aec82a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 6098916640010640047}
+  slowMoRayPrefab: {fileID: 5075179296606080288, guid: 8985a9ca0d3a38f4c9b620e9b768d13d,
+    type: 3}
+  slowAuraMaterial: {fileID: 2100000, guid: 1f3b1b996f9c5384f842847e91a32144, type: 2}
+  auraFadeMod: 0.8
+  slowableObjs: []
+  slowableObjects: []
+  newObjectSlowed: {fileID: 0}
+  newObjectUnSlowed: {fileID: 0}
+  newTimer: 0
