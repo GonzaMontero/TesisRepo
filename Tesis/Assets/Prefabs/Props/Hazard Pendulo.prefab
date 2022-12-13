@@ -279,6 +279,8 @@ GameObject:
   - component: {fileID: 6375493848203441908}
   - component: {fileID: 3870695846643809329}
   - component: {fileID: 3889766914085237858}
+  - component: {fileID: 2388095712837698046}
+  - component: {fileID: 7189267096377025372}
   m_Layer: 0
   m_Name: Hacha_Pendulo_3D
   m_TagString: Untagged
@@ -441,3 +443,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761630a99b1ad9441a9f77cd67980888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2388095712837698046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344270203914054073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a73076d97688fa4187af7f7848c79f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDeactivate: 1
+  active: 0
+  checkBoxes:
+  - posOffset: {x: 0, y: 2.63, z: 0}
+    radius: {x: 1, y: 1, z: 0.1}
+  mode: 1
+  layers:
+    serializedVersion: 2
+    m_Bits: 4097
+  gizmosShouldDraw: 0
+--- !u!114 &7189267096377025372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344270203914054073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50088c62e7bf85f46a9b21e80d0061d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 2388095712837698046}
+  activatedAudio:
+    Guid:
+      Data1: -817708974
+      Data2: 1187669462
+      Data3: 1492531126
+      Data4: -1898194983
+    Path: event:/SFX/Environment/Objects (3D)/Pendule Hazzard/Pendule Hazzard Scrape
+      In
+  deactivatedAudio:
+    Guid:
+      Data1: 1212060734
+      Data2: 1122262542
+      Data3: -1711510620
+      Data4: -137459597
+    Path: event:/SFX/Environment/Objects (3D)/Pendule Hazzard/Pendule Hazzard Scrape
+      Out

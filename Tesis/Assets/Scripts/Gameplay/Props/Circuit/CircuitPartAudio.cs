@@ -6,7 +6,8 @@ namespace TimeDistortion.Gameplay.Props.Circuit
     {
         [Header("Set Values")]
         [SerializeField] CircuitPartController controller;
-        [SerializeField] FMODUnity.EventReference activateAudio;
+        [SerializeField] FMODUnity.EventReference activatedAudio;
+        [SerializeField] FMODUnity.EventReference deactivatedAudio;
 
         //Unity Events
         private void Start()
@@ -20,9 +21,13 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         }
 
         //Event Receivers
-        void OnActivated(CircuitPartController notUsed)
+        void OnActivated(CircuitPartController part)
         {
-            FMODUnity.RuntimeManager.PlayOneShot(activateAudio);
+            FMODUnity.EventReference audio = part.isActive ? activatedAudio : deactivatedAudio;
+
+            if(audio.IsNull) return;
+
+            FMODUnity.RuntimeManager.PlayOneShot(audio);
         }
     }
 }

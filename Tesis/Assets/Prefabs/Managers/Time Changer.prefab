@@ -48,9 +48,9 @@ MonoBehaviour:
   slowableLayers:
     serializedVersion: 2
     m_Bits: 8449
-  slowdownDelay: 1
+  slowdownDelay: 0.1
   cancelDelay: 0.3
-  slowdownRange: 20
+  slowdownRange: 100
   slowdownFactor: 0.1
   chargeLength: 0.25
   chargeSlowdown: 0.15

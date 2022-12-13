@@ -20,7 +20,7 @@ namespace TimeDistortion.Gameplay.Props.Circuit
         [SerializeField] TriggerModes mode;
         [SerializeField] LayerMask layers;
         [Header("DEBUG")]
-        [SerializeField] bool gizmosShouldDraw = true;
+        [SerializeField] bool gizmosShouldDraw = false;
 
         //Unity Events
         void Update()
