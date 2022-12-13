@@ -130,6 +130,67 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &6116414688065518602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2650903492685108931}
+  - component: {fileID: 3286309649828391074}
+  m_Layer: 13
+  m_Name: Scrape Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2650903492685108931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6116414688065518602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8684942459691348739}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3286309649828391074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6116414688065518602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  PlayEvent: 11
+  StopEvent: 12
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 10
 --- !u!1 &7244422199031678098
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +341,7 @@ GameObject:
   - component: {fileID: 3870695846643809329}
   - component: {fileID: 3889766914085237858}
   - component: {fileID: 2388095712837698046}
-  - component: {fileID: 7189267096377025372}
+  - component: {fileID: 4361113197734842404}
   m_Layer: 0
   m_Name: Hacha_Pendulo_3D
   m_TagString: Untagged
@@ -298,7 +359,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.15441386, z: -1.1718497}
   m_LocalScale: {x: 1.6098982, y: 2.214118, z: 0.6555693}
-  m_Children: []
+  m_Children:
+  - {fileID: 2650903492685108931}
   m_Father: {fileID: 8804599956845607381}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 109, z: 0}
@@ -465,7 +527,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4097
   gizmosShouldDraw: 0
---- !u!114 &7189267096377025372
+--- !u!114 &4361113197734842404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -494,3 +556,4 @@ MonoBehaviour:
       Data4: -137459597
     Path: event:/SFX/Environment/Objects (3D)/Pendule Hazzard/Pendule Hazzard Scrape
       Out
+  source: {fileID: 3286309649828391074}
