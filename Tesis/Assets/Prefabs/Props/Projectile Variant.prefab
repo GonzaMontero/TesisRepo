@@ -48,6 +48,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-2973278280076581111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433315546770259163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 761630a99b1ad9441a9f77cd67980888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &602833383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +157,7 @@ MonoBehaviour:
   slowable: 1
   localTime: 1
   timer: 0
---- !u!114 &-2973278280076581111
+--- !u!114 &3758572088603940719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,9 +166,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 7433315546770259163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 761630a99b1ad9441a9f77cd67980888, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1940714472
+      Data2: 1111809187
+      Data3: -1449606748
+      Data4: -1305300833
+    Path: event:/SFX/Environment/Objects (3D)/Catacomb Projectile/Projectile
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 7.2000003
 --- !u!1001 &7775773491129483658
 PrefabInstance:
   m_ObjectHideFlags: 0

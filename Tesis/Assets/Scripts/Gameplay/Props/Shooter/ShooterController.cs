@@ -14,6 +14,8 @@ namespace TimeDistortion.Gameplay.Props.Shooter
         [SerializeField] float timer;
         [SerializeField] int currentProjectiles;
 
+        public System.Action Shot;
+        
         //Unity Events
         private void Start()
         {
@@ -58,6 +60,8 @@ namespace TimeDistortion.Gameplay.Props.Shooter
 
             //Increase Counter
             currentProjectiles++;
+            
+            Shot?.Invoke();
         }
 
         internal virtual void SetProjectile(Transform proj)
