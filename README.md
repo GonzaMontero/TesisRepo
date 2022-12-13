@@ -40,4 +40,4 @@ This game was also possible thanks to the support of these professors:
 
 ## Links
 
-Download it from itch.io: PONER LINK AL JUEGO DE ITCH ACA
+Download it from itch.io: https://polentagang.itch.io/tempomancy
