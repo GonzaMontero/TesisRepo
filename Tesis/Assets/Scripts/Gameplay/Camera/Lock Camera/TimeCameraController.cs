@@ -1,5 +1,4 @@
 ﻿using Cinemachine;
-using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +44,11 @@ namespace TimeDistortion.Gameplay.Cameras
 
             input = context.ReadValue<Vector2>();
         }
+        public override void OnLockOnInput(InputAction.CallbackContext context)
+        {
+            if(!cam.enabled) return;
+            base.OnLockOnInput(context);
+        }
 
         //Methods
         public override void SetCameraActive(bool isActive)
@@ -64,18 +68,16 @@ namespace TimeDistortion.Gameplay.Cameras
                 camFollow.localRotation = Quaternion.identity;
             }
         }
-        internal override void UpdateLockOn()
+        internal override void UpdateLockOn(bool shouldLock)
         {
-            if(!cam.enabled) return;
-            
-            base.UpdateLockOn();
+            base.UpdateLockOn(shouldLock);
             
             //Reset cam follow rotation
             camFollow.localRotation = Quaternion.identity;
 
             //Replace lock on mode with aim mode
             CinemachineVirtualCamera vCam = (CinemachineVirtualCamera)cam;
-            if (isLocked)
+            if (shouldLock)
             {
                 vCam.AddCinemachineComponent<CinemachineComposer>();
             }

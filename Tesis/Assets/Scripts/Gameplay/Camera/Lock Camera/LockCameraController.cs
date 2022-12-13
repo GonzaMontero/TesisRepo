@@ -67,29 +67,29 @@ namespace TimeDistortion.Gameplay.Cameras
 
         }
 #endif
-        public void OnLockOnInput(InputAction.CallbackContext context)
+        public virtual void OnLockOnInput(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
 
-            UpdateLockOn();
+            UpdateLockOn(!isLocked);
         }
 
         //Methods
         public void SetTarget(Transform target)
         {
             lockTarget = target;
-            SetLock();
+            UpdateLockOn(true);
         }
-        internal virtual void UpdateLockOn()
+        internal virtual void UpdateLockOn(bool shouldLock)
         {
-            if (isLocked)
-            {
-                ClearLock();
-            }
-            else
+            if (shouldLock)
             {
                 GetTarget();
                 SetLock();
+            }
+            else
+            {
+                ClearLock();
             }
         }
         void ClearLock()
@@ -157,7 +157,7 @@ namespace TimeDistortion.Gameplay.Cameras
             if (!lockTarget)
             {
                 //Clear lock
-                UpdateLockOn();
+                UpdateLockOn(false);
                 return;
             }
             
@@ -166,7 +166,7 @@ namespace TimeDistortion.Gameplay.Cameras
             if (targetDis > followRange)
             {
                 //Clear lock
-                UpdateLockOn();
+                UpdateLockOn(false);
                 return;
             }
 
@@ -182,7 +182,7 @@ namespace TimeDistortion.Gameplay.Cameras
                     Debug.Log("Lock on canceled by " + hit.transform.gameObject.name);
                     
                     //Clear lock
-                    UpdateLockOn();
+                    UpdateLockOn(false);
                     return;
                 }
             }
